@@ -1,0 +1,22 @@
+{
+  "name": "wplms-custom-course-player",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "check-types": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/wordpress__element": "^2.4.1",
+    "@wordpress/element": "^6.10.0",
+    "@wordpress/scripts": "^30.3.0",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^7.10.0"
+  }
+}
