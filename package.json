@@ -17,6 +17,11 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "@wordpress/api-fetch": "^7.10.0"
+    "@heroicons/react": "^2.1.5",
+    "@wordpress/api-fetch": "^7.10.0",
+    "@wordpress/data": "^10.10.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14"
   }
 }

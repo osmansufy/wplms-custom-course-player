@@ -21,6 +21,14 @@ if (!bp_course_is_member($course_id, get_current_user_id())) {
     wp_die('You do not have access to this course');
 }
 
+// add body class for course player
+add_filter('body_class', function ($classes) {
+    $classes[] = 'custom-course-player';
+    return $classes;
+});
+
+// hide admin bar
+add_filter('show_admin_bar', '__return_false');
 get_header();
 ?>
 

@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Your custom styles here */
+
+/* hide header & footer */
+
+/* hide header & footer */
+.custom-course-player header,
+.custom-course-player footer {
+  display: none !important;
+}
+
+.custom_course_content iframe {
+  width: 100% !important;
+  /* max-height: 600px;
+  height: 600px; */
+}

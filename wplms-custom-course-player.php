@@ -31,12 +31,17 @@ function wplms_custom_course_player_enqueue_scripts() {
         $asset_file['dependencies'],
         $asset_file['version']
     );
-
+// send token to the script
+    wp_localize_script( 'example-editor-scripts', 'wplmsCustomCoursePlayer',
+     array(
+        'token' => is_user_logged_in() ? vibebp_generate_token(get_user_by('id', get_current_user_id())) : '',
+        'user_id' => is_user_logged_in() ? get_current_user_id() : '',
+    ) );
     wp_enqueue_style(
         'wplms-custom-course-player-style',
-        plugin_dir_url( 'build/index.css', __FILE__ ),
+        plugins_url( 'build/index.css', __FILE__ ),
         array(),
-        WPLMS_CUSTOM_COURSE_PLAYER_VERSION
+        time()
         
     );
 }
