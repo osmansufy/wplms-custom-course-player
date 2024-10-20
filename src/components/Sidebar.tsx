@@ -72,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({ course, currentUnitId, onSelectUnit, 
         <>
             {!isOpen && (
                 <button
-                    className="fixed top-1/2 right-0 bg-gray-200 p-2 rounded-l-md transform -translate-y-1/2 z-20"
+                    className="fixed top-1/4 right-0 bg-gray-200 p-2 rounded-l-md transform -translate-y-1/2 z-20"
                     onClick={onToggle}
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
