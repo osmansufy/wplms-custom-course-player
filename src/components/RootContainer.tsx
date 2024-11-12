@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ICourse } from '../types/course';
-import ContentArea from './ContentArea';
-import Sidebar from './Sidebar';
+import ContentArea from './course/ContentArea';
+import Sidebar from './course/sidebar';
 import TopBar from './TopBar';
 import { useCourseData } from '../hooks/useCourseData';
 
@@ -30,7 +30,7 @@ const RootContainer: React.FC<{
     };
 
     const handlePrevious = () => {
-        // Implement previous unit logic
+
     };
 
     const handleNext = () => {

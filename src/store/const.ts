@@ -7,4 +7,6 @@ export const actionTypes = {
   SET_ERROR: "SET_ERROR",
   SET_ALL_UNITS: "SET_ALL_UNITS",
   SET_COURSE_INFO: "SET_COURSE_INFO",
+  NEXT_UNIT: "NEXT_UNIT",
+  PREV_UNIT: "PREV_UNIT",
 };

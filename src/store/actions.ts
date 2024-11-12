@@ -55,4 +55,16 @@ export const actions = {
       courseId,
     };
   },
+
+  nextUnit() {
+    return {
+      type: actionTypes.NEXT_UNIT,
+    };
+  },
+
+  prevUnit() {
+    return {
+      type: actionTypes.PREV_UNIT,
+    };
+  },
 };

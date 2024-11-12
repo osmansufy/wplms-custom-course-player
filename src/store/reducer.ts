@@ -1,6 +1,7 @@
+import { IState } from "../types/course";
 import { actionTypes } from "./const";
 
-export const DEFAULT_STATE = {
+export const DEFAULT_STATE: IState = {
   courseId: null,
   courseInfo: null,
   progress: 0,
@@ -56,6 +57,26 @@ export const reducer = (
         ...state,
         allUnits: action.all,
         completeUnits: action.all.filter((unit: any) => unit.status === 1),
+      };
+
+    case actionTypes.NEXT_UNIT:
+      const currentIndex = state.allUnits.findIndex(
+        (unit: any) => unit.id === state.currentUnitId
+      );
+      const nextUnit = state.allUnits[currentIndex + 1];
+      return {
+        ...state,
+        currentUnitId: nextUnit ? nextUnit.id : state.currentUnitId,
+      };
+
+    case actionTypes.PREV_UNIT:
+      const prevIndex = state.allUnits.findIndex(
+        (unit: any) => unit.id === state.currentUnitId
+      );
+      const prevUnit = state.allUnits[prevIndex - 1];
+      return {
+        ...state,
+        currentUnitId: prevUnit ? prevUnit.id : state.currentUnitId,
       };
 
     default:

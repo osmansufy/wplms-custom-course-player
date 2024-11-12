@@ -1,6 +1,6 @@
 import { useSelect } from '@wordpress/data';
 import React, { useMemo } from 'react';
-import DropdownButton from './common/DropDownButton';
+import DropdownButton from './common/DropdownButton';
 
 interface TopBarProps {
     onToggleSidebar: () => void;
@@ -23,7 +23,7 @@ const TopBar: React.FC<TopBarProps> = ({
     }, [courseInfo]);
 
     return (
-        <div className="fixed top-0 left-0 right-0 bg-gray-800 text-white p-4 flex justify-between items-center z-10">
+        <div className="fixed top-0 left-0 right-0 bg-gray-800 text-white p-4 flex justify-between items-center z-[30]">
             <div className="text-xl font-bold truncate">{courseTitle}</div>
             <div className="flex items-center space-x-4">
                 <div className="text-sm flex items-center">

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { IUnitItem, Meta, Type } from '../types/course';
-import { useUnitContent } from '../hooks/useUnitContent';
+import { useUnitContent } from '../../hooks/useUnitContent';
 
 interface ContentAreaProps {
     currentUnitId: number | null;
