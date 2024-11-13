@@ -5,13 +5,14 @@ import DropdownButton from './common/DropdownButton';
 interface TopBarProps {
     onToggleSidebar: () => void;
     isSidebarOpen: boolean;
+    progress: number;
 }
 
 const TopBar: React.FC<TopBarProps> = ({
     onToggleSidebar,
-    isSidebarOpen
+    isSidebarOpen,
+    progress
 }) => {
-    const progress = useSelect((select: any) => select('custom-course-player').getProgress(), []);
     const courseInfo = useSelect((select: any) => select('custom-course-player').getCourseInfo(), []);
     const totalUnits = useSelect((select: any) => select('custom-course-player').getAllUnits(), []);
     const completedUnits = useSelect((select: any) => select('custom-course-player').getCompleteUnits(), []);

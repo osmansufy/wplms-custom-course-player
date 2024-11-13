@@ -7,6 +7,7 @@ export interface SidebarProps {
   onCompleteUnit: (id: number) => void;
   isOpen: boolean;
   onToggle: () => void;
+  completedUnits: CourseItem[];
 }
 
 export interface SidebarHeaderProps {

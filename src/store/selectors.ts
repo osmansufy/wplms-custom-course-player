@@ -1,31 +1,37 @@
+// selectors.ts
 import { DEFAULT_STATE } from "./reducer";
+import { ICourse, CourseItem } from "../types/course";
 
 export const selectors = {
   getCourseId(state: typeof DEFAULT_STATE) {
     return state.courseId;
   },
-  getProgress(state: typeof DEFAULT_STATE) {
-    return state.progress;
-  },
-  getCurrentUnitId(state: typeof DEFAULT_STATE) {
-    return state.currentUnitId;
-  },
-  getToken(state: typeof DEFAULT_STATE) {
-    return state.token;
-  },
-  isLoading(state: typeof DEFAULT_STATE) {
-    return state.isLoading;
-  },
-  getError(state: typeof DEFAULT_STATE) {
-    return state.error;
-  },
-  getCourseInfo(state: typeof DEFAULT_STATE) {
+
+  getCourseInfo(state: typeof DEFAULT_STATE): ICourse | null {
     return state.courseInfo;
   },
-  getAllUnits(state: typeof DEFAULT_STATE) {
+
+  getProgress(state: typeof DEFAULT_STATE): number {
+    return state.progress ?? 0;
+  },
+
+  getCurrentUnitId(state: typeof DEFAULT_STATE): number | null {
+    return state.currentUnitId;
+  },
+
+  isLoading(state: typeof DEFAULT_STATE): boolean {
+    return state.isLoading ?? false;
+  },
+
+  getError(state: typeof DEFAULT_STATE): string | null {
+    return state.error;
+  },
+
+  getAllUnits(state: typeof DEFAULT_STATE): CourseItem[] {
     return state.allUnits;
   },
-  getCompleteUnits(state: typeof DEFAULT_STATE) {
+
+  getCompleteUnits(state: typeof DEFAULT_STATE): CourseItem[] {
     return state.completeUnits;
   },
 };

@@ -12,7 +12,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     onSelectUnit,
     onCompleteUnit,
     isOpen,
-    onToggle
+    onToggle,
+    completedUnits
 }) => {
     const [expandedSections, setExpandedSections] = useState<number[]>([]);
 
