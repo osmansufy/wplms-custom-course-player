@@ -10,4 +10,5 @@ export const actionTypes = {
   FETCH_COURSE_DATA: "FETCH_COURSE_DATA",
   NEXT_UNIT: "NEXT_UNIT",
   PREV_UNIT: "PREV_UNIT",
+  SET_USER_INFO: "SET_USER_INFO",
 };

@@ -34,4 +34,8 @@ export const selectors = {
   getCompleteUnits(state: typeof DEFAULT_STATE): CourseItem[] {
     return state.completeUnits;
   },
+
+  getUserInfo(state: typeof DEFAULT_STATE) {
+    return state.userInfo;
+  },
 };

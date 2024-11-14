@@ -95,4 +95,5 @@ export interface IState {
   error: string | null;
   allUnits: IUnit[];
   completeUnits: IUnit[];
+  userInfo: any;
 }

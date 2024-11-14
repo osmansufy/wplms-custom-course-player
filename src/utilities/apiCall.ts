@@ -2,7 +2,7 @@ import { courseStatus } from "./../../../student-dashboard/student-dashboard-rea
 import apiFetch from "@wordpress/api-fetch";
 import { ICourse, IUnitItem } from "../types/course";
 import { useSelect } from "@wordpress/data";
-
+const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
 export const fetchCourseData = async ({
   courseId,
   token,
@@ -53,5 +53,66 @@ export const fetchUnitContent = async ({
     }
   } catch (err) {
     console.error("Error fetching unit content:", err);
+  }
+};
+
+export const fetchCourseReview = async ({
+  courseId,
+  token,
+}: {
+  courseId: number;
+  token: string;
+}) => {
+  try {
+    const response = await apiFetch({
+      path: `/wplms/v2/user/getreview/${courseId}`,
+      method: "POST",
+      data: { token, course_id: courseId },
+    });
+    return response;
+  } catch (err) {
+    console.error("Failed to fetch review status");
+  }
+};
+export const submitCourseReview = async ({
+  rating,
+  review,
+  token,
+  comment_post_ID,
+}: {
+  rating: number;
+  review: string;
+  token: string;
+  comment_post_ID: number;
+}) => {
+  try {
+    const response = await apiFetch({
+      path: `/wplms/v2/user/updatecourse/addreview/`,
+      method: "POST",
+      data: {
+        token,
+        comment_post_ID,
+        rating,
+        review,
+        title: "Course Review",
+        course_id: comment_post_ID,
+      },
+    });
+    return response;
+  } catch (err) {
+    console.error("Failed to submit review");
+  }
+};
+
+export const getUserInfo = async (token: string) => {
+  try {
+    const response = await apiFetch({
+      path: "/wplms/v2/user/",
+      method: "POST",
+      data: { token },
+    });
+    return response;
+  } catch (err) {
+    console.error("Failed to fetch user info");
   }
 };

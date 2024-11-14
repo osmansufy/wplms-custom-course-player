@@ -6,8 +6,11 @@ import { selectors } from "./selectors";
 import { controls } from "./controls";
 
 const resolvers = {
-  *getCourseData(courseId: string) {
+  *getCourseData(courseId: number) {
     yield actions.fetchCourseData(courseId);
+  },
+  *getUserInfo() {
+    yield actions.fetchUserInfo();
   },
 };
 

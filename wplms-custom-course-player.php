@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: WPLMS Custom Course Player
  * Plugin URI: https://yourwebsite.com/
@@ -20,35 +21,41 @@ if (!defined('WPINC')) {
 define('WPLMS_CUSTOM_COURSE_PLAYER_VERSION', '1.0.0');
 define('WPLMS_CUSTOM_COURSE_PLAYER_PATH', plugin_dir_path(__FILE__));
 define('WPLMS_CUSTOM_COURSE_PLAYER_URL', plugin_dir_url(__FILE__));
+add_filter('bp_course_api_get_user_course_status', 'wplms_custom_course_player_course_data', 10, 2);
 
 // Enqueue scripts and styles
-function wplms_custom_course_player_enqueue_scripts() {
-    $asset_file = include( plugin_dir_path( __FILE__ ) . 'build/index.asset.php');
+function wplms_custom_course_player_enqueue_scripts()
+{
+    $asset_file = include(plugin_dir_path(__FILE__) . 'build/index.asset.php');
 
     wp_enqueue_script(
         'example-editor-scripts',
-        plugins_url( 'build/index.js', __FILE__ ),
+        plugins_url('build/index.js', __FILE__),
         $asset_file['dependencies'],
         $asset_file['version']
     );
-// send token to the script
-    wp_localize_script( 'example-editor-scripts', 'wplmsCustomCoursePlayer',
-     array(
-        'token' => is_user_logged_in() ? vibebp_generate_token(get_user_by('id', get_current_user_id())) : '',
-        'user_id' => is_user_logged_in() ? get_current_user_id() : '',
-    ) );
+    // send token to the script
+    wp_localize_script(
+        'example-editor-scripts',
+        'wplmsCustomCoursePlayer',
+        array(
+            'token' => is_user_logged_in() ? vibebp_generate_token(get_user_by('id', get_current_user_id())) : '',
+            'user_id' => is_user_logged_in() ? get_current_user_id() : '',
+        )
+    );
     wp_enqueue_style(
         'wplms-custom-course-player-style',
-        plugins_url( 'build/index.css', __FILE__ ),
+        plugins_url('build/index.css', __FILE__),
         array(),
         time()
-        
+
     );
 }
 add_action('wp_enqueue_scripts', 'wplms_custom_course_player_enqueue_scripts');
 
 // Add rewrite rules for course player page
-function wplms_custom_course_player_rewrite_rules() {
+function wplms_custom_course_player_rewrite_rules()
+{
     add_rewrite_rule(
         'course-player/([0-9]+)/?$',
         'index.php?pagename=course-player&course_id=$matches[1]',
@@ -58,14 +65,16 @@ function wplms_custom_course_player_rewrite_rules() {
 add_action('init', 'wplms_custom_course_player_rewrite_rules');
 
 // Add course_id query var
-function wplms_custom_course_player_query_vars($query_vars) {
+function wplms_custom_course_player_query_vars($query_vars)
+{
     $query_vars[] = 'course_id';
     return $query_vars;
 }
 add_filter('query_vars', 'wplms_custom_course_player_query_vars');
 
 // Load custom template for course player page
-function wplms_custom_course_player_template($template) {
+function wplms_custom_course_player_template($template)
+{
     if (is_page('course-player')) {
         $new_template = WPLMS_CUSTOM_COURSE_PLAYER_PATH . 'templates/page-course-player.php';
         if (file_exists($new_template)) {
@@ -77,7 +86,8 @@ function wplms_custom_course_player_template($template) {
 add_filter('page_template', 'wplms_custom_course_player_template');
 
 // Create course player page on plugin activation
-function wplms_custom_course_player_activate() {
+function wplms_custom_course_player_activate()
+{
     // Check if the page already exists
     $page = get_page_by_path('course-player');
 
@@ -100,11 +110,27 @@ function wplms_custom_course_player_activate() {
 
     // Flush rewrite rules
     flush_rewrite_rules();
+
+    // 		$data = apply_filters( 'bp_course_api_get_user_course_status',$return, $request );
+    //  add course title , course id from bp_course_api_get_user_course_status
+
 }
 register_activation_hook(__FILE__, 'wplms_custom_course_player_activate');
 
 // Flush rewrite rules on plugin deactivation
-function wplms_custom_course_player_deactivate() {
+function wplms_custom_course_player_deactivate()
+{
     flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'wplms_custom_course_player_deactivate');
+
+
+
+function wplms_custom_course_player_course_data($return, $request)
+{
+    $course_id = $request['course'];
+    $course = get_post($course_id);
+    $return['course_title'] = $course->post_title;
+    $return['course_id'] = $course_id;
+    return $return;
+}

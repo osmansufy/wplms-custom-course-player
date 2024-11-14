@@ -50,8 +50,13 @@ export const actions = {
       courseInfo,
     };
   },
-
-  *fetchCourseData(courseId: string): Generator<any, void, any> {
+  setUserInfo(userInfo: any) {
+    return {
+      type: actionTypes.SET_USER_INFO,
+      userInfo,
+    };
+  },
+  *fetchCourseData(courseId: number): Generator<any, void, any> {
     try {
       yield actions.setIsLoading(true);
       const response = yield {
@@ -69,10 +74,26 @@ export const actions = {
       const progress = Math.floor(
         (completedUnits.length / totalUnits.length) * 100
       );
-
+      yield actions.setCourseId(courseId);
       yield actions.setAllUnits(totalUnits);
       yield actions.setProgress(progress);
       yield actions.setCourseInfo(response);
+      yield actions.setIsLoading(false);
+    } catch (error) {
+      yield actions.setError(
+        error instanceof Error ? error.message : String(error)
+      );
+      yield actions.setIsLoading(false);
+    }
+  },
+  *fetchUserInfo(): Generator<any, void, any> {
+    try {
+      yield actions.setIsLoading(true);
+      const response = yield {
+        type: "FETCH_USER_INFO",
+      };
+      console.log({ response });
+      yield actions.setUserInfo(response);
       yield actions.setIsLoading(false);
     } catch (error) {
       yield actions.setError(

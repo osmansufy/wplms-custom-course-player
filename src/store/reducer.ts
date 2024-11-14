@@ -12,6 +12,7 @@ export const DEFAULT_STATE: IState = {
   allUnits: [],
   completeUnits: [],
   token: null,
+  userInfo: null,
 };
 
 export const reducer = (
@@ -30,7 +31,11 @@ export const reducer = (
         ...state,
         courseInfo: action.courseInfo,
       };
-
+    case actionTypes.SET_USER_INFO:
+      return {
+        ...state,
+        userInfo: action.userInfo,
+      };
     case actionTypes.SET_PROGRESS:
       return {
         ...state,

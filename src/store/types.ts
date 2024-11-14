@@ -8,6 +8,7 @@ export interface ICustomCoursePlayerStore {
   getProgress(): number;
   getAllUnits(): CourseItem[];
   getCompleteUnits(): CourseItem[];
+  getUserInfo(): any;
 }
 
 declare module "@wordpress/data" {
