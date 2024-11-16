@@ -27,7 +27,7 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
         error,
         currentUnitId,
         progress,
-        allUnits,
+        userInfo,
         completeUnits
     } = useSelect((select) => ({
         courseInfo: select('custom-course-player')?.getCourseInfo() || null,
@@ -35,7 +35,7 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
         error: select('custom-course-player')?.getError() || null,
         currentUnitId: select('custom-course-player')?.getCurrentUnitId() || null,
         progress: select('custom-course-player')?.getProgress() || 0,
-        allUnits: select('custom-course-player')?.getAllUnits() || [],
+        userInfo: select('custom-course-player').getUserInfo() || {},
         completeUnits: select('custom-course-player')?.getCompleteUnits() || []
     }), []);
 

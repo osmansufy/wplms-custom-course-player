@@ -2,6 +2,7 @@ import { courseStatus } from "./../../../student-dashboard/student-dashboard-rea
 import apiFetch from "@wordpress/api-fetch";
 import { ICourse, IUnitItem } from "../types/course";
 import { useSelect } from "@wordpress/data";
+import { IComment } from "../types/comment";
 const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
 export const fetchCourseData = async ({
   courseId,
@@ -62,16 +63,17 @@ export const fetchCourseReview = async ({
 }: {
   courseId: number;
   token: string;
-}) => {
+}): Promise<IComment> => {
   try {
-    const response = await apiFetch({
+    const response = (await apiFetch({
       path: `/wplms/v2/user/getreview/${courseId}`,
       method: "POST",
       data: { token, course_id: courseId },
-    });
+    })) as IComment;
     return response;
   } catch (err) {
     console.error("Failed to fetch review status");
+    throw err;
   }
 };
 export const submitCourseReview = async ({
@@ -87,7 +89,7 @@ export const submitCourseReview = async ({
 }) => {
   try {
     const response = await apiFetch({
-      path: `/wplms/v2/user/updatecourse/addreview/`,
+      path: `/wplms/v2/updatecourse/addreview`,
       method: "POST",
       data: {
         token,
@@ -114,5 +116,48 @@ export const getUserInfo = async (token: string) => {
     return response;
   } catch (err) {
     console.error("Failed to fetch user info");
+  }
+};
+
+export const markUnitComplete = async ({
+  courseId,
+  unitId,
+  token,
+}: {
+  courseId: number;
+  unitId: number;
+  token: string;
+}) => {
+  try {
+    const response = await apiFetch({
+      method: "POST",
+      path: `/wplms/v2/user/${courseId}/item/${unitId}/markcomplete`,
+      data: { token },
+    });
+    return response;
+  } catch (err) {
+    console.error("Failed to mark unit complete");
+  }
+};
+
+export const getCourseProgress = async ({
+  courseId,
+  token,
+}: {
+  courseId: number;
+  token: string;
+}) => {
+  try {
+    const response = await apiFetch({
+      method: "POST",
+      path: "wplms-custom-course-player/v1/course-progress",
+      data: {
+        course_id: courseId,
+        token: token,
+      },
+    });
+    return response;
+  } catch (err) {
+    console.error("Failed to get course progress");
   }
 };

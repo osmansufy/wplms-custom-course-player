@@ -1,5 +1,10 @@
 // controls.ts
-import { fetchCourseData, getUserInfo } from "../utilities/apiCall";
+import {
+  fetchCourseData,
+  getCourseProgress,
+  getUserInfo,
+  markUnitComplete,
+} from "../utilities/apiCall";
 
 const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
 
@@ -18,6 +23,31 @@ export const controls = {
       return response;
     } catch (error) {
       console.error("Error fetching user info:", error);
+    }
+  },
+
+  async MARK_UNIT_COMPLETE(action: { courseId: number; unitId: number }) {
+    try {
+      const response = await markUnitComplete({
+        courseId: action.courseId,
+        unitId: action.unitId,
+        token: userAuthToken,
+      });
+      return response;
+    } catch (error) {
+      console.error("Error marking unit complete:", error);
+    }
+  },
+
+  async GET_COURSE_PROGRESS(action: { courseId: number }) {
+    try {
+      const response = await getCourseProgress({
+        courseId: action.courseId,
+        token: userAuthToken,
+      });
+      return response;
+    } catch (error) {
+      console.error("Error fetching course progress:", error);
     }
   },
 };

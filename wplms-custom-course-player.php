@@ -23,6 +23,8 @@ define('WPLMS_CUSTOM_COURSE_PLAYER_PATH', plugin_dir_path(__FILE__));
 define('WPLMS_CUSTOM_COURSE_PLAYER_URL', plugin_dir_url(__FILE__));
 add_filter('bp_course_api_get_user_course_status', 'wplms_custom_course_player_course_data', 10, 2);
 
+include_once WPLMS_CUSTOM_COURSE_PLAYER_PATH . 'includes/RestApi/RestApi.php';
+
 // Enqueue scripts and styles
 function wplms_custom_course_player_enqueue_scripts()
 {
@@ -132,5 +134,6 @@ function wplms_custom_course_player_course_data($return, $request)
     $course = get_post($course_id);
     $return['course_title'] = $course->post_title;
     $return['course_id'] = $course_id;
+    $return['progress'] = bp_course_get_user_progress(get_current_user_id(), $course_id);
     return $return;
 }

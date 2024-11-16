@@ -1,4 +1,6 @@
 export interface ICourse {
+  course_id: number;
+  title: string;
   current_unit_key: number;
   courseitems: CourseItem[];
   lock: number;

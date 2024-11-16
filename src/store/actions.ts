@@ -68,15 +68,10 @@ export const actions = {
       const totalUnits = response.courseitems.filter(
         (item: CourseItem) => item.type === "unit"
       );
-      const completedUnits = response.courseitems.filter(
-        (item: CourseItem) => item.type === "unit" && item.status === 1
-      );
-      const progress = Math.floor(
-        (completedUnits.length / totalUnits.length) * 100
-      );
+
       yield actions.setCourseId(courseId);
       yield actions.setAllUnits(totalUnits);
-      yield actions.setProgress(progress);
+      yield actions.setProgress(response.progress);
       yield actions.setCourseInfo(response);
       yield actions.setIsLoading(false);
     } catch (error) {
@@ -92,7 +87,6 @@ export const actions = {
       const response = yield {
         type: "FETCH_USER_INFO",
       };
-      console.log({ response });
       yield actions.setUserInfo(response);
       yield actions.setIsLoading(false);
     } catch (error) {
@@ -100,6 +94,43 @@ export const actions = {
         error instanceof Error ? error.message : String(error)
       );
       yield actions.setIsLoading(false);
+    }
+  },
+
+  *markUnitComplete(
+    courseId: number,
+    unitId: number
+  ): Generator<any, void, any> {
+    try {
+      yield actions.setIsLoading(true);
+      const response = yield {
+        type: actionTypes.GET_COURSE_PROGRESS,
+        courseId,
+        unitId,
+      };
+
+      // Update course progress api call
+      yield actions.updateCourseProgress(courseId);
+    } catch (error) {
+      yield actions.setError(
+        error instanceof Error ? error.message : String(error)
+      );
+      yield actions.setIsLoading(false);
+    }
+  },
+
+  *updateCourseProgress(courseId: number): Generator<any, void, any> {
+    try {
+      yield actions.setIsLoading(true);
+      const response = yield {
+        type: actionTypes.GET_COURSE_PROGRESS,
+        courseId,
+      };
+      yield actions.setProgress(response.progress);
+    } catch (error) {
+      yield actions.setError(
+        error instanceof Error ? error.message : String(error)
+      );
     }
   },
 
