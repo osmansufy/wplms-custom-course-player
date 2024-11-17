@@ -26,12 +26,17 @@ export const controls = {
     }
   },
 
-  async MARK_UNIT_COMPLETE(action: { courseId: number; unitId: number }) {
+  async MARK_UNIT_COMPLETE(action: {
+    courseId: number;
+    unitId: number;
+    progress: number;
+  }) {
     try {
       const response = await markUnitComplete({
         courseId: action.courseId,
         unitId: action.unitId,
         token: userAuthToken,
+        progress: action.progress,
       });
       return response;
     } catch (error) {

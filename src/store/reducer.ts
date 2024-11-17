@@ -9,8 +9,6 @@ export const DEFAULT_STATE: IState = {
   currentUnitId: null,
   isLoading: false,
   error: null,
-  allUnits: [],
-  completeUnits: [],
   token: null,
   userInfo: null,
 };
@@ -60,18 +58,12 @@ export const reducer = (
         error: action.error,
       };
 
-    case actionTypes.SET_ALL_UNITS:
-      return {
-        ...state,
-        allUnits: action.all,
-        completeUnits: action.all.filter((unit: any) => unit.status === 1),
-      };
-
     case actionTypes.NEXT_UNIT: {
-      const currentIndex = state.allUnits.findIndex(
-        (unit) => unit.id === state.currentUnitId
-      );
-      const nextUnit = state.allUnits[currentIndex + 1];
+      const currentIndex =
+        state.courseInfo?.courseitems.findIndex(
+          (unit) => unit.id === state.currentUnitId
+        ) ?? -1;
+      const nextUnit = state.courseInfo?.courseitems[currentIndex + 1];
       return {
         ...state,
         currentUnitId: nextUnit ? nextUnit.id : state.currentUnitId,
@@ -79,10 +71,11 @@ export const reducer = (
     }
 
     case actionTypes.PREV_UNIT: {
-      const currentIndex = state.allUnits.findIndex(
-        (unit) => unit.id === state.currentUnitId
-      );
-      const prevUnit = state.allUnits[currentIndex - 1];
+      const currentIndex =
+        state.courseInfo?.courseitems.findIndex(
+          (unit) => unit.id === state.currentUnitId
+        ) ?? -1;
+      const prevUnit = state.courseInfo?.courseitems[currentIndex - 1];
       return {
         ...state,
         currentUnitId: prevUnit ? prevUnit.id : state.currentUnitId,

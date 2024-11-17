@@ -22,7 +22,7 @@ class RestApi
             'permission_callback' => [$this, 'get_user_permissions_check'],
         ));
 
-        register_rest_route($this->namespace, '/course_progress', array(
+        register_rest_route($this->namespace, '/course-progress', array(
             'methods' => 'POST',
             'callback' => array($this, 'update_course_progress'),
             'permission_callback' => [$this, 'get_user_permissions_check'],
@@ -38,10 +38,9 @@ class RestApi
 
     public function update_course_progress($request)
     {
-        $user_id = $request->get_param('user_id');
+        $user_id = $this->user_id;
         $course_id = $request->get_param('course_id');
-        $progress = $request->get_param('progress');
-        $status = bp_course_get_user_progress($user_id, $course_id, $progress);
+        $status = bp_course_get_user_progress($user_id, $course_id);
         return rest_ensure_response($status);
     }
 

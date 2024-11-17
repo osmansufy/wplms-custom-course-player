@@ -27,15 +27,15 @@ export const selectors = {
     return state.error;
   },
 
-  getAllUnits(state: typeof DEFAULT_STATE): CourseItem[] {
-    return state.allUnits;
-  },
-
-  getCompleteUnits(state: typeof DEFAULT_STATE): CourseItem[] {
-    return state.completeUnits;
-  },
-
   getUserInfo(state: typeof DEFAULT_STATE) {
     return state.userInfo;
+  },
+
+  getAllUnits(state: typeof DEFAULT_STATE) {
+    return state.courseInfo?.courseitems;
+  },
+
+  getCompletedUnits(state: typeof DEFAULT_STATE) {
+    return state.courseInfo?.courseitems.filter((unit) => unit.status === 1);
   },
 };

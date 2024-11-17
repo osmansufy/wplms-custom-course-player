@@ -95,7 +95,5 @@ export interface IState {
   token: string | null;
   isLoading: boolean | null;
   error: string | null;
-  allUnits: IUnit[];
-  completeUnits: IUnit[];
   userInfo: any;
 }

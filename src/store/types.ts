@@ -1,13 +1,14 @@
 import { ICourse, CourseItem } from "../types/course";
 
 export interface ICustomCoursePlayerStore {
+  getCourseId(): number | string;
   getCourseInfo(): ICourse | null;
+  getAllUnits(): CourseItem[] | null;
+  getCompletedUnits(): CourseItem[] | null;
   isLoading(): boolean;
   getError(): string | null;
   getCurrentUnitId(): number | null;
   getProgress(): number;
-  getAllUnits(): CourseItem[];
-  getCompleteUnits(): CourseItem[];
   getUserInfo(): any;
 }
 

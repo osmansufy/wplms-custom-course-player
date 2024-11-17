@@ -27,16 +27,13 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
         error,
         currentUnitId,
         progress,
-        userInfo,
-        completeUnits
+
     } = useSelect((select) => ({
         courseInfo: select('custom-course-player')?.getCourseInfo() || null,
         loading: select('custom-course-player')?.isLoading() || false,
         error: select('custom-course-player')?.getError() || null,
         currentUnitId: select('custom-course-player')?.getCurrentUnitId() || null,
         progress: select('custom-course-player')?.getProgress() || 0,
-        userInfo: select('custom-course-player').getUserInfo() || {},
-        completeUnits: select('custom-course-player')?.getCompleteUnits() || []
     }), []);
 
     // Fetch course data on component mount
@@ -47,20 +44,9 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
     }, [courseId]);
 
     // Set initial unit when course data is loaded
-    useEffect(() => {
-        if (courseInfo?.courseitems?.length) {
-            const firstUnit = courseInfo.courseitems.find(item =>
-                item.key === courseInfo.current_unit_key
-            );
-            if (firstUnit) {
-                setCurrentUnit(firstUnit.id);
-            }
-        }
-    }, [courseInfo]);
 
-    const handleSelectUnit = (id: number) => {
-        setCurrentUnit(id);
-    };
+
+
 
     const handlePrevious = () => {
         prevUnit();
@@ -74,10 +60,7 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    const handleCompleteUnit = (unitId: number) => {
-        // Implement unit completion logic here
-        console.log('Unit completed:', unitId);
-    };
+
 
     if (loading) {
         return (
@@ -121,13 +104,9 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
                 />
                 {courseInfo && (
                     <Sidebar
-                        course={courseInfo}
-                        currentUnitId={currentUnitId}
-                        onSelectUnit={handleSelectUnit}
                         isOpen={isSidebarOpen}
                         onToggle={toggleSidebar}
-                        onCompleteUnit={handleCompleteUnit}
-                        completedUnits={completeUnits}
+
                     />
                 )}
             </div>

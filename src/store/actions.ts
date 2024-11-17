@@ -37,13 +37,6 @@ export const actions = {
     };
   },
 
-  setAllUnits(units: CourseItem[]) {
-    return {
-      type: actionTypes.SET_ALL_UNITS,
-      all: units,
-    };
-  },
-
   setCourseInfo(courseInfo: ICourse) {
     return {
       type: actionTypes.SET_COURSE_INFO,
@@ -60,19 +53,16 @@ export const actions = {
     try {
       yield actions.setIsLoading(true);
       const response = yield {
-        type: "FETCH_COURSE_DATA",
+        type: actionTypes.FETCH_COURSE_DATA,
         courseId,
       };
-
-      // Calculate progress
-      const totalUnits = response.courseitems.filter(
-        (item: CourseItem) => item.type === "unit"
+      const currentUnit = response.courseitems.find(
+        (unit: any) => unit.key == response.current_unit_key
       );
-
-      yield actions.setCourseId(courseId);
-      yield actions.setAllUnits(totalUnits);
-      yield actions.setProgress(response.progress);
       yield actions.setCourseInfo(response);
+      yield actions.setCourseId(courseId);
+      yield actions.setCurrentUnit(currentUnit.id);
+      yield actions.setProgress(response.progress);
       yield actions.setIsLoading(false);
     } catch (error) {
       yield actions.setError(
@@ -99,17 +89,17 @@ export const actions = {
 
   *markUnitComplete(
     courseId: number,
-    unitId: number
+    unitId: number,
+    progress: number
   ): Generator<any, void, any> {
     try {
-      yield actions.setIsLoading(true);
+      console.log({ courseId, unitId });
       const response = yield {
-        type: actionTypes.GET_COURSE_PROGRESS,
+        type: actionTypes.MARK_UNIT_COMPLETE,
         courseId,
         unitId,
+        progress,
       };
-
-      // Update course progress api call
       yield actions.updateCourseProgress(courseId);
     } catch (error) {
       yield actions.setError(
@@ -121,12 +111,11 @@ export const actions = {
 
   *updateCourseProgress(courseId: number): Generator<any, void, any> {
     try {
-      yield actions.setIsLoading(true);
       const response = yield {
         type: actionTypes.GET_COURSE_PROGRESS,
         courseId,
       };
-      yield actions.setProgress(response.progress);
+      yield actions.setProgress(response);
     } catch (error) {
       yield actions.setError(
         error instanceof Error ? error.message : String(error)

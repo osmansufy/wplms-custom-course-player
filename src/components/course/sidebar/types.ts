@@ -1,13 +1,8 @@
 import { ICourse, CourseItem } from "../../../types/course";
 
 export interface SidebarProps {
-  course: ICourse;
-  currentUnitId: number | null;
-  onSelectUnit: (id: number) => void;
-  onCompleteUnit: (id: number) => void;
   isOpen: boolean;
   onToggle: () => void;
-  completedUnits: CourseItem[];
 }
 
 export interface SidebarHeaderProps {
@@ -29,8 +24,6 @@ export interface SectionItemProps {
 }
 
 export interface UnitItemProps {
-  item: CourseItem;
+  unit: CourseItem;
   currentUnitId: number | null;
-  onSelectUnit: (id: number) => void;
-  onCompleteUnit: (id: number) => void;
 }

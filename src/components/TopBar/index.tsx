@@ -25,7 +25,7 @@ export default function TopBar({ onToggleSidebar, progress }: TopBarProps) {
     } = useSelect((select) => ({
         courseInfo: select('custom-course-player').getCourseInfo(),
         totalUnits: select('custom-course-player').getAllUnits(),
-        completedUnits: select('custom-course-player').getCompleteUnits(),
+        completedUnits: select('custom-course-player').getCompletedUnits(),
     }), []);
 
     const {
@@ -69,8 +69,8 @@ export default function TopBar({ onToggleSidebar, progress }: TopBarProps) {
                         <ProgressDropdown
                             isOpen={isProgressOpen}
                             onToggle={() => setIsProgressOpen(!isProgressOpen)}
-                            completedUnits={completedUnits.length}
-                            totalUnits={totalUnits.length}
+                            completedUnits={completedUnits?.length ?? 0}
+                            totalUnits={totalUnits?.length ?? 0}
                         />
 
                         <button
