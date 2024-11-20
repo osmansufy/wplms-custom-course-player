@@ -7,18 +7,21 @@ const useReviewSystem = (progress: number, courseId?: number) => {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [hasReview, setHasReview] = useState(false);
   const [lastShownMilestone, setLastShownMilestone] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
   // Check if user has already reviewed
   useEffect(() => {
     const checkReviewStatus = async () => {
       if (!courseId) return;
-
+      setLoading(true);
       try {
         const token = (window as any).wplmsCustomCoursePlayer?.token;
         const response = await fetchCourseReview({ courseId, token });
         setHasReview(!!response?.comment_ID);
       } catch (error) {
         console.error("Error checking review status:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -26,24 +29,25 @@ const useReviewSystem = (progress: number, courseId?: number) => {
   }, [courseId]);
 
   // Handle auto-popup at milestones
-  useEffect(() => {
-    if (hasReview) return;
+  // useEffect(() => {
+  //   if (hasReview || loading) return;
 
-    const milestone = REVIEW_MILESTONES.find(
-      (milestone) => progress >= milestone && lastShownMilestone < milestone
-    );
+  //   const milestone = REVIEW_MILESTONES.find(
+  //     (milestone) => progress >= milestone && lastShownMilestone < milestone
+  //   );
 
-    if (milestone) {
-      setIsReviewModalOpen(true);
-      setLastShownMilestone(milestone);
-    }
-  }, [progress, hasReview, lastShownMilestone]);
+  //   if (milestone) {
+  //     setIsReviewModalOpen(true);
+  //     setLastShownMilestone(milestone);
+  //   }
+  // }, [progress, hasReview, lastShownMilestone, loading]);
 
   return {
     isReviewModalOpen,
     setIsReviewModalOpen,
     hasReview,
     setHasReview,
+    loading,
   };
 };
 

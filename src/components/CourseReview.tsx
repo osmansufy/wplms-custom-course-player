@@ -119,40 +119,10 @@ export default function ReviewModal({
     const [review, setReview] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
-    const [hasReviewed, setHasReviewed] = useState(false);
 
     const userInfo = useSelect(select =>
         select('custom-course-player').getUserInfo() || {}
     );
-
-    useEffect(() => {
-        const checkExistingReview = async () => {
-            try {
-                const token = (window as any).wplmsCustomCoursePlayer?.token;
-                if (courseId) {
-                    const response = await fetchCourseReview({ courseId: courseId, token: token }) as IComment
-                    console.log({ response });
-                    if (response.comment_ID) {
-                        setHasReviewed(true);
-                    } else {
-                        setHasReviewed(false);
-                    }
-                }
-            } catch (err) {
-                console.error('Failed to fetch review status:', err);
-            }
-        };
-
-        if (isOpen && courseId) {
-            checkExistingReview();
-        }
-    }, [isOpen, courseId]);
-
-    const shouldShowModal = () => {
-        if (hasReviewed) return false;
-        return progress >= 15;
-    };
-
     const handleSubmit = async () => {
         if (review.length < 10) {
             setError('Please write a more detailed review (minimum 10 characters)');
@@ -181,9 +151,8 @@ export default function ReviewModal({
             setError('Failed to submit review. Please try again later.');
         }
     };
-    console.log({ hasReviewed });
-    if (!isOpen || !shouldShowModal()) return null;
-
+    console.log('isOpen', isOpen);
+    if (!isOpen) return null;
     return (
         <div
             className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"

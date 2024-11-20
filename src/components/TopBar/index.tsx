@@ -29,6 +29,7 @@ export default function TopBar({ onToggleSidebar, progress }: TopBarProps) {
     }), []);
 
     const {
+        loading,
         isReviewModalOpen,
         setIsReviewModalOpen,
         hasReview,
@@ -61,8 +62,10 @@ export default function TopBar({ onToggleSidebar, progress }: TopBarProps) {
                                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 
                                      transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 
                                      focus:ring-offset-2 focus:ring-offset-gray-800"
+
+                                disabled={loading}
                             >
-                                Leave Review
+                                {loading ? 'Loading...' : 'Leave a Review'}
                             </button>
                         )}
 
@@ -100,14 +103,14 @@ export default function TopBar({ onToggleSidebar, progress }: TopBarProps) {
             </div>
 
             {/* Review Modal */}
-            <ReviewModal
-                isOpen={isReviewModalOpen}
+            {!hasReview && <ReviewModal
+                isOpen={!loading && isReviewModalOpen}
                 onClose={() => setIsReviewModalOpen(false)}
                 courseId={courseInfo?.course_id}
                 courseName={courseInfo?.title}
                 progress={progress}
                 onReviewSuccess={handleReviewSuccess}
-            />
+            />}
 
             {/* Backdrop for progress dropdown */}
             {isProgressOpen && (
