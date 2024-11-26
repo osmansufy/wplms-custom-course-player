@@ -1,5 +1,5 @@
 import { actionTypes } from "./const";
-import { ICourse, CourseItem } from "../types/course";
+import { ICourse } from "../types/course";
 
 export const actions = {
   setCourseId(courseId: number | null) {
@@ -73,17 +73,12 @@ export const actions = {
   },
   *fetchUserInfo(): Generator<any, void, any> {
     try {
-      yield actions.setIsLoading(true);
       const response = yield {
-        type: "FETCH_USER_INFO",
+        type: actionTypes.FETCH_USER_INFO,
       };
       yield actions.setUserInfo(response);
-      yield actions.setIsLoading(false);
     } catch (error) {
-      yield actions.setError(
-        error instanceof Error ? error.message : String(error)
-      );
-      yield actions.setIsLoading(false);
+      yield actions.handleError(error);
     }
   },
 
@@ -101,11 +96,9 @@ export const actions = {
         progress,
       };
       yield actions.updateCourseProgress(courseId);
-    } catch (error) {
-      yield actions.setError(
-        error instanceof Error ? error.message : String(error)
-      );
       yield actions.setIsLoading(false);
+    } catch (error) {
+      yield actions.handleError(error);
     }
   },
 
@@ -117,10 +110,14 @@ export const actions = {
       };
       yield actions.setProgress(response);
     } catch (error) {
-      yield actions.setError(
-        error instanceof Error ? error.message : String(error)
-      );
+      yield actions.handleError(error);
     }
+  },
+
+  *handleError(error: unknown): Generator<any, void, any> {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    yield actions.setError(errorMessage);
+    yield actions.setIsLoading(false);
   },
 
   nextUnit() {
@@ -133,5 +130,68 @@ export const actions = {
     return {
       type: actionTypes.PREV_UNIT,
     };
+  },
+
+  setCourseReview(review: any) {
+    return {
+      type: actionTypes.SET_COURSE_REVIEW,
+      review,
+    };
+  },
+  setReviewLoading(loading: boolean) {
+    return {
+      type: actionTypes.SET_REVIEW_LOADING,
+      loading,
+    };
+  },
+  setReviewError(error: string | null) {
+    return {
+      type: actionTypes.SET_REVIEW_ERROR,
+      error,
+    };
+  },
+  setReviewModalOpen(open: boolean) {
+    return {
+      type: actionTypes.SET_REVIEW_MODAL_OPEN,
+      open,
+    };
+  },
+  *fetchCourseReview(courseId: number): Generator<any, void, any> {
+    try {
+      yield actions.setReviewLoading(true);
+      const response = yield {
+        type: actionTypes.FETCH_COURSE_REVIEW,
+        courseId,
+      };
+      yield actions.setCourseReview(response);
+      yield actions.setReviewLoading(false);
+    } catch (error) {
+      yield actions.handleError(error);
+      yield actions.setReviewLoading(false);
+    }
+  },
+
+  *submitCourseReview({
+    rating,
+    review,
+    courseId,
+  }: {
+    rating: number;
+    review: string;
+    courseId: number;
+  }): Generator<any, void, any> {
+    try {
+      yield actions.setIsLoading(true);
+      const response = yield {
+        type: actionTypes.SUBMIT_COURSE_REVIEW,
+        rating,
+        review,
+        comment_post_ID: courseId,
+      };
+      yield actions.setCourseReview(response);
+      yield actions.setIsLoading(false);
+    } catch (error) {
+      yield actions.handleError(error);
+    }
   },
 };

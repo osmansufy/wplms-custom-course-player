@@ -15,9 +15,8 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
     // Get dispatch actions
     const {
         fetchCourseData,
-        setCurrentUnit,
         nextUnit,
-        prevUnit
+        prevUnit,
     } = useDispatch('custom-course-player');
 
     // Get state from Redux store

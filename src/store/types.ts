@@ -10,6 +10,10 @@ export interface ICustomCoursePlayerStore {
   getCurrentUnitId(): number | null;
   getProgress(): number;
   getUserInfo(): any;
+  getCourseReview(): any;
+  getReviewLoading(): boolean | null;
+  getReviewError(): string | null;
+  getReviewModalOpen(): boolean | null;
 }
 
 declare module "@wordpress/data" {

@@ -1,9 +1,11 @@
 // controls.ts
 import {
   fetchCourseData,
+  fetchCourseReview,
   getCourseProgress,
   getUserInfo,
   markUnitComplete,
+  submitCourseReview,
 } from "../utilities/apiCall";
 
 const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
@@ -54,5 +56,27 @@ export const controls = {
     } catch (error) {
       console.error("Error fetching course progress:", error);
     }
+  },
+
+  async SUBMIT_COURSE_REVIEW(action: {
+    rating: number;
+    review: string;
+    courseId: number;
+  }) {
+    const response = await submitCourseReview({
+      rating: action.rating,
+      review: action.review,
+      token: userAuthToken,
+      comment_post_ID: action.courseId,
+    });
+    return response;
+  },
+
+  async FETCH_COURSE_REVIEW(action: { courseId: number }) {
+    const response = await fetchCourseReview({
+      courseId: action.courseId,
+      token: userAuthToken,
+    });
+    return response;
   },
 };

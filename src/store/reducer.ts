@@ -11,6 +11,10 @@ export const DEFAULT_STATE: IState = {
   error: null,
   token: null,
   userInfo: null,
+  review: null,
+  reviewLoading: false,
+  reviewError: null,
+  reviewModalOpen: false,
 };
 
 export const reducer = (
@@ -81,6 +85,30 @@ export const reducer = (
         currentUnitId: prevUnit ? prevUnit.id : state.currentUnitId,
       };
     }
+
+    case actionTypes.SET_COURSE_REVIEW:
+      return {
+        ...state,
+        review: action.review,
+      };
+
+    case actionTypes.SET_REVIEW_LOADING:
+      return {
+        ...state,
+        reviewLoading: action.loading,
+      };
+
+    case actionTypes.SET_REVIEW_ERROR:
+      return {
+        ...state,
+        reviewError: action.error,
+      };
+
+    case actionTypes.SET_REVIEW_MODAL_OPEN:
+      return {
+        ...state,
+        reviewModalOpen: action.open,
+      };
 
     default:
       return state;

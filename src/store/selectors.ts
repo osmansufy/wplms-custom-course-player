@@ -38,4 +38,20 @@ export const selectors = {
   getCompletedUnits(state: typeof DEFAULT_STATE) {
     return state.courseInfo?.courseitems.filter((unit) => unit.status === 1);
   },
+
+  getCourseReview(state: typeof DEFAULT_STATE) {
+    return state.review;
+  },
+
+  getReviewLoading(state: typeof DEFAULT_STATE) {
+    return state.reviewLoading;
+  },
+
+  getReviewError(state: typeof DEFAULT_STATE) {
+    return state.reviewError;
+  },
+
+  getReviewModalOpen(state: typeof DEFAULT_STATE) {
+    return state.reviewModalOpen;
+  },
 };

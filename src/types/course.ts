@@ -1,6 +1,8 @@
+import { IComment } from "./comment";
+
 export interface ICourse {
   course_id: number;
-  title: string;
+  course_title: string;
   current_unit_key: number;
   courseitems: CourseItem[];
   lock: number;
@@ -96,4 +98,8 @@ export interface IState {
   isLoading: boolean | null;
   error: string | null;
   userInfo: any;
+  review: IComment | null;
+  reviewLoading: boolean | null;
+  reviewError: string | null;
+  reviewModalOpen: boolean | null;
 }
