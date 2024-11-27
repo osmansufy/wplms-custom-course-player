@@ -4,6 +4,9 @@ import { CourseItem } from '../../../types/course';
 import { useCourseSections } from '../../../hooks/useCourseSections';
 import { formatDuration } from '../../../utilities/utility';
 import UnitItem from './UnitItem';
+import { useEffect, useState } from '@wordpress/element';
+import { useSelect, useDispatch } from '@wordpress/data';
+const REVIEW_MILESTONES = [15, 75, 100];
 
 interface CourseSectionsProps {
     items: CourseItem[];
@@ -14,12 +17,31 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
     items,
     currentUnitId,
 }) => {
+    const [lastShownMilestone, setLastShownMilestone] = useState<number>(0);
+
     const {
         sections,
         expandedSections,
         toggleSection,
         getSectionStats
     } = useCourseSections(items, currentUnitId);
+    const { progress } = useSelect((select) => ({
+        progress: select('custom-course-player').getProgress(),
+    }), []);
+    const { setReviewModalOpen } = useDispatch('custom-course-player');
+    const onHandleReviewModalOpen = () => {
+        const milestone = REVIEW_MILESTONES.find(
+            (milestone) => progress >= milestone && lastShownMilestone < milestone
+        );
+
+        if (milestone) {
+            setReviewModalOpen(true);
+            setLastShownMilestone(milestone);
+        }
+    }
+    useEffect(() => {
+        onHandleReviewModalOpen();
+    }, [progress]);
     return (
         <div className="space-y-2">
             {sections.map((section, index) => {
@@ -60,8 +82,11 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
                         {isExpanded && (
                             <div className="border-t border-gray-200">
                                 {section.units.map((unit) => (
-                                    <UnitItem key={unit.id} unit={unit} currentUnitId={currentUnitId} />
-
+                                    <UnitItem
+                                        key={unit.id}
+                                        unit={unit}
+                                        currentUnitId={currentUnitId}
+                                    />
                                 ))}
                             </div>
                         )}

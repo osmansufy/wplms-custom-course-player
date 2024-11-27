@@ -62,7 +62,6 @@ export const actions = {
       yield actions.setCourseInfo(response);
       yield actions.setCourseId(courseId);
       yield actions.setCurrentUnit(currentUnit.id);
-      yield actions.setProgress(response.progress);
       yield actions.setIsLoading(false);
     } catch (error) {
       yield actions.setError(
@@ -88,15 +87,13 @@ export const actions = {
     progress: number
   ): Generator<any, void, any> {
     try {
-      console.log({ courseId, unitId });
       const response = yield {
         type: actionTypes.MARK_UNIT_COMPLETE,
         courseId,
         unitId,
         progress,
       };
-      yield actions.updateCourseProgress(courseId);
-      yield actions.setIsLoading(false);
+      yield actions.fetchCourseData(courseId);
     } catch (error) {
       yield actions.handleError(error);
     }

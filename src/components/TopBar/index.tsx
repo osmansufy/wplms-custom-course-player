@@ -9,9 +9,8 @@ import { useMemo } from '@wordpress/element';
 interface TopBarProps {
     onToggleSidebar: () => void;
     isSidebarOpen: boolean;
-    progress: number;
 }
-export default function TopBar({ onToggleSidebar, progress }: TopBarProps) {
+export default function TopBar({ onToggleSidebar }: TopBarProps) {
     const [isProgressOpen, setIsProgressOpen] = useState(false);
 
     const {
@@ -20,7 +19,7 @@ export default function TopBar({ onToggleSidebar, progress }: TopBarProps) {
         completedUnits,
         review,
         reviewLoading,
-        reviewError,
+        progress,
         reviewModalOpen,
     } = useSelect((select) => ({
         courseInfo: select('custom-course-player').getCourseInfo(),
@@ -30,6 +29,7 @@ export default function TopBar({ onToggleSidebar, progress }: TopBarProps) {
         reviewLoading: select('custom-course-player').getReviewLoading(),
         reviewError: select('custom-course-player').getReviewError(),
         reviewModalOpen: select('custom-course-player').getReviewModalOpen(),
+        progress: select('custom-course-player').getProgress(),
     }), []);
 
     // dispatch

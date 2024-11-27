@@ -1,39 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UnitItemProps } from './types';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { formatDuration } from '../../../utilities/utility';
 import { useCourseProgress } from '../../../hooks/useCourseProgress';
-
+import { useCallback } from '@wordpress/element';
 const UnitItem: React.FC<UnitItemProps> = ({ unit, currentUnitId }) => {
-
     const { markUnitComplete, setCurrentUnit } = useDispatch('custom-course-player');
-    // get courseId from course data with getCourseId selector
-    const [isUnitComplete, setIsUnitCOmplete] = useState(unit?.status ?? 0)
-    const { courseId, progress, courseInfo } = useSelect((select) => ({
+    const [isUnitComplete, setIsUnitComplete] = useState(unit?.status ?? 0);
+    const { courseId, courseInfo } = useSelect((select) => ({
         courseId: select('custom-course-player').getCourseId(),
-        progress: select('custom-course-player').getProgress(),
         courseInfo: select('custom-course-player').getCourseInfo(),
     }), [])
     const handleSelectUnit = (id: number) => {
         setCurrentUnit(id);
     };
 
-    const { totalDuration,
-        completedDuration,
-        currentProgress,
-        totalUnits,
-        completedUnits,
-        onCompleteUnit } = useCourseProgress(courseInfo?.courseitems ?? []);
+    const { completedDuration, courseTotalDuration } = useSelect((select) => ({
+        completedDuration: select('custom-course-player').getCompletedDuration(),
+        courseTotalDuration: select('custom-course-player').getCourseTotalDuration(),
+    }), []);
 
-    const onHandleCompleteUnit = (unitId: number) => {
+    const unitCompletedProgress = useCallback(() => {
+        if (unit.duration && courseTotalDuration && completedDuration !== null) {
+            return Math.round(((completedDuration + unit.duration) / courseTotalDuration) * 100);
+        }
+        return 0;
+    }, [completedDuration, unit.duration, courseTotalDuration]);
+
+    const onHandleCompleteUnit = async (unitId: number) => {
         try {
-            const progress = onCompleteUnit(unitId);
-            markUnitComplete(courseId, unitId, progress);
-            setIsUnitCOmplete(1)
+            await markUnitComplete(courseId, unitId, unitCompletedProgress());
+            setIsUnitComplete(1);
         } catch (error) {
             console.log(error);
         }
     }
+
     return (
         <div
             className={`flex items-center p-4 cursor-pointer transition-colors

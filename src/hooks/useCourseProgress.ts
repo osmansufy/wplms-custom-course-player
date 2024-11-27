@@ -1,54 +1,40 @@
 // hooks/useCourseProgress.ts
 import { useMemo, useCallback } from "react";
 import { CourseItem } from "../types/course";
+import { useSelect } from "@wordpress/data";
 
 interface ProgressStats {
-  totalDuration: number;
-  completedDuration: number;
-  currentProgress: number;
-  totalUnits: number;
-  completedUnits: number;
+  courseTotalDuration: number | null;
+  progress: number;
   onCompleteUnit: (unitId: number) => number;
   formatDuration: (seconds: number) => string;
 }
 
 export const useCourseProgress = (items: CourseItem[]): ProgressStats => {
   // Calculate current progress based on completed units' duration
-  const {
-    totalDuration,
-    completedDuration,
-    totalUnits,
-    completedUnits,
-    currentProgress,
-  } = useMemo(() => {
-    const units = items.filter((item) => item.type === "unit");
-    const total = units.reduce((sum, unit) => sum + (unit.duration || 0), 0);
-    const completed = units
-      .filter((unit) => unit.status === 1)
-      .reduce((sum, unit) => sum + (unit.duration || 0), 0);
-
-    return {
-      totalDuration: total,
-      completedDuration: completed,
-      totalUnits: units.length,
-      completedUnits: units.filter((unit) => unit.status === 1).length,
-      currentProgress: total > 0 ? Math.round((completed / total) * 100) : 0,
-    };
-  }, [items]);
+  const { progress, courseTotalDuration } = useSelect(
+    (select) => ({
+      progress: select("custom-course-player").getProgress(),
+      courseTotalDuration: select(
+        "custom-course-player"
+      ).getCourseTotalDuration(),
+    }),
+    []
+  );
 
   // Calculate progress if any unit is completed with unit id
 
   const onCompleteUnit = useCallback(
     (unitId: number) => {
       const unit = items.find((item) => item.id === unitId);
-      if (unit && unit.duration) {
+      if (unit && unit.duration && courseTotalDuration) {
         return Math.round(
-          ((completedDuration + unit.duration) / totalDuration) * 100
+          ((progress + unit.duration) / courseTotalDuration) * 100
         );
       }
-      return currentProgress;
+      return progress;
     },
-    [items, completedDuration, totalDuration, currentProgress]
+    [items, courseTotalDuration, progress]
   );
 
   // Format duration helper function
@@ -63,11 +49,8 @@ export const useCourseProgress = (items: CourseItem[]): ProgressStats => {
   }, []);
 
   return {
-    totalDuration,
-    completedDuration,
-    currentProgress,
-    totalUnits,
-    completedUnits,
+    courseTotalDuration,
+    progress,
     onCompleteUnit,
     formatDuration,
   };

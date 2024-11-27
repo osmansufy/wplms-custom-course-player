@@ -94,6 +94,7 @@ export interface IState {
   courseInfo: ICourse | null;
   progress: number | null;
   currentUnitId: number | null;
+  allUnits: IUnit[] | null;
   token: string | null;
   isLoading: boolean | null;
   error: string | null;
@@ -102,4 +103,6 @@ export interface IState {
   reviewLoading: boolean | null;
   reviewError: string | null;
   reviewModalOpen: boolean | null;
+  courseTotalDuration: number | null;
+  completedDuration: number | null;
 }

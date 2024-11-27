@@ -1,5 +1,5 @@
 // reducer.ts
-import { IState } from "../types/course";
+import { IState, IUnit } from "../types/course";
 import { actionTypes } from "./const";
 
 export const DEFAULT_STATE: IState = {
@@ -7,6 +7,7 @@ export const DEFAULT_STATE: IState = {
   courseInfo: null,
   progress: 0,
   currentUnitId: null,
+  allUnits: null,
   isLoading: false,
   error: null,
   token: null,
@@ -15,6 +16,8 @@ export const DEFAULT_STATE: IState = {
   reviewLoading: false,
   reviewError: null,
   reviewModalOpen: false,
+  courseTotalDuration: null,
+  completedDuration: null,
 };
 
 export const reducer = (
@@ -29,9 +32,32 @@ export const reducer = (
       };
 
     case actionTypes.SET_COURSE_INFO:
+      const allUnits = action.courseInfo.courseitems.filter(
+        (item: IUnit) => item.type !== "section"
+      );
+      const courseTotalDuration = allUnits.reduce(
+        (sum: number, unit: IUnit) => sum + (unit.duration || 0),
+        0
+      );
+      const completedUnits = allUnits.filter(
+        (unit: IUnit) => unit.status === 1
+      );
+      const completedDuration = completedUnits.reduce(
+        (sum: number, unit: IUnit) => sum + (unit.duration || 0),
+        0
+      );
+
+      // Calculate progress
+      const progress = Math.round(
+        (completedDuration / courseTotalDuration) * 100
+      );
       return {
         ...state,
         courseInfo: action.courseInfo,
+        allUnits,
+        courseTotalDuration,
+        progress,
+        completedDuration,
       };
     case actionTypes.SET_USER_INFO:
       return {
@@ -64,10 +90,9 @@ export const reducer = (
 
     case actionTypes.NEXT_UNIT: {
       const currentIndex =
-        state.courseInfo?.courseitems.findIndex(
-          (unit) => unit.id === state.currentUnitId
-        ) ?? -1;
-      const nextUnit = state.courseInfo?.courseitems[currentIndex + 1];
+        state?.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
+        -1;
+      const nextUnit = state?.allUnits?.[currentIndex + 1];
       return {
         ...state,
         currentUnitId: nextUnit ? nextUnit.id : state.currentUnitId,
@@ -76,10 +101,9 @@ export const reducer = (
 
     case actionTypes.PREV_UNIT: {
       const currentIndex =
-        state.courseInfo?.courseitems.findIndex(
-          (unit) => unit.id === state.currentUnitId
-        ) ?? -1;
-      const prevUnit = state.courseInfo?.courseitems[currentIndex - 1];
+        state?.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
+        -1;
+      const prevUnit = state?.allUnits?.[currentIndex - 1];
       return {
         ...state,
         currentUnitId: prevUnit ? prevUnit.id : state.currentUnitId,

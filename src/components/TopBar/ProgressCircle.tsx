@@ -15,6 +15,7 @@ const ProgressCircle: React.FC<ProgressCircleProps> = ({
     circleColor = 'text-gray-700',
     progressColor = 'text-green-500'
 }) => {
+    console.log({ progress });
     const center = size / 2;
     const radius = center - strokeWidth;
     const circumference = 2 * Math.PI * radius;

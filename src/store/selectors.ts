@@ -54,4 +54,12 @@ export const selectors = {
   getReviewModalOpen(state: typeof DEFAULT_STATE) {
     return state.reviewModalOpen;
   },
+
+  getCourseTotalDuration(state: typeof DEFAULT_STATE) {
+    return state.courseTotalDuration;
+  },
+
+  getCompletedDuration(state: typeof DEFAULT_STATE) {
+    return state.completedDuration;
+  },
 };

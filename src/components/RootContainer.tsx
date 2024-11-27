@@ -25,14 +25,11 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
         loading,
         error,
         currentUnitId,
-        progress,
-
     } = useSelect((select) => ({
         courseInfo: select('custom-course-player')?.getCourseInfo() || null,
         loading: select('custom-course-player')?.isLoading() || false,
         error: select('custom-course-player')?.getError() || null,
         currentUnitId: select('custom-course-player')?.getCurrentUnitId() || null,
-        progress: select('custom-course-player')?.getProgress() || 0,
     }), []);
 
     // Fetch course data on component mount
@@ -90,7 +87,6 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
             <TopBar
                 onToggleSidebar={toggleSidebar}
                 isSidebarOpen={isSidebarOpen}
-                progress={progress}
             />
             <div className="flex flex-1 overflow-hidden pt-16">
                 <ContentArea

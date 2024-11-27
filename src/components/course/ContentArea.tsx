@@ -36,7 +36,7 @@ const ContentArea: React.FC<ContentAreaProps> = ({
 
             {/* Next button */}
             <button
-                className={`fixed top-1/2 right-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isSidebarOpen ? 'mr-80' : ''} ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`}
+                className={`fixed top-1/2 right-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isSidebarOpen ? 'mr-[23rem]' : ''} ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`}
                 onClick={onNext}
                 disabled={loading}
             >
