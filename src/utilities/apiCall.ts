@@ -165,3 +165,23 @@ export const getCourseProgress = async ({
     console.error("Failed to get course progress");
   }
 };
+
+// finish course
+export const finishCourse = async ({
+  courseId,
+  token,
+}: {
+  courseId: number;
+  token: string;
+}) => {
+  try {
+    const response = await apiFetch({
+      method: "POST",
+      path: `/wplms/v2/user/finishcourse`,
+      data: { course_id: courseId, token },
+    });
+    return response;
+  } catch (err) {
+    console.error("Failed to finish course");
+  }
+};

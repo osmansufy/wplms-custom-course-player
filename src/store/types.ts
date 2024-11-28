@@ -16,6 +16,9 @@ export interface ICustomCoursePlayerStore {
   getReviewModalOpen(): boolean | null;
   getCourseTotalDuration(): number | null;
   getCompletedDuration(): number | null;
+  isLoadingCourseData(courseId: number): boolean;
+  isLoadingUserInfo(): boolean;
+  isCourseCompleted(): boolean;
 }
 
 declare module "@wordpress/data" {

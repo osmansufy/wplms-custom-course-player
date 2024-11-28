@@ -1,6 +1,7 @@
 // selectors.ts
 import { DEFAULT_STATE } from "./reducer";
 import { ICourse, CourseItem } from "../types/course";
+import { select } from "@wordpress/data";
 
 export const selectors = {
   getCourseId(state: typeof DEFAULT_STATE) {
@@ -32,11 +33,10 @@ export const selectors = {
   },
 
   getAllUnits(state: typeof DEFAULT_STATE) {
-    return state.courseInfo?.courseitems;
+    return state.allUnits;
   },
-
   getCompletedUnits(state: typeof DEFAULT_STATE) {
-    return state.courseInfo?.courseitems.filter((unit) => unit.status === 1);
+    return state.allUnits?.filter((unit) => unit.status === 1) ?? [];
   },
 
   getCourseReview(state: typeof DEFAULT_STATE) {
@@ -61,5 +61,25 @@ export const selectors = {
 
   getCompletedDuration(state: typeof DEFAULT_STATE) {
     return state.completedDuration;
+  },
+
+  isLoadingCourseData(state: any, courseId: number) {
+    return select("core/data").isResolving(
+      "custom-course-player",
+      "getCourseData",
+      [courseId]
+    );
+  },
+
+  isLoadingUserInfo(state: any) {
+    return select("core/data").isResolving(
+      "custom-course-player",
+      "getUserInfo",
+      []
+    );
+  },
+
+  isCourseCompleted(state: typeof DEFAULT_STATE): boolean {
+    return state.isCompleted ?? false;
   },
 };

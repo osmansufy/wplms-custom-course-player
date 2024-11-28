@@ -6,6 +6,7 @@ import {
   getUserInfo,
   markUnitComplete,
   submitCourseReview,
+  finishCourse,
 } from "../utilities/apiCall";
 
 const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
@@ -78,5 +79,18 @@ export const controls = {
       token: userAuthToken,
     });
     return response;
+  },
+
+  async FINISH_COURSE(action: { courseId: number }) {
+    try {
+      const response = await finishCourse({
+        courseId: action.courseId,
+        token: userAuthToken,
+      });
+      return response;
+    } catch (error) {
+      console.error("Error finishing course:", error);
+      throw error;
+    }
   },
 };

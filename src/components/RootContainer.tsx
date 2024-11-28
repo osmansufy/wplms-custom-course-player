@@ -27,7 +27,7 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
         currentUnitId,
     } = useSelect((select) => ({
         courseInfo: select('custom-course-player')?.getCourseInfo() || null,
-        loading: select('custom-course-player')?.isLoading() || false,
+        loading: select('custom-course-player')?.isLoadingUserInfo() || false,
         error: select('custom-course-player')?.getError() || null,
         currentUnitId: select('custom-course-player')?.getCurrentUnitId() || null,
     }), []);

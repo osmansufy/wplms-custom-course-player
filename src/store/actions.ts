@@ -191,4 +191,26 @@ export const actions = {
       yield actions.handleError(error);
     }
   },
+
+  setCourseCompleted(completed: boolean) {
+    return {
+      type: actionTypes.SET_COURSE_COMPLETED,
+      completed,
+    };
+  },
+
+  *finishCourse(courseId: number): Generator<any, void, any> {
+    try {
+      yield actions.setIsLoading(true);
+      const response = yield {
+        type: actionTypes.FINISH_COURSE,
+        courseId,
+      };
+      yield actions.setCourseCompleted(true);
+      yield actions.fetchCourseData(courseId); // Refresh course data
+      yield actions.setIsLoading(false);
+    } catch (error) {
+      yield actions.handleError(error);
+    }
+  },
 };

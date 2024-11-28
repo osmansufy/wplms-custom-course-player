@@ -11,6 +11,7 @@ export interface ICourse {
   disablescrollprogress: boolean;
   course_status: string;
   instructions: string;
+  progress: string;
 }
 
 export interface CourseItem {
@@ -105,4 +106,5 @@ export interface IState {
   reviewModalOpen: boolean | null;
   courseTotalDuration: number | null;
   completedDuration: number | null;
+  isCompleted: boolean | null;
 }

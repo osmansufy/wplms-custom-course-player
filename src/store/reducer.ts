@@ -13,11 +13,12 @@ export const DEFAULT_STATE: IState = {
   token: null,
   userInfo: null,
   review: null,
-  reviewLoading: false,
+  reviewLoading: true,
   reviewError: null,
   reviewModalOpen: false,
   courseTotalDuration: null,
   completedDuration: null,
+  isCompleted: false,
 };
 
 export const reducer = (
@@ -51,6 +52,8 @@ export const reducer = (
       const progress = Math.round(
         (completedDuration / courseTotalDuration) * 100
       );
+      const isCompleted =
+        parseInt(action.courseInfo.progress ?? "0") >= 100 && progress >= 100;
       return {
         ...state,
         courseInfo: action.courseInfo,
@@ -58,6 +61,7 @@ export const reducer = (
         courseTotalDuration,
         progress,
         completedDuration,
+        isCompleted,
       };
     case actionTypes.SET_USER_INFO:
       return {
@@ -132,6 +136,12 @@ export const reducer = (
       return {
         ...state,
         reviewModalOpen: action.open,
+      };
+
+    case actionTypes.SET_COURSE_COMPLETED:
+      return {
+        ...state,
+        isCompleted: action.completed,
       };
 
     default:

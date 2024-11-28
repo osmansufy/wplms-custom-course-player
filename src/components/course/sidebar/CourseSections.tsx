@@ -4,9 +4,10 @@ import { CourseItem } from '../../../types/course';
 import { useCourseSections } from '../../../hooks/useCourseSections';
 import { formatDuration } from '../../../utilities/utility';
 import UnitItem from './UnitItem';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useMemo, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 const REVIEW_MILESTONES = [15, 75, 100];
+
 
 interface CourseSectionsProps {
     items: CourseItem[];
@@ -25,11 +26,19 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
         toggleSection,
         getSectionStats
     } = useCourseSections(items, currentUnitId);
-    const { progress } = useSelect((select) => ({
-        progress: select('custom-course-player').getProgress(),
-    }), []);
-    const { setReviewModalOpen } = useDispatch('custom-course-player');
+    const {
+        progress, courseId, isCompleted, hasReview, reviewLoading } = useSelect((select) => ({
+            progress: select('custom-course-player').getProgress(),
+            courseId: select('custom-course-player').getCourseId(),
+            isCompleted: select('custom-course-player').isCourseCompleted(),
+            hasReview: select('custom-course-player').getCourseReview()?.comment_ID !== undefined,
+            reviewLoading: select('custom-course-player').getReviewLoading(),
+        }), []);
+    const { setReviewModalOpen, finishCourse } = useDispatch('custom-course-player');
     const onHandleReviewModalOpen = () => {
+        if (hasReview || reviewLoading) {
+            return;
+        }
         const milestone = REVIEW_MILESTONES.find(
             (milestone) => progress >= milestone && lastShownMilestone < milestone
         );
@@ -40,10 +49,40 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
         }
     }
     useEffect(() => {
-        onHandleReviewModalOpen();
-    }, [progress]);
+        console.log({ hasReview, reviewLoading });
+        if (!hasReview && !reviewLoading) {
+            console.log('review modal open');
+            onHandleReviewModalOpen();
+        }
+    }, [progress, hasReview, reviewLoading]);
+
+    const handleFinishCourse = async () => {
+        if (courseId) {
+            await finishCourse(courseId);
+        }
+    };
     return (
         <div className="space-y-2">
+            {!isCompleted && (
+                <div className="p-4 bg-green-50 rounded-lg">
+                    <p className="text-sm text-green-800 mb-2">
+                        You've completed {progress}% of the course! Ready to finish?
+                    </p>
+                    <button
+                        onClick={handleFinishCourse}
+                        className="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                    >
+                        Complete Course
+                    </button>
+                </div>
+            )}
+            {isCompleted && (
+                <div className="p-4 bg-green-100 rounded-lg">
+                    <p className="text-sm text-green-800">
+                        🎉 Congratulations! You've completed this course.
+                    </p>
+                </div>
+            )}
             {sections.map((section, index) => {
                 const stats = getSectionStats(section);
                 const isExpanded = expandedSections.includes(index);
