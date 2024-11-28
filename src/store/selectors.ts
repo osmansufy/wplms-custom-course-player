@@ -82,4 +82,8 @@ export const selectors = {
   isCourseCompleted(state: typeof DEFAULT_STATE): boolean {
     return state.isCompleted ?? false;
   },
+
+  getCompletionMessage(state: typeof DEFAULT_STATE): string | null {
+    return state.completionMessage;
+  },
 };

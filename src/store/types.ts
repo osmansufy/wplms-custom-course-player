@@ -19,6 +19,7 @@ export interface ICustomCoursePlayerStore {
   isLoadingCourseData(courseId: number): boolean;
   isLoadingUserInfo(): boolean;
   isCourseCompleted(): boolean;
+  getCompletionMessage(): string | null;
 }
 
 declare module "@wordpress/data" {

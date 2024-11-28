@@ -19,6 +19,7 @@ export const DEFAULT_STATE: IState = {
   courseTotalDuration: null,
   completedDuration: null,
   isCompleted: false,
+  completionMessage: null,
 };
 
 export const reducer = (
@@ -142,6 +143,12 @@ export const reducer = (
       return {
         ...state,
         isCompleted: action.completed,
+      };
+
+    case actionTypes.SET_COMPLETION_MESSAGE:
+      return {
+        ...state,
+        completionMessage: action.message,
       };
 
     default:

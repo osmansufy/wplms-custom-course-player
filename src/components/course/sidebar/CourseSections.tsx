@@ -27,13 +27,20 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
         getSectionStats
     } = useCourseSections(items, currentUnitId);
     const {
-        progress, courseId, isCompleted, hasReview, reviewLoading } = useSelect((select) => ({
-            progress: select('custom-course-player').getProgress(),
-            courseId: select('custom-course-player').getCourseId(),
-            isCompleted: select('custom-course-player').isCourseCompleted(),
-            hasReview: select('custom-course-player').getCourseReview()?.comment_ID !== undefined,
-            reviewLoading: select('custom-course-player').getReviewLoading(),
-        }), []);
+        progress,
+        courseId,
+        isCompleted,
+        hasReview,
+        reviewLoading,
+        completionMessage
+    } = useSelect((select) => ({
+        progress: select('custom-course-player').getProgress(),
+        courseId: select('custom-course-player').getCourseId(),
+        isCompleted: select('custom-course-player').isCourseCompleted(),
+        hasReview: select('custom-course-player').getCourseReview()?.comment_ID !== undefined,
+        reviewLoading: select('custom-course-player').getReviewLoading(),
+        completionMessage: select('custom-course-player').getCompletionMessage(),
+    }), []);
     const { setReviewModalOpen, finishCourse } = useDispatch('custom-course-player');
     const onHandleReviewModalOpen = () => {
         if (hasReview || reviewLoading) {
@@ -66,7 +73,7 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
             {!isCompleted && (
                 <div className="p-4 bg-green-50 rounded-lg">
                     <p className="text-sm text-green-800 mb-2">
-                        You've completed {progress}% of the course! Ready to finish?
+                        {completionMessage}
                     </p>
                     <button
                         onClick={handleFinishCourse}

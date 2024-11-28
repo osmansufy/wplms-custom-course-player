@@ -107,4 +107,5 @@ export interface IState {
   courseTotalDuration: number | null;
   completedDuration: number | null;
   isCompleted: boolean | null;
+  completionMessage: string | null;
 }

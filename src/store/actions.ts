@@ -153,6 +153,12 @@ export const actions = {
       open,
     };
   },
+  setCompletionMessage(message: string | null) {
+    return {
+      type: actionTypes.SET_COMPLETION_MESSAGE,
+      message,
+    };
+  },
   *fetchCourseReview(courseId: number): Generator<any, void, any> {
     try {
       yield actions.setReviewLoading(true);
@@ -206,7 +212,9 @@ export const actions = {
         type: actionTypes.FINISH_COURSE,
         courseId,
       };
-      yield actions.setCourseCompleted(true);
+      if (response.status) {
+        yield actions.setCompletionMessage(response.finished.message);
+      }
       yield actions.fetchCourseData(courseId); // Refresh course data
       yield actions.setIsLoading(false);
     } catch (error) {
