@@ -86,8 +86,6 @@ const RootContainer = ({
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "flex flex-1 overflow-hidden pt-16",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_course_ContentArea__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        courseId: courseId,
-        currentUnitId: currentUnitId,
         isSidebarOpen: isSidebarOpen
       }), courseInfo && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_course_sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
         isOpen: isSidebarOpen,
@@ -405,9 +403,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _hooks_useUnitContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../hooks/useUnitContent */ "./src/hooks/useUnitContent.ts");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _hooks_course_useContentArea__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../hooks/course/useContentArea */ "./src/hooks/course/useContentArea.ts");
+/* harmony import */ var _content_ContentDisplay__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./content/ContentDisplay */ "./src/components/course/content/ContentDisplay.tsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
 
@@ -415,8 +412,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const ContentArea = ({
-  currentUnitId,
-  courseId,
   isSidebarOpen
 }) => {
   const {
@@ -424,105 +419,18 @@ const ContentArea = ({
     loading,
     error,
     isLastUnit,
-    isFirstUnit
-  } = (0,_hooks_useUnitContent__WEBPACK_IMPORTED_MODULE_1__.useUnitContent)();
-  const [isHovering, setIsHovering] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const {
-    setPreviousUnit,
-    setNextUnit
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useDispatch)('custom-course-player');
-  const onPrevious = () => {
-    setPreviousUnit();
-  };
-  const onNext = () => {
-    setNextUnit();
-  };
-  const renderNavigationButtons = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-      className: `fixed top-1/2 left-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300  ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
-      onClick: onPrevious,
-      disabled: loading || isFirstUnit,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("svg", {
-        className: "w-6 h-6",
-        fill: "none",
-        stroke: "currentColor",
-        viewBox: "0 0 24 24",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("path", {
-          strokeLinecap: "round",
-          strokeLinejoin: "round",
-          strokeWidth: 2,
-          d: "M15 19l-7-7 7-7"
-        })
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-      className: `fixed top-1/2 right-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isSidebarOpen ? 'mr-[23rem]' : ''} ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
-      onClick: onNext,
-      disabled: loading || isLastUnit,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("svg", {
-        className: "w-6 h-6",
-        fill: "none",
-        stroke: "currentColor",
-        viewBox: "0 0 24 24",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("path", {
-          strokeLinecap: "round",
-          strokeLinejoin: "round",
-          strokeWidth: 2,
-          d: "M9 5l7 7-7 7"
-        })
-      })
-    })]
-  });
-  const renderContent = () => {
-    if (loading) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "flex flex-col items-center justify-center min-h-[400px] space-y-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-          className: "text-gray-600",
-          children: "Loading content..."
-        })]
-      });
-    }
-    if (error) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex flex-col items-center justify-center min-h-[400px] space-y-4",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "bg-red-50 p-6 rounded-lg text-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-            className: "text-red-600 mb-4",
-            children: error
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-            onClick: () => window.location.reload(),
-            className: "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700",
-            children: "Retry"
-          })]
-        })
-      });
-    }
-    if (!unitContent) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex items-center justify-center min-h-[400px]",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-          className: "text-gray-600",
-          children: "No content available"
-        })
-      });
-    }
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "custom_course_content max-h-[600px] relative",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: `transition-opacity duration-300 ${loading ? 'opacity-50' : 'opacity-100'}`,
-        dangerouslySetInnerHTML: {
-          __html: unitContent.content
-        }
-      }), renderNavigationButtons()]
-    });
-  };
+    isFirstUnit,
+    isHovering,
+    handlePrevious,
+    handleNext,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleRetry
+  } = (0,_hooks_course_useContentArea__WEBPACK_IMPORTED_MODULE_1__.useContentArea)(isSidebarOpen);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: `flex-1 p-6 overflow-y-auto transition-all duration-300 relative ${isSidebarOpen ? 'mr-80' : ''}`,
-    onMouseEnter: () => setIsHovering(true),
-    onMouseLeave: () => setIsHovering(false),
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "mb-6",
       children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -531,173 +439,170 @@ const ContentArea = ({
         className: "text-3xl font-bold mb-1",
         children: unitContent?.title
       })
-    }), renderContent()]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_content_ContentDisplay__WEBPACK_IMPORTED_MODULE_2__.ContentDisplay, {
+      loading: loading,
+      error: error,
+      unitContent: unitContent,
+      isHovering: isHovering,
+      isSidebarOpen: isSidebarOpen,
+      onPrevious: handlePrevious,
+      onNext: handleNext,
+      isFirstUnit: isFirstUnit,
+      isLastUnit: isLastUnit,
+      onRetry: handleRetry
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContentArea);
 
 /***/ }),
 
-/***/ "./src/components/course/sidebar/CourseSections.tsx":
+/***/ "./src/components/course/content/ContentDisplay.tsx":
 /*!**********************************************************!*\
-  !*** ./src/components/course/sidebar/CourseSections.tsx ***!
+  !*** ./src/components/course/content/ContentDisplay.tsx ***!
   \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   ContentDisplay: () => (/* binding */ ContentDisplay)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _hooks_useCourseSections__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../hooks/useCourseSections */ "./src/hooks/useCourseSections.ts");
-/* harmony import */ var _utilities_utility__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utilities/utility */ "./src/utilities/utility.ts");
-/* harmony import */ var _UnitItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./UnitItem */ "./src/components/course/sidebar/UnitItem.tsx");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../store */ "./src/store/index.ts");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
-// components/CourseSections.tsx
+/* harmony import */ var _NavigationButtons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NavigationButtons */ "./src/components/course/content/NavigationButtons.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
-
-
-
-
-
-const REVIEW_MILESTONES = [15, 75, 100];
-const CourseSections = () => {
-  const [lastShownMilestone, setLastShownMilestone] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)(0);
-  const {
-    sections,
-    expandedSections,
-    toggleSection,
-    getSectionStats
-  } = (0,_hooks_useCourseSections__WEBPACK_IMPORTED_MODULE_1__.useCourseSections)();
-  const courseId = (0,_store__WEBPACK_IMPORTED_MODULE_6__.useTypedSelect)(select => select.getCourseId(), []);
-  const {
-    progress,
-    isCompleted,
-    completionMessage
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_6__.useTypedSelect)(select => ({
-    progress: select.getProgress(),
-    isCompleted: select.isCourseCompleted(),
-    completionMessage: select.getCompletionMessage()
-  }), [courseId]);
-  const {
-    hasReview
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_6__.useTypedSelect)(select => {
-    if (courseId) {
-      return {
-        hasReview: select.hasReview(),
-        reviewLoading: select.isLoadingReview(courseId)
-      };
-    }
-    return {
-      hasReview: false,
-      reviewLoading: true
-    };
-  }, [courseId]);
-  const {
-    setReviewModalOpen,
-    finishCourse
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useDispatch)('custom-course-player');
-  const onHandleReviewModalOpen = () => {
-    console.log({
-      courseId,
-      hasReview
-    });
-    if (hasReview) {
-      return;
-    }
-    const milestone = REVIEW_MILESTONES.find(milestone => progress >= milestone && lastShownMilestone < milestone);
-    if (milestone) {
-      setReviewModalOpen(true);
-      setLastShownMilestone(milestone);
-    }
-  };
-  // review modal don't open initial render
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
-    if (!hasReview && courseId) {
-      console.log('review modal open');
-      onHandleReviewModalOpen();
-    } else {
-      setReviewModalOpen(false);
-    }
-  }, [progress, hasReview, courseId]);
-  const handleFinishCourse = async () => {
-    if (courseId) {
-      await finishCourse(courseId);
-    }
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-    className: "space-y-2",
-    children: [!isCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-      className: "p-4 bg-green-50 rounded-lg",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
-        className: "text-sm text-green-800 mb-2",
-        children: completionMessage
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-        onClick: handleFinishCourse,
-        className: "w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors",
-        children: "Complete Course"
+const ContentDisplay = ({
+  loading,
+  error,
+  unitContent,
+  isHovering,
+  isSidebarOpen,
+  onPrevious,
+  onNext,
+  isFirstUnit,
+  isLastUnit,
+  onRetry
+}) => {
+  if (loading) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex flex-col items-center justify-center min-h-[400px] space-y-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+        className: "text-gray-600",
+        children: "Loading content..."
       })]
-    }), isCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-      className: "p-4 bg-green-100 rounded-lg",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
-        className: "text-sm text-green-800",
-        children: "\uD83C\uDF89 Congratulations! You've completed this course."
-      })
-    }), sections.map((section, index) => {
-      const stats = getSectionStats(section);
-      const isExpanded = expandedSections.includes(index);
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-        className: `border rounded-lg transition-colors border-gray-200`,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
-          className: `w-full flex items-center justify-between p-4 text-left
-                         transition-colors rounded-t-lg
-                         ${isExpanded ? 'bg-gray-50' : 'hover:bg-gray-50'}
-                         ${stats.isComplete ? 'bg-primary-50 hover:bg-primary-100' : ''}`,
-          onClick: () => toggleSection(index),
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "flex-grow",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              className: "flex items-center gap-2",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h3", {
-                className: "font-semibold text-gray-900 text-[1rem] ",
-                children: section.title
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
-              className: "text-sm text-gray-500",
-              children: [stats.completedUnits, "/", stats.totalUnits, " lessons \u2022 ", (0,_utilities_utility__WEBPACK_IMPORTED_MODULE_2__.formatDuration)(stats.totalDuration), " m"]
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("svg", {
-            className: `w-5 h-5 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`,
-            fill: "none",
-            stroke: "currentColor",
-            viewBox: "0 0 24 24",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("path", {
-              strokeLinecap: "round",
-              strokeLinejoin: "round",
-              strokeWidth: 2,
-              d: "M19 9l-7 7-7-7"
-            })
-          })]
-        }), isExpanded && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-          className: "border-t border-gray-200",
-          children: section.units.map(unit => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_UnitItem__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            unit: unit
-          }, unit.id))
+    });
+  }
+  if (error) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "flex flex-col items-center justify-center min-h-[400px] space-y-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "bg-red-50 p-6 rounded-lg text-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+          className: "text-red-600 mb-4",
+          children: error
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          onClick: onRetry,
+          className: "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700",
+          children: "Retry"
         })]
-      }, section.key);
+      })
+    });
+  }
+  if (!unitContent) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "flex items-center justify-center min-h-[400px]",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+        className: "text-gray-600",
+        children: "No content available"
+      })
+    });
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "custom_course_content max-h-[600px] relative",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: `transition-opacity duration-300 ${loading ? 'opacity-50' : 'opacity-100'}`,
+      dangerouslySetInnerHTML: {
+        __html: unitContent.content
+      }
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_NavigationButtons__WEBPACK_IMPORTED_MODULE_1__.NavigationButtons, {
+      isHovering: isHovering,
+      isSidebarOpen: isSidebarOpen,
+      onPrevious: onPrevious,
+      onNext: onNext,
+      isFirstUnit: isFirstUnit,
+      isLastUnit: isLastUnit,
+      loading: loading
     })]
   });
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CourseSections);
+
+/***/ }),
+
+/***/ "./src/components/course/content/NavigationButtons.tsx":
+/*!*************************************************************!*\
+  !*** ./src/components/course/content/NavigationButtons.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   NavigationButtons: () => (/* binding */ NavigationButtons)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const NavigationButtons = ({
+  isHovering,
+  isSidebarOpen,
+  onPrevious,
+  onNext,
+  isFirstUnit,
+  isLastUnit,
+  loading
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+    className: `fixed top-1/2 left-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
+    onClick: onPrevious,
+    disabled: loading || isFirstUnit,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+      className: "w-6 h-6",
+      fill: "none",
+      stroke: "currentColor",
+      viewBox: "0 0 24 24",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: 2,
+        d: "M15 19l-7-7 7-7"
+      })
+    })
+  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+    className: `fixed top-1/2 right-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isSidebarOpen ? 'mr-[23rem]' : ''} ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
+    onClick: onNext,
+    disabled: loading || isLastUnit,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+      className: "w-6 h-6",
+      fill: "none",
+      stroke: "currentColor",
+      viewBox: "0 0 24 24",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeWidth: 2,
+        d: "M9 5l7 7-7 7"
+      })
+    })
+  })]
+});
 
 /***/ }),
 
@@ -794,10 +699,10 @@ const SidebarProgress = () => {
 
 /***/ }),
 
-/***/ "./src/components/course/sidebar/UnitItem.tsx":
-/*!****************************************************!*\
-  !*** ./src/components/course/sidebar/UnitItem.tsx ***!
-  \****************************************************/
+/***/ "./src/components/course/sidebar/Unit/UnitItem.tsx":
+/*!*********************************************************!*\
+  !*** ./src/components/course/sidebar/Unit/UnitItem.tsx ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -806,12 +711,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utilities_utility__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utilities/utility */ "./src/utilities/utility.ts");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../store */ "./src/store/index.ts");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../store */ "./src/store/index.ts");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _UnitItemView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UnitItemView */ "./src/components/course/sidebar/Unit/UnitItemView.tsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 
@@ -824,30 +729,23 @@ const UnitItem = ({
   unit
 }) => {
   var _unit$status;
-  console.log('unit', unit);
   const {
     markUnitComplete,
     setCurrentUnit
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useDispatch)('custom-course-player');
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useDispatch)('custom-course-player');
   const [isUnitComplete, setIsUnitComplete] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((_unit$status = unit?.status) !== null && _unit$status !== void 0 ? _unit$status : 0);
   const {
     currentUnitId,
-    courseId
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_3__.useTypedSelect)(select => ({
-    currentUnitId: select.getCurrentUnitId(),
-    courseId: select.getCourseId()
-  }), []);
-  const handleSelectUnit = id => {
-    setCurrentUnit(id);
-  };
-  const {
+    courseId,
     completedDuration,
     courseTotalDuration
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_3__.useTypedSelect)(select => ({
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
+    currentUnitId: select.getCurrentUnitId(),
+    courseId: select.getCourseId(),
     completedDuration: select.getCompletedDuration(),
     courseTotalDuration: select.getCourseTotalDuration()
   }), []);
-  const unitCompletedProgress = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useCallback)(() => {
+  const unitCompletedProgress = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => {
     if (unit.duration && courseTotalDuration && completedDuration !== null) {
       return Math.round((completedDuration + unit.duration) / courseTotalDuration * 100);
     }
@@ -865,46 +763,81 @@ const UnitItem = ({
       console.log(error);
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-    className: `flex items-center p-4 cursor-pointer transition-colors
-                               ${currentUnitId === unit.id ? 'bg-blue-50' : 'hover:bg-gray-50'}
-                               ${unit.status === 1 ? 'opacity-75' : ''}`,
-    onClick: () => handleSelectUnit(unit.id),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-      className: "flex-shrink-0 mr-3",
-      children: isUnitComplete === 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
-        className: "w-5 h-5 text-green-500",
-        fill: "currentColor",
-        viewBox: "0 0 20 20",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
-          fillRule: "evenodd",
-          d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z",
-          clipRule: "evenodd"
-        })
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        className: "w-5 h-5 border-2 border-gray-300 rounded-full cursor-pointer",
-        onClick: e => {
-          e.stopPropagation();
-          onHandleCompleteUnit(unit.id);
-        }
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-      className: "flex-grow",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h4", {
-        className: `text-sm ${currentUnitId === unit.id ? 'font-medium' : ''}`,
-        children: unit.title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "flex items-center text-xs text-gray-500 mt-1",
-        children: [unit.icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-          className: `${unit.icon} mr-1`
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-          children: [(0,_utilities_utility__WEBPACK_IMPORTED_MODULE_1__.formatDuration)(unit.duration), " m"]
-        })]
-      })]
-    })]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_UnitItemView__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    unit: unit,
+    currentUnitId: currentUnitId !== null && currentUnitId !== void 0 ? currentUnitId : 0,
+    isUnitComplete: isUnitComplete,
+    onSelectUnit: setCurrentUnit,
+    onCompleteUnit: onHandleCompleteUnit
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UnitItem);
+
+/***/ }),
+
+/***/ "./src/components/course/sidebar/Unit/UnitItemView.tsx":
+/*!*************************************************************!*\
+  !*** ./src/components/course/sidebar/Unit/UnitItemView.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utilities_utility__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../utilities/utility */ "./src/utilities/utility.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const UnitItemView = ({
+  unit,
+  currentUnitId,
+  isUnitComplete,
+  onSelectUnit,
+  onCompleteUnit
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+  className: `flex items-center p-4 cursor-pointer transition-colors
+                   ${currentUnitId === unit.id ? 'bg-blue-50' : 'hover:bg-gray-50'}
+                   ${unit.status === 1 ? 'opacity-75' : ''}`,
+  onClick: () => onSelectUnit(unit.id),
+  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    className: "flex-shrink-0 mr-3",
+    children: isUnitComplete === 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("svg", {
+      className: "w-5 h-5 text-green-500",
+      fill: "currentColor",
+      viewBox: "0 0 20 20",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("path", {
+        fillRule: "evenodd",
+        d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z",
+        clipRule: "evenodd"
+      })
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "w-5 h-5 border-2 border-gray-300 rounded-full cursor-pointer",
+      onClick: e => {
+        e.stopPropagation();
+        onCompleteUnit(unit.id);
+      }
+    })
+  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "flex-grow",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h4", {
+      className: `text-sm ${currentUnitId === unit.id ? 'font-medium' : ''}`,
+      children: unit.title
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex items-center text-xs text-gray-500 mt-1",
+      children: [unit.icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        className: `${unit.icon} mr-1`
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+        children: [(0,_utilities_utility__WEBPACK_IMPORTED_MODULE_1__.formatDuration)(unit.duration), " m"]
+      })]
+    })]
+  })]
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UnitItemView);
 
 /***/ }),
 
@@ -920,7 +853,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _CourseSections__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CourseSections */ "./src/components/course/sidebar/CourseSections.tsx");
+/* harmony import */ var _sections_CourseSections__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sections/CourseSections */ "./src/components/course/sidebar/sections/CourseSections.tsx");
 /* harmony import */ var _SidebarHeader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarHeader */ "./src/components/course/sidebar/SidebarHeader.tsx");
 /* harmony import */ var _SidebarProgress__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SidebarProgress */ "./src/components/course/sidebar/SidebarProgress.tsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -944,12 +877,178 @@ const Sidebar = ({
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SidebarHeader__WEBPACK_IMPORTED_MODULE_2__["default"], {
           title: "Course content",
           onToggle: onToggle
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SidebarProgress__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CourseSections__WEBPACK_IMPORTED_MODULE_1__["default"], {})]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SidebarProgress__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_sections_CourseSections__WEBPACK_IMPORTED_MODULE_1__["default"], {})]
       })
     })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sidebar);
+
+/***/ }),
+
+/***/ "./src/components/course/sidebar/sections/CourseCompletionStatus.tsx":
+/*!***************************************************************************!*\
+  !*** ./src/components/course/sidebar/sections/CourseCompletionStatus.tsx ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CourseCompletionStatus: () => (/* binding */ CourseCompletionStatus)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const CourseCompletionStatus = ({
+  isCompleted,
+  completionMessage,
+  onFinishCourse
+}) => {
+  if (isCompleted) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "p-4 bg-green-100 rounded-lg",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+        className: "text-sm text-green-800",
+        children: "Congratulations! You've completed this course."
+      })
+    });
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "p-4 bg-green-50 rounded-lg",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+      className: "text-sm text-green-800 mb-2",
+      children: completionMessage
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+      onClick: onFinishCourse,
+      className: "w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors",
+      children: "Complete Course"
+    })]
+  });
+};
+
+/***/ }),
+
+/***/ "./src/components/course/sidebar/sections/CourseSections.tsx":
+/*!*******************************************************************!*\
+  !*** ./src/components/course/sidebar/sections/CourseSections.tsx ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _hooks_useCourseSectionsView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../hooks/useCourseSectionsView */ "./src/hooks/useCourseSectionsView.ts");
+/* harmony import */ var _CourseCompletionStatus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CourseCompletionStatus */ "./src/components/course/sidebar/sections/CourseCompletionStatus.tsx");
+/* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/course/sidebar/sections/SectionHeader.tsx");
+/* harmony import */ var _Unit_UnitItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Unit/UnitItem */ "./src/components/course/sidebar/Unit/UnitItem.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+const CourseSections = () => {
+  const {
+    sections,
+    expandedSections,
+    toggleSection,
+    getSectionStats,
+    isCompleted,
+    completionMessage,
+    handleFinishCourse
+  } = (0,_hooks_useCourseSectionsView__WEBPACK_IMPORTED_MODULE_1__.useCourseSectionsView)();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    className: "space-y-2",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_CourseCompletionStatus__WEBPACK_IMPORTED_MODULE_2__.CourseCompletionStatus, {
+      isCompleted: isCompleted,
+      completionMessage: completionMessage || '',
+      onFinishCourse: handleFinishCourse
+    }), sections.map((section, index) => {
+      const stats = getSectionStats(section);
+      const isExpanded = expandedSections.includes(index);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "border rounded-lg transition-colors border-gray-200",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SectionHeader__WEBPACK_IMPORTED_MODULE_3__.SectionHeader, {
+          title: section.title,
+          stats: stats,
+          isExpanded: isExpanded,
+          onClick: () => toggleSection(index)
+        }), isExpanded && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "border-t border-gray-200",
+          children: section.units.map(unit => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Unit_UnitItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            unit: unit
+          }, unit.id))
+        })]
+      }, section.key);
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CourseSections);
+
+/***/ }),
+
+/***/ "./src/components/course/sidebar/sections/SectionHeader.tsx":
+/*!******************************************************************!*\
+  !*** ./src/components/course/sidebar/sections/SectionHeader.tsx ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   SectionHeader: () => (/* binding */ SectionHeader)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utilities_utility__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../utilities/utility */ "./src/utilities/utility.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const SectionHeader = ({
+  title,
+  stats,
+  isExpanded,
+  onClick
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+  className: `w-full flex items-center justify-between p-4 text-left
+                   transition-colors rounded-t-lg
+                   ${isExpanded ? 'bg-gray-50' : 'hover:bg-gray-50'}
+                   ${stats.isComplete ? 'bg-primary-50 hover:bg-primary-100' : ''}`,
+  onClick: onClick,
+  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "flex-grow",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "flex items-center gap-2",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
+        className: "font-semibold text-gray-900 text-[1rem]",
+        children: title
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("p", {
+      className: "text-sm text-gray-500",
+      children: [stats.completedUnits, "/", stats.totalUnits, " lessons \u2022 ", (0,_utilities_utility__WEBPACK_IMPORTED_MODULE_1__.formatDuration)(stats.totalDuration), " m"]
+    })]
+  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("svg", {
+    className: `w-5 h-5 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`,
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("path", {
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      strokeWidth: 2,
+      d: "M19 9l-7 7-7-7"
+    })
+  })]
+});
 
 /***/ }),
 
@@ -1253,6 +1352,66 @@ const SuccessMessage = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED
 
 /***/ }),
 
+/***/ "./src/hooks/course/useContentArea.ts":
+/*!********************************************!*\
+  !*** ./src/hooks/course/useContentArea.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useContentArea: () => (/* binding */ useContentArea)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _useUnitContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../useUnitContent */ "./src/hooks/useUnitContent.ts");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const useContentArea = isSidebarOpen => {
+  const {
+    unitContent,
+    loading,
+    error,
+    isLastUnit,
+    isFirstUnit
+  } = (0,_useUnitContent__WEBPACK_IMPORTED_MODULE_1__.useUnitContent)();
+  const [isHovering, setIsHovering] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const {
+    setPreviousUnit,
+    setNextUnit
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useDispatch)("custom-course-player");
+  const handlePrevious = () => {
+    setPreviousUnit();
+  };
+  const handleNext = () => {
+    setNextUnit();
+  };
+  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseLeave = () => setIsHovering(false);
+  const handleRetry = () => window.location.reload();
+  return {
+    // State
+    unitContent,
+    loading,
+    error,
+    isLastUnit,
+    isFirstUnit,
+    isHovering,
+    isSidebarOpen,
+    // Methods
+    handlePrevious,
+    handleNext,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleRetry
+  };
+};
+
+/***/ }),
+
 /***/ "./src/hooks/useCourseSections.ts":
 /*!****************************************!*\
   !*** ./src/hooks/useCourseSections.ts ***!
@@ -1379,6 +1538,98 @@ const useCourseSections = () => {
 
 /***/ }),
 
+/***/ "./src/hooks/useCourseSectionsView.ts":
+/*!********************************************!*\
+  !*** ./src/hooks/useCourseSectionsView.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useCourseSectionsView: () => (/* binding */ useCourseSectionsView)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./src/store/index.ts");
+/* harmony import */ var _useCourseSections__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./useCourseSections */ "./src/hooks/useCourseSections.ts");
+
+
+
+
+const REVIEW_MILESTONES = [15, 75, 100];
+function useCourseSectionsView() {
+  const [lastShownMilestone, setLastShownMilestone] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const {
+    setReviewModalOpen,
+    finishCourse
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)("custom-course-player");
+  const {
+    sections,
+    expandedSections,
+    toggleSection,
+    getSectionStats
+  } = (0,_useCourseSections__WEBPACK_IMPORTED_MODULE_3__.useCourseSections)();
+  const courseId = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => select.getCourseId(), []);
+  const {
+    progress,
+    isCompleted,
+    completionMessage
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
+    progress: select.getProgress(),
+    isCompleted: select.isCourseCompleted(),
+    completionMessage: select.getCompletionMessage()
+  }), [courseId]);
+  const {
+    hasReview
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => {
+    if (courseId) {
+      return {
+        hasReview: select.hasReview(),
+        reviewLoading: select.isLoadingReview(courseId)
+      };
+    }
+    return {
+      hasReview: false,
+      reviewLoading: true
+    };
+  }, [courseId]);
+  const onHandleReviewModalOpen = () => {
+    if (hasReview) {
+      return;
+    }
+    const milestone = REVIEW_MILESTONES.find(milestone => progress >= milestone && lastShownMilestone < milestone);
+    if (milestone) {
+      setReviewModalOpen(true);
+      setLastShownMilestone(milestone);
+    }
+  };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!hasReview && courseId) {
+      onHandleReviewModalOpen();
+    } else {
+      setReviewModalOpen(false);
+    }
+  }, [progress, hasReview, courseId]);
+  const handleFinishCourse = async () => {
+    if (courseId) {
+      await finishCourse(courseId);
+    }
+  };
+  return {
+    sections,
+    expandedSections,
+    toggleSection,
+    getSectionStats,
+    isCompleted,
+    completionMessage,
+    handleFinishCourse
+  };
+}
+
+/***/ }),
+
 /***/ "./src/hooks/useUnitContent.ts":
 /*!*************************************!*\
   !*** ./src/hooks/useUnitContent.ts ***!
@@ -1471,7 +1722,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const actions = {
-  // Simple synchronous action creators
+  // Course Info Actions
   setCourseInfo(courseInfo) {
     return {
       type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_COURSE_INFO,
@@ -1484,6 +1735,20 @@ const actions = {
       payload: userInfo
     };
   },
+  // Loading & Error Actions
+  setLoading(isLoading) {
+    return {
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_IS_LOADING,
+      payload: isLoading
+    };
+  },
+  setError(error) {
+    return {
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_ERROR,
+      payload: error
+    };
+  },
+  // Review Related Actions
   setCourseInfoLoading(isLoading) {
     return {
       type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_LOADING,
@@ -1502,18 +1767,19 @@ const actions = {
       payload: review
     };
   },
-  setLoading(isLoading) {
+  setReviewModalOpen(isOpen) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_IS_LOADING,
-      payload: isLoading
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_MODAL_OPEN,
+      payload: isOpen
     };
   },
-  setError(error) {
+  setHasReview(hasReview) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_ERROR,
-      payload: error
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_HAS_REVIEW,
+      payload: hasReview
     };
   },
+  // Unit Navigation Actions
   setNextUnit() {
     return {
       type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.NEXT_UNIT
@@ -1536,13 +1802,7 @@ const actions = {
       payload: progress
     };
   },
-  setReviewModalOpen(isOpen) {
-    return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_MODAL_OPEN,
-      payload: isOpen
-    };
-  },
-  // Thunks for handling user actions
+  // Async Actions (Thunks)
   submitCourseReview: ({
     rating,
     review,
@@ -1597,7 +1857,6 @@ const actions = {
       dispatch(actions.setLoading(false));
     }
   },
-  // fetch course actions
   fetchCourse: courseId => async ({
     dispatch
   }) => {
@@ -1615,12 +1874,6 @@ const actions = {
       dispatch(actions.setError(error instanceof Error ? error.message : String(error)));
       dispatch(actions.setLoading(false));
     }
-  },
-  setHasReview(hasReview) {
-    return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_HAS_REVIEW,
-      payload: hasReview
-    };
   }
 };
 
@@ -1722,6 +1975,8 @@ __webpack_require__.r(__webpack_exports__);
 // reducer.ts
 
 
+
+// Initial state
 const DEFAULT_STATE = {
   token: null,
   courseId: null,
@@ -1743,7 +1998,7 @@ const DEFAULT_STATE = {
   completionMessage: null
 };
 
-// Helper functions to improve readability and reusability
+// Helper functions
 const calculateCourseMetrics = units => {
   const courseTotalDuration = units.reduce((sum, unit) => sum + (unit.duration || 0), 0);
   const completedUnits = units.filter(unit => unit.status === 1);
@@ -1758,6 +2013,7 @@ const calculateCourseMetrics = units => {
 };
 const reducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
+    // Course Info Related Actions
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_INFO:
       {
         const allUnits = action.payload.courseitems.filter(item => item.type !== "section");
@@ -1777,6 +2033,8 @@ const reducer = (state = DEFAULT_STATE, action) => {
         ...state,
         userInfo: action.payload
       };
+
+    // Unit Navigation & Progress Actions
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_CURRENT_UNIT:
       return {
         ...state,
@@ -1787,6 +2045,8 @@ const reducer = (state = DEFAULT_STATE, action) => {
         ...state,
         progress: action.payload
       };
+
+    // Loading & Error States
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_IS_LOADING:
       return {
         ...state,
@@ -1798,6 +2058,8 @@ const reducer = (state = DEFAULT_STATE, action) => {
         error: action.payload,
         isLoading: false
       };
+
+    // Review Related Actions
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_REVIEW:
       return {
         ...state,
@@ -1822,6 +2084,8 @@ const reducer = (state = DEFAULT_STATE, action) => {
         ...state,
         reviewModalOpen: action.payload
       };
+
+    // Course Completion Actions
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_COMPLETED:
       return {
         ...state,
@@ -1848,6 +2112,8 @@ const reducer = (state = DEFAULT_STATE, action) => {
         }
         return state;
       }
+
+    // Unit Navigation Actions
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.NEXT_UNIT:
       {
         var _state$allUnits$findI;
@@ -1961,9 +2227,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
 
 
-// Define base selector types
+// Type Definitions
+// ---------------
 
-// Define selectors with proper typing
+// Course Related Selectors
+// -----------------------
 const selectors = {
   getCourseId(state) {
     return state.courseId;
@@ -1978,12 +2246,27 @@ const selectors = {
   isCourseInfoLoading(state) {
     return state.isLoading;
   },
+  isCourseCompleted(state) {
+    var _state$isCompleted;
+    return (_state$isCompleted = state.isCompleted) !== null && _state$isCompleted !== void 0 ? _state$isCompleted : false;
+  },
+  getCompletionMessage(state) {
+    return state.completionMessage;
+  },
+  // Unit Related Selectors
+  // ---------------------
   getCurrentUnitId(state) {
     return state.currentUnitId;
   },
-  getUserInfo(state) {
-    return state.userInfo;
+  getAllUnits(state) {
+    return state.allUnits;
   },
+  getCompletedUnits(state) {
+    var _state$allUnits$filte;
+    return (_state$allUnits$filte = state.allUnits?.filter(unit => unit.status === 1)) !== null && _state$allUnits$filte !== void 0 ? _state$allUnits$filte : [];
+  },
+  // Progress Related Selectors
+  // -------------------------
   getProgress(state) {
     var _state$progress;
     return (_state$progress = state.progress) !== null && _state$progress !== void 0 ? _state$progress : 0;
@@ -1994,13 +2277,13 @@ const selectors = {
   getCourseTotalDuration(state) {
     return state.courseTotalDuration;
   },
-  getAllUnits(state) {
-    return state.allUnits;
+  // User Related Selectors
+  // ---------------------
+  getUserInfo(state) {
+    return state.userInfo;
   },
-  getCompletedUnits(state) {
-    var _state$allUnits$filte;
-    return (_state$allUnits$filte = state.allUnits?.filter(unit => unit.status === 1)) !== null && _state$allUnits$filte !== void 0 ? _state$allUnits$filte : [];
-  },
+  // Review Related Selectors
+  // -----------------------
   getCourseReview(state) {
     return state.review;
   },
@@ -2014,22 +2297,17 @@ const selectors = {
     var _state$reviewModalOpe;
     return (_state$reviewModalOpe = state.reviewModalOpen) !== null && _state$reviewModalOpe !== void 0 ? _state$reviewModalOpe : false;
   },
+  hasReview(state) {
+    return state.hasReview;
+  },
+  // Loading & Error State Selectors
+  // ------------------------------
   isLoading(state) {
     var _state$isLoading;
     return (_state$isLoading = state.isLoading) !== null && _state$isLoading !== void 0 ? _state$isLoading : false;
   },
   getError(state) {
     return state.error;
-  },
-  isCourseCompleted(state) {
-    var _state$isCompleted;
-    return (_state$isCompleted = state.isCompleted) !== null && _state$isCompleted !== void 0 ? _state$isCompleted : false;
-  },
-  getCompletionMessage(state) {
-    return state.completionMessage;
-  },
-  hasReview(state) {
-    return state.hasReview;
   },
   isLoadingCourseInfo(state, courseId) {
     return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.select)("core/data").isResolving("custom-course-player", "getCourseInfo", [courseId]);
@@ -2042,11 +2320,9 @@ const selectors = {
   }
 };
 
-// Type for the selectors object
+// Types and Memoized Selectors
+// ---------------------------
 
-// Helper type to get return type of a selector
-
-// Export memoized selectors separately
 const memoizedSelectors = {
   getCompletedUnits: (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createSelector)(state => state.allUnits, allUnits => {
     var _allUnits$filter;

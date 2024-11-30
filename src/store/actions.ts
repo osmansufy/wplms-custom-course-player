@@ -10,7 +10,7 @@ interface ReviewResponse {
 }
 
 export const actions = {
-  // Simple synchronous action creators
+  // Course Info Actions
   setCourseInfo(courseInfo: ICourse) {
     return {
       type: actionTypes.SET_COURSE_INFO,
@@ -25,6 +25,22 @@ export const actions = {
     };
   },
 
+  // Loading & Error Actions
+  setLoading(isLoading: boolean) {
+    return {
+      type: actionTypes.SET_IS_LOADING,
+      payload: isLoading,
+    };
+  },
+
+  setError(error: string) {
+    return {
+      type: actionTypes.SET_ERROR,
+      payload: error,
+    };
+  },
+
+  // Review Related Actions
   setCourseInfoLoading(isLoading: boolean) {
     return {
       type: actionTypes.SET_REVIEW_LOADING,
@@ -46,20 +62,21 @@ export const actions = {
     };
   },
 
-  setLoading(isLoading: boolean) {
+  setReviewModalOpen(isOpen: boolean) {
     return {
-      type: actionTypes.SET_IS_LOADING,
-      payload: isLoading,
+      type: actionTypes.SET_REVIEW_MODAL_OPEN,
+      payload: isOpen,
     };
   },
 
-  setError(error: string) {
+  setHasReview(hasReview: boolean) {
     return {
-      type: actionTypes.SET_ERROR,
-      payload: error,
+      type: actionTypes.SET_HAS_REVIEW,
+      payload: hasReview,
     };
   },
 
+  // Unit Navigation Actions
   setNextUnit() {
     return {
       type: actionTypes.NEXT_UNIT,
@@ -85,13 +102,8 @@ export const actions = {
       payload: progress,
     };
   },
-  setReviewModalOpen(isOpen: boolean) {
-    return {
-      type: actionTypes.SET_REVIEW_MODAL_OPEN,
-      payload: isOpen,
-    };
-  },
-  // Thunks for handling user actions
+
+  // Async Actions (Thunks)
   submitCourseReview:
     ({
       rating,
@@ -162,7 +174,6 @@ export const actions = {
       }
     },
 
-  // fetch course actions
   fetchCourse:
     (courseId: string) =>
     async ({ dispatch }: { dispatch: any }) => {
@@ -183,10 +194,4 @@ export const actions = {
         dispatch(actions.setLoading(false));
       }
     },
-  setHasReview(hasReview: boolean) {
-    return {
-      type: actionTypes.SET_HAS_REVIEW,
-      payload: hasReview,
-    };
-  },
 };

@@ -73,8 +73,6 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
             />
             <div className="flex flex-1 overflow-hidden pt-16">
                 <ContentArea
-                    courseId={courseId}
-                    currentUnitId={currentUnitId}
                     isSidebarOpen={isSidebarOpen}
 
                 />

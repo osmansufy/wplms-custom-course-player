@@ -2,7 +2,8 @@ import { createSelector, select } from "@wordpress/data";
 import { IUnit, ICourse, IState } from "../types/course";
 import { State } from "./types";
 
-// Define base selector types
+// Type Definitions
+// ---------------
 export type SelectorReturnTypes = {
   getCourseId: () => number | null;
   getCourseTitle: () => string | null;
@@ -29,7 +30,8 @@ export type SelectorReturnTypes = {
   hasReview: () => boolean;
 };
 
-// Define selectors with proper typing
+// Course Related Selectors
+// -----------------------
 export const selectors = {
   getCourseId(state: State): number | null {
     return state.courseId;
@@ -47,14 +49,30 @@ export const selectors = {
     return state.isLoading;
   },
 
+  isCourseCompleted(state: State): boolean {
+    return state.isCompleted ?? false;
+  },
+
+  getCompletionMessage(state: State): string | null {
+    return state.completionMessage;
+  },
+
+  // Unit Related Selectors
+  // ---------------------
   getCurrentUnitId(state: State): number | null {
     return state.currentUnitId;
   },
 
-  getUserInfo(state: State): any {
-    return state.userInfo;
+  getAllUnits(state: State): IUnit[] | null {
+    return state.allUnits;
   },
 
+  getCompletedUnits(state: State): IUnit[] {
+    return state.allUnits?.filter((unit: IUnit) => unit.status === 1) ?? [];
+  },
+
+  // Progress Related Selectors
+  // -------------------------
   getProgress(state: State): number {
     return state.progress ?? 0;
   },
@@ -67,13 +85,14 @@ export const selectors = {
     return state.courseTotalDuration;
   },
 
-  getAllUnits(state: State): IUnit[] | null {
-    return state.allUnits;
-  },
-  getCompletedUnits(state: State): IUnit[] {
-    return state.allUnits?.filter((unit: IUnit) => unit.status === 1) ?? [];
+  // User Related Selectors
+  // ---------------------
+  getUserInfo(state: State): any {
+    return state.userInfo;
   },
 
+  // Review Related Selectors
+  // -----------------------
   getCourseReview(state: State): any {
     return state.review;
   },
@@ -90,24 +109,18 @@ export const selectors = {
     return state.reviewModalOpen ?? false;
   },
 
+  hasReview(state: State): boolean {
+    return state.hasReview;
+  },
+
+  // Loading & Error State Selectors
+  // ------------------------------
   isLoading(state: State): boolean {
     return state.isLoading ?? false;
   },
 
   getError(state: State): string | null {
     return state.error;
-  },
-
-  isCourseCompleted(state: State): boolean {
-    return state.isCompleted ?? false;
-  },
-
-  getCompletionMessage(state: State): string | null {
-    return state.completionMessage;
-  },
-
-  hasReview(state: State): boolean {
-    return state.hasReview;
   },
 
   isLoadingCourseInfo(state: State, courseId: number): boolean {
@@ -135,15 +148,14 @@ export const selectors = {
   },
 };
 
-// Type for the selectors object
+// Types and Memoized Selectors
+// ---------------------------
 export type SelectorsType = typeof selectors;
 
-// Helper type to get return type of a selector
 export type SelectorReturnType<K extends keyof SelectorsType> = ReturnType<
   SelectorsType[K]
 >;
 
-// Export memoized selectors separately
 export const memoizedSelectors = {
   getCompletedUnits: createSelector(
     (state: State) => state.allUnits,

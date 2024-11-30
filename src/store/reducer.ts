@@ -3,6 +3,7 @@ import { IUnit } from "../types/course";
 import { State } from "./types";
 import { actionTypes } from "./const";
 
+// Initial state
 export const DEFAULT_STATE: State = {
   token: null,
   courseId: null,
@@ -24,7 +25,7 @@ export const DEFAULT_STATE: State = {
   completionMessage: null,
 };
 
-// Helper functions to improve readability and reusability
+// Helper functions
 const calculateCourseMetrics = (units: IUnit[]) => {
   const courseTotalDuration = units.reduce(
     (sum, unit) => sum + (unit.duration || 0),
@@ -47,6 +48,7 @@ const calculateCourseMetrics = (units: IUnit[]) => {
 
 export const reducer = (state = DEFAULT_STATE, action: any): State => {
   switch (action.type) {
+    // Course Info Related Actions
     case actionTypes.SET_COURSE_INFO: {
       const allUnits = action.payload.courseitems.filter(
         (item: IUnit) => item.type !== "section"
@@ -72,6 +74,7 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
         userInfo: action.payload,
       };
 
+    // Unit Navigation & Progress Actions
     case actionTypes.SET_CURRENT_UNIT:
       return {
         ...state,
@@ -84,6 +87,7 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
         progress: action.payload,
       };
 
+    // Loading & Error States
     case actionTypes.SET_IS_LOADING:
       return {
         ...state,
@@ -97,6 +101,7 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
         isLoading: false,
       };
 
+    // Review Related Actions
     case actionTypes.SET_COURSE_REVIEW:
       return {
         ...state,
@@ -125,6 +130,7 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
         reviewModalOpen: action.payload,
       };
 
+    // Course Completion Actions
     case actionTypes.SET_COURSE_COMPLETED:
       return {
         ...state,
@@ -154,6 +160,7 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
       return state;
     }
 
+    // Unit Navigation Actions
     case actionTypes.NEXT_UNIT: {
       const currentIndex =
         state.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
