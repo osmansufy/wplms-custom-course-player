@@ -1,25 +1,35 @@
 // index.ts
-import { createReduxStore, register } from "@wordpress/data";
+import {
+  createReduxStore,
+  register,
+  useDispatch,
+  useSelect,
+} from "@wordpress/data";
 import { actions } from "./actions";
 import { reducer } from "./reducer";
-import { selectors } from "./selectors";
-import { controls } from "./controls";
-
-const resolvers = {
-  *getCourseData(courseId: number) {
-    yield actions.fetchCourseData(courseId);
-  },
-  *getUserInfo() {
-    yield actions.fetchUserInfo();
-  },
-};
+import { SelectorReturnTypes, selectors } from "./selectors";
+import resolvers from "./resolvers";
 
 const coursePlayerStore = createReduxStore("custom-course-player", {
   reducer,
   actions,
   selectors,
-  controls,
   resolvers,
 });
 
 register(coursePlayerStore);
+
+export default coursePlayerStore;
+
+export function useTypedSelect<T>(
+  selector: (select: SelectorReturnTypes) => T,
+  deps: any[] = []
+): T {
+  return useSelect((select) => selector(select(coursePlayerStore.name)), deps);
+}
+
+export function useTypedDispatch<T>(
+  action: (dispatch: typeof actions) => T
+): T {
+  return useDispatch(coursePlayerStore.name)(action);
+}

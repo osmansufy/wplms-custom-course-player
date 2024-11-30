@@ -1,33 +1,39 @@
 import React, { useState } from 'react';
 import { useUnitContent } from '../../hooks/useUnitContent';
+import { useDispatch } from '@wordpress/data';
 
 interface ContentAreaProps {
     currentUnitId: number | null;
     courseId: string;
     isSidebarOpen: boolean;
-    onToggleSidebar: () => void;
-    onPrevious: () => void;
-    onNext: () => void;
+
 }
 
 const ContentArea: React.FC<ContentAreaProps> = ({
     currentUnitId,
     courseId,
     isSidebarOpen,
-    onToggleSidebar,
-    onPrevious,
-    onNext
 }) => {
-    const { unitContent, loading, error } = useUnitContent(courseId, currentUnitId);
+    const { unitContent, loading, error, isLastUnit, isFirstUnit } = useUnitContent();
     const [isHovering, setIsHovering] = useState(false);
+    const { setPreviousUnit, setNextUnit } = useDispatch('custom-course-player');
+
+    const onPrevious = () => {
+        setPreviousUnit();
+    }
+
+    const onNext = () => {
+        setNextUnit();
+    }
 
     const renderNavigationButtons = () => (
         <>
             {/* Previous button */}
             <button
-                className={`fixed top-1/2 left-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`}
+                className={`fixed top-1/2 left-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300  ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`}
                 onClick={onPrevious}
-                disabled={loading}
+                disabled={loading || isFirstUnit}
+
             >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -38,7 +44,7 @@ const ContentArea: React.FC<ContentAreaProps> = ({
             <button
                 className={`fixed top-1/2 right-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isSidebarOpen ? 'mr-[23rem]' : ''} ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`}
                 onClick={onNext}
-                disabled={loading}
+                disabled={loading || isLastUnit}
             >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

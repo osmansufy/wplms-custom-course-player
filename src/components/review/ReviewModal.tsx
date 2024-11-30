@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { ReviewForm } from './ReviewForm';
 import { SuccessMessage } from './SuccessMessage';
+import { useTypedSelect } from '../../store';
+import { State } from '../../store/types';
 
 interface ReviewModalProps {
     isOpen: boolean;
-    courseId: number | undefined;
+    courseId: number | null;
     onClose: () => void;
     progress: number;
-    courseName?: string;
+    courseName?: string | null;
     onReviewSuccess?: () => void;
 }
 
@@ -26,11 +28,11 @@ export default function ReviewModal({
     const [success, setSuccess] = useState(false);
     const dispatch = useDispatch();
 
-    const { userInfo, currentReview, isLoading } = useSelect(select => ({
-        userInfo: select('custom-course-player').getUserInfo(),
-        currentReview: select('custom-course-player').getCourseReview(),
-        isLoading: select('custom-course-player').isLoading(),
-    }));
+    const { userInfo, currentReview, isLoading } = useTypedSelect((select) => ({
+        userInfo: select.getUserInfo(),
+        currentReview: select.getCourseReview(courseId || 0),
+        isLoading: select.isLoadingUserInfo(),
+    }), [courseId]);
 
 
     useEffect(() => {

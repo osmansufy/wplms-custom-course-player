@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
+import { useMemo } from '@wordpress/element';
+import React, { useState } from 'react';
+import { useTypedSelect } from '../../store';
 import ReviewModal from '../review/ReviewModal';
-import useReviewSystem from '../../hooks/useReviewSystem';
 import ProgressCircle from './ProgressCircle';
 import ProgressDropdown from './ProgressDropdown';
-import { useMemo } from '@wordpress/element';
 
 interface TopBarProps {
     onToggleSidebar: () => void;
@@ -14,23 +14,33 @@ export default function TopBar({ onToggleSidebar }: TopBarProps) {
     const [isProgressOpen, setIsProgressOpen] = useState(false);
 
     const {
-        courseInfo,
+        courseId,
         totalUnits,
         completedUnits,
-        review,
-        reviewLoading,
         progress,
         reviewModalOpen,
-    } = useSelect((select) => ({
-        courseInfo: select('custom-course-player').getCourseInfo(),
-        totalUnits: select('custom-course-player').getAllUnits(),
-        completedUnits: select('custom-course-player').getCompletedUnits(),
-        review: select('custom-course-player').getCourseReview(),
-        reviewLoading: select('custom-course-player').getReviewLoading(),
-        reviewError: select('custom-course-player').getReviewError(),
-        reviewModalOpen: select('custom-course-player').getReviewModalOpen(),
-        progress: select('custom-course-player').getProgress(),
-    }), []);
+    } = useTypedSelect((select) => ({
+        courseId: select.getCourseId(),
+        totalUnits: select.getAllUnits(),
+        completedUnits: select.getCompletedUnits(),
+        reviewModalOpen: select.getReviewModalOpen(),
+        progress: select.getProgress(),
+    }));
+
+    const courseTitle = useTypedSelect((select) => select.getCourseTitle());
+    const { reviewLoading, review } = useTypedSelect((select) => {
+        if (courseId) {
+            return {
+                reviewLoading: select.isLoadingReview(courseId),
+                review: select.getCourseReview(courseId),
+            }
+        }
+        return {
+            reviewLoading: false,
+            review: null
+        }
+    }, [courseId]);
+    console.log({ courseTitle, totalUnits, completedUnits, review, reviewLoading, progress });
 
     // dispatch
     const dispatch = useDispatch();
@@ -38,13 +48,6 @@ export default function TopBar({ onToggleSidebar }: TopBarProps) {
     const setReviewModalOpen = (open: boolean) => {
         dispatch('custom-course-player').setReviewModalOpen(open);
     };
-    // Fetch review
-    useEffect(() => {
-        if (courseInfo?.course_id) {
-            console.log('Fetching review', courseInfo.course_id);
-            dispatch('custom-course-player').fetchCourseReview(courseInfo.course_id);
-        }
-    }, [courseInfo?.course_id]);
     const hasReview = useMemo(() => {
         return review?.comment_ID !== undefined;
     }, [review]);
@@ -55,7 +58,7 @@ export default function TopBar({ onToggleSidebar }: TopBarProps) {
                     {/* Left section */}
                     <div className="flex items-center gap-4">
                         <h1 className="text-xl font-bold truncate max-w-md text-secondary-50">
-                            {courseInfo?.course_title || ''}
+                            {courseTitle || ''}
                         </h1>
                     </div>
 
@@ -112,8 +115,8 @@ export default function TopBar({ onToggleSidebar }: TopBarProps) {
             {reviewModalOpen && <ReviewModal
                 isOpen={Boolean(!reviewLoading && reviewModalOpen)}
                 onClose={() => setReviewModalOpen(false)}
-                courseId={courseInfo?.course_id}
-                courseName={courseInfo?.course_title}
+                courseId={courseId}
+                courseName={courseTitle}
                 progress={progress}
                 onReviewSuccess={() => { }}
             />}

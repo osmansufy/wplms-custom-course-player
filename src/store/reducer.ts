@@ -1,19 +1,21 @@
 // reducer.ts
-import { IState, IUnit } from "../types/course";
+import { IUnit } from "../types/course";
+import { State } from "./types";
 import { actionTypes } from "./const";
 
-export const DEFAULT_STATE: IState = {
+export const DEFAULT_STATE: State = {
+  token: null,
   courseId: null,
   courseInfo: null,
   progress: 0,
   currentUnitId: null,
   allUnits: null,
-  isLoading: false,
+  isLoading: true,
   error: null,
-  token: null,
   userInfo: null,
   review: null,
   reviewLoading: true,
+  hasReview: false,
   reviewError: null,
   reviewModalOpen: false,
   courseTotalDuration: null,
@@ -22,82 +24,142 @@ export const DEFAULT_STATE: IState = {
   completionMessage: null,
 };
 
-export const reducer = (
-  state = DEFAULT_STATE,
-  action: { type: string; [key: string]: any }
-) => {
-  switch (action.type) {
-    case actionTypes.SET_COURSE_ID:
-      return {
-        ...state,
-        courseId: action.courseId,
-      };
+// Helper functions to improve readability and reusability
+const calculateCourseMetrics = (units: IUnit[]) => {
+  const courseTotalDuration = units.reduce(
+    (sum, unit) => sum + (unit.duration || 0),
+    0
+  );
+  const completedUnits = units.filter((unit) => unit.status === 1);
+  const completedDuration = completedUnits.reduce(
+    (sum, unit) => sum + (unit.duration || 0),
+    0
+  );
+  const progress = Math.round((completedDuration / courseTotalDuration) * 100);
 
-    case actionTypes.SET_COURSE_INFO:
-      const allUnits = action.courseInfo.courseitems.filter(
+  return {
+    courseTotalDuration,
+    completedDuration,
+    progress,
+    isCompleted: progress >= 100,
+  };
+};
+
+export const reducer = (state = DEFAULT_STATE, action: any): State => {
+  switch (action.type) {
+    case actionTypes.SET_COURSE_INFO: {
+      const allUnits = action.payload.courseitems.filter(
         (item: IUnit) => item.type !== "section"
       );
-      const courseTotalDuration = allUnits.reduce(
-        (sum: number, unit: IUnit) => sum + (unit.duration || 0),
-        0
-      );
-      const completedUnits = allUnits.filter(
-        (unit: IUnit) => unit.status === 1
-      );
-      const completedDuration = completedUnits.reduce(
-        (sum: number, unit: IUnit) => sum + (unit.duration || 0),
-        0
-      );
+      const currentUnitId = allUnits.find(
+        (unit: IUnit) => unit.key === action.payload.current_unit_key
+      )?.id;
+      const metrics = calculateCourseMetrics(allUnits);
 
-      // Calculate progress
-      const progress = Math.round(
-        (completedDuration / courseTotalDuration) * 100
-      );
-      const isCompleted =
-        parseInt(action.courseInfo.progress ?? "0") >= 100 && progress >= 100;
       return {
         ...state,
-        courseInfo: action.courseInfo,
+        courseInfo: action.payload,
+        courseId: action.payload.course_id,
         allUnits,
-        courseTotalDuration,
-        progress,
-        completedDuration,
-        isCompleted,
+        currentUnitId,
+        ...metrics,
       };
+    }
+
     case actionTypes.SET_USER_INFO:
       return {
         ...state,
-        userInfo: action.userInfo,
-      };
-    case actionTypes.SET_PROGRESS:
-      return {
-        ...state,
-        progress: action.progress,
+        userInfo: action.payload,
       };
 
     case actionTypes.SET_CURRENT_UNIT:
       return {
         ...state,
-        currentUnitId: action.unitId,
+        currentUnitId: action.payload,
+      };
+
+    case actionTypes.SET_PROGRESS:
+      return {
+        ...state,
+        progress: action.payload,
       };
 
     case actionTypes.SET_IS_LOADING:
       return {
         ...state,
-        isLoading: action.isLoading,
+        isLoading: action.payload,
       };
 
     case actionTypes.SET_ERROR:
       return {
         ...state,
-        error: action.error,
+        error: action.payload,
+        isLoading: false,
       };
+
+    case actionTypes.SET_COURSE_REVIEW:
+      return {
+        ...state,
+        review: action.payload,
+        reviewLoading: false,
+        reviewError: null,
+        hasReview: action.payload.comment_ID ? true : false,
+      };
+
+    case actionTypes.SET_REVIEW_LOADING:
+      return {
+        ...state,
+        reviewLoading: action.payload,
+      };
+
+    case actionTypes.SET_REVIEW_ERROR:
+      return {
+        ...state,
+        reviewError: action.payload,
+        reviewLoading: false,
+      };
+
+    case actionTypes.SET_REVIEW_MODAL_OPEN:
+      return {
+        ...state,
+        reviewModalOpen: action.payload,
+      };
+
+    case actionTypes.SET_COURSE_COMPLETED:
+      return {
+        ...state,
+        isCompleted: action.payload,
+      };
+
+    case actionTypes.SET_COMPLETION_MESSAGE:
+      return {
+        ...state,
+        completionMessage: action.payload,
+      };
+
+    case actionTypes.MARK_UNIT_COMPLETE: {
+      const updatedUnits =
+        state.allUnits?.map((unit) =>
+          unit.id === action.payload.unitId ? { ...unit, status: 1 } : unit
+        ) || null;
+      if (updatedUnits) {
+        const metrics = calculateCourseMetrics(updatedUnits as IUnit[]);
+        return {
+          ...state,
+          allUnits: updatedUnits,
+          ...metrics,
+        };
+      }
+
+      return state;
+    }
 
     case actionTypes.NEXT_UNIT: {
       const currentIndex =
-        state?.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
+        state.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
         -1;
-      const nextUnit = state?.allUnits?.[currentIndex + 1];
+      const nextUnit = state.allUnits?.[currentIndex + 1];
+
       return {
         ...state,
         currentUnitId: nextUnit ? nextUnit.id : state.currentUnitId,
@@ -106,49 +168,20 @@ export const reducer = (
 
     case actionTypes.PREV_UNIT: {
       const currentIndex =
-        state?.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
+        state.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
         -1;
-      const prevUnit = state?.allUnits?.[currentIndex - 1];
+      const prevUnit = state.allUnits?.[currentIndex - 1];
+
       return {
         ...state,
         currentUnitId: prevUnit ? prevUnit.id : state.currentUnitId,
       };
     }
 
-    case actionTypes.SET_COURSE_REVIEW:
+    case actionTypes.SET_HAS_REVIEW:
       return {
         ...state,
-        review: action.review,
-      };
-
-    case actionTypes.SET_REVIEW_LOADING:
-      return {
-        ...state,
-        reviewLoading: action.loading,
-      };
-
-    case actionTypes.SET_REVIEW_ERROR:
-      return {
-        ...state,
-        reviewError: action.error,
-      };
-
-    case actionTypes.SET_REVIEW_MODAL_OPEN:
-      return {
-        ...state,
-        reviewModalOpen: action.open,
-      };
-
-    case actionTypes.SET_COURSE_COMPLETED:
-      return {
-        ...state,
-        isCompleted: action.completed,
-      };
-
-    case actionTypes.SET_COMPLETION_MESSAGE:
-      return {
-        ...state,
-        completionMessage: action.message,
+        hasReview: action.payload,
       };
 
     default:

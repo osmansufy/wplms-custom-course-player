@@ -19,8 +19,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _course_ContentArea__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./course/ContentArea */ "./src/components/course/ContentArea.tsx");
 /* harmony import */ var _course_sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./course/sidebar */ "./src/components/course/sidebar/index.tsx");
 /* harmony import */ var _TopBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TopBar */ "./src/components/TopBar/index.tsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store */ "./src/store/index.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+
 
 
 
@@ -34,9 +36,7 @@ const RootContainer = ({
 
   // Get dispatch actions
   const {
-    fetchCourseData,
-    nextUnit,
-    prevUnit
+    fetchCourse
   } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)('custom-course-player');
 
   // Get state from Redux store
@@ -45,70 +45,51 @@ const RootContainer = ({
     loading,
     error,
     currentUnitId
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => ({
-    courseInfo: select('custom-course-player')?.getCourseInfo() || null,
-    loading: select('custom-course-player')?.isLoadingUserInfo() || false,
-    error: select('custom-course-player')?.getError() || null,
-    currentUnitId: select('custom-course-player')?.getCurrentUnitId() || null
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_5__.useTypedSelect)(select => ({
+    courseInfo: select.getCourseInfo(parseInt(courseId)) || null,
+    loading: select.isLoadingUserInfo() || false,
+    error: select.getError() || null,
+    currentUnitId: select.getCurrentUnitId() || null
   }), []);
-
-  // Fetch course data on component mount
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (courseId) {
-      fetchCourseData(courseId);
-    }
-  }, [courseId]);
-
-  // Set initial unit when course data is loaded
-
-  const handlePrevious = () => {
-    prevUnit();
-  };
-  const handleNext = () => {
-    nextUnit();
-  };
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
   if (loading) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: "h-screen flex items-center justify-center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"
       })
     });
   }
   if (error) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: "h-screen flex items-center justify-center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "bg-red-50 p-4 rounded-lg",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
           className: "text-red-600",
           children: error
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
-          onClick: () => courseId && fetchCourseData(courseId),
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+          onClick: () => courseId && fetchCourse(courseId),
           className: "mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700",
           children: "Retry"
         })]
       })
     });
   }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
     className: "flex flex-col h-screen",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_TopBar__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_TopBar__WEBPACK_IMPORTED_MODULE_4__["default"], {
       onToggleSidebar: toggleSidebar,
       isSidebarOpen: isSidebarOpen
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "flex flex-1 overflow-hidden pt-16",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_course_ContentArea__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_course_ContentArea__WEBPACK_IMPORTED_MODULE_2__["default"], {
         courseId: courseId,
         currentUnitId: currentUnitId,
-        isSidebarOpen: isSidebarOpen,
-        onToggleSidebar: toggleSidebar,
-        onPrevious: handlePrevious,
-        onNext: handleNext
-      }), courseInfo && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_course_sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        isSidebarOpen: isSidebarOpen
+      }), courseInfo && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_course_sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
         isOpen: isSidebarOpen,
         onToggle: toggleSidebar
       })]
@@ -273,17 +254,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ TopBar)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _review_ReviewModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../review/ReviewModal */ "./src/components/review/ReviewModal.tsx");
-/* harmony import */ var _ProgressCircle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ProgressCircle */ "./src/components/TopBar/ProgressCircle.tsx");
-/* harmony import */ var _ProgressDropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ProgressDropdown */ "./src/components/TopBar/ProgressDropdown.tsx");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../store */ "./src/store/index.ts");
+/* harmony import */ var _review_ReviewModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../review/ReviewModal */ "./src/components/review/ReviewModal.tsx");
+/* harmony import */ var _ProgressCircle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ProgressCircle */ "./src/components/TopBar/ProgressCircle.tsx");
+/* harmony import */ var _ProgressDropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ProgressDropdown */ "./src/components/TopBar/ProgressDropdown.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -295,76 +278,88 @@ function TopBar({
   onToggleSidebar
 }) {
   var _completedUnits$lengt, _totalUnits$length;
-  const [isProgressOpen, setIsProgressOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [isProgressOpen, setIsProgressOpen] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
   const {
-    courseInfo,
+    courseId,
+    totalUnits,
+    completedUnits,
+    progress,
+    reviewModalOpen
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_3__.useTypedSelect)(select => ({
+    courseId: select.getCourseId(),
+    totalUnits: select.getAllUnits(),
+    completedUnits: select.getCompletedUnits(),
+    reviewModalOpen: select.getReviewModalOpen(),
+    progress: select.getProgress()
+  }));
+  const courseTitle = (0,_store__WEBPACK_IMPORTED_MODULE_3__.useTypedSelect)(select => select.getCourseTitle());
+  const {
+    reviewLoading,
+    review
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_3__.useTypedSelect)(select => {
+    if (courseId) {
+      return {
+        reviewLoading: select.isLoadingReview(courseId),
+        review: select.getCourseReview(courseId)
+      };
+    }
+    return {
+      reviewLoading: false,
+      review: null
+    };
+  }, [courseId]);
+  console.log({
+    courseTitle,
     totalUnits,
     completedUnits,
     review,
     reviewLoading,
-    progress,
-    reviewModalOpen
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => ({
-    courseInfo: select('custom-course-player').getCourseInfo(),
-    totalUnits: select('custom-course-player').getAllUnits(),
-    completedUnits: select('custom-course-player').getCompletedUnits(),
-    review: select('custom-course-player').getCourseReview(),
-    reviewLoading: select('custom-course-player').getReviewLoading(),
-    reviewError: select('custom-course-player').getReviewError(),
-    reviewModalOpen: select('custom-course-player').getReviewModalOpen(),
-    progress: select('custom-course-player').getProgress()
-  }), []);
+    progress
+  });
 
   // dispatch
-  const dispatch = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
+  const dispatch = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.useDispatch)();
   const setReviewModalOpen = open => {
     dispatch('custom-course-player').setReviewModalOpen(open);
   };
-  // Fetch review
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (courseInfo?.course_id) {
-      console.log('Fetching review', courseInfo.course_id);
-      dispatch('custom-course-player').fetchCourseReview(courseInfo.course_id);
-    }
-  }, [courseInfo?.course_id]);
-  const hasReview = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useMemo)(() => {
+  const hasReview = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => {
     return review?.comment_ID !== undefined;
   }, [review]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "fixed top-0 left-0 right-0 bg-gray-800 text-white z-50",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "h-16 px-4 flex items-center justify-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "flex items-center gap-4",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h1", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h1", {
             className: "text-xl font-bold truncate max-w-md text-secondary-50",
-            children: courseInfo?.course_title || ''
+            children: courseTitle || ''
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "flex items-center gap-4",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ProgressCircle__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ProgressCircle__WEBPACK_IMPORTED_MODULE_5__["default"], {
             progress: progress
-          }), !hasReview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+          }), !hasReview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
             onClick: () => setReviewModalOpen(true),
             className: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700  transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500  focus:ring-offset-2 focus:ring-offset-gray-800",
             disabled: reviewLoading || false,
             children: reviewLoading ? 'Loading...' : 'Leave a Review'
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ProgressDropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ProgressDropdown__WEBPACK_IMPORTED_MODULE_6__["default"], {
             isOpen: isProgressOpen,
             onToggle: () => setIsProgressOpen(!isProgressOpen),
             completedUnits: (_completedUnits$lengt = completedUnits?.length) !== null && _completedUnits$lengt !== void 0 ? _completedUnits$lengt : 0,
             totalUnits: (_totalUnits$length = totalUnits?.length) !== null && _totalUnits$length !== void 0 ? _totalUnits$length : 0
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
             onClick: onToggleSidebar,
             className: "p-2 hover:bg-gray-700 rounded-md transition-colors",
             "aria-label": "Toggle sidebar",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("svg", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("svg", {
               className: "w-6 h-6",
               fill: "none",
               stroke: "currentColor",
               viewBox: "0 0 24 24",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("path", {
                 strokeLinecap: "round",
                 strokeLinejoin: "round",
                 strokeWidth: 2,
@@ -373,23 +368,23 @@ function TopBar({
             })
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "h-1 bg-gray-700",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "h-full bg-green-500 transition-all duration-500",
           style: {
             width: `${progress}%`
           }
         })
       })]
-    }), reviewModalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_review_ReviewModal__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), reviewModalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_review_ReviewModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
       isOpen: Boolean(!reviewLoading && reviewModalOpen),
       onClose: () => setReviewModalOpen(false),
-      courseId: courseInfo?.course_id,
-      courseName: courseInfo?.course_title,
+      courseId: courseId,
+      courseName: courseTitle,
       progress: progress,
       onReviewSuccess: () => {}
-    }), isProgressOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), isProgressOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "fixed inset-0 z-20",
       onClick: () => setIsProgressOpen(false)
     })]
@@ -411,52 +406,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _hooks_useUnitContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../hooks/useUnitContent */ "./src/hooks/useUnitContent.ts");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
 const ContentArea = ({
   currentUnitId,
   courseId,
-  isSidebarOpen,
-  onToggleSidebar,
-  onPrevious,
-  onNext
+  isSidebarOpen
 }) => {
   const {
     unitContent,
     loading,
-    error
-  } = (0,_hooks_useUnitContent__WEBPACK_IMPORTED_MODULE_1__.useUnitContent)(courseId, currentUnitId);
+    error,
+    isLastUnit,
+    isFirstUnit
+  } = (0,_hooks_useUnitContent__WEBPACK_IMPORTED_MODULE_1__.useUnitContent)();
   const [isHovering, setIsHovering] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const renderNavigationButtons = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-      className: `fixed top-1/2 left-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
+  const {
+    setPreviousUnit,
+    setNextUnit
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useDispatch)('custom-course-player');
+  const onPrevious = () => {
+    setPreviousUnit();
+  };
+  const onNext = () => {
+    setNextUnit();
+  };
+  const renderNavigationButtons = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+      className: `fixed top-1/2 left-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300  ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
       onClick: onPrevious,
-      disabled: loading,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("svg", {
+      disabled: loading || isFirstUnit,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("svg", {
         className: "w-6 h-6",
         fill: "none",
         stroke: "currentColor",
         viewBox: "0 0 24 24",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("path", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("path", {
           strokeLinecap: "round",
           strokeLinejoin: "round",
           strokeWidth: 2,
           d: "M15 19l-7-7 7-7"
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
       className: `fixed top-1/2 right-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isSidebarOpen ? 'mr-[23rem]' : ''} ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
       onClick: onNext,
-      disabled: loading,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("svg", {
+      disabled: loading || isLastUnit,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("svg", {
         className: "w-6 h-6",
         fill: "none",
         stroke: "currentColor",
         viewBox: "0 0 24 24",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("path", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("path", {
           strokeLinecap: "round",
           strokeLinejoin: "round",
           strokeWidth: 2,
@@ -467,25 +474,25 @@ const ContentArea = ({
   });
   const renderContent = () => {
     if (loading) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "flex flex-col items-center justify-center min-h-[400px] space-y-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
           className: "text-gray-600",
           children: "Loading content..."
         })]
       });
     }
     if (error) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "flex flex-col items-center justify-center min-h-[400px] space-y-4",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "bg-red-50 p-6 rounded-lg text-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
             className: "text-red-600 mb-4",
             children: error
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
             onClick: () => window.location.reload(),
             className: "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700",
             children: "Retry"
@@ -494,17 +501,17 @@ const ContentArea = ({
       });
     }
     if (!unitContent) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "flex items-center justify-center min-h-[400px]",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
           className: "text-gray-600",
           children: "No content available"
         })
       });
     }
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "custom_course_content max-h-[600px] relative",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: `transition-opacity duration-300 ${loading ? 'opacity-50' : 'opacity-100'}`,
         dangerouslySetInnerHTML: {
           __html: unitContent.content
@@ -512,15 +519,15 @@ const ContentArea = ({
       }), renderNavigationButtons()]
     });
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: `flex-1 p-6 overflow-y-auto transition-all duration-300 relative ${isSidebarOpen ? 'mr-80' : ''}`,
     onMouseEnter: () => setIsHovering(true),
     onMouseLeave: () => setIsHovering(false),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "mb-6",
-      children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "h-8 bg-gray-200 rounded animate-pulse w-2/3"
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h1", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
         className: "text-3xl font-bold mb-1",
         children: unitContent?.title
       })
@@ -550,8 +557,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../store */ "./src/store/index.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
 // components/CourseSections.tsx
 
 
@@ -560,39 +568,50 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const REVIEW_MILESTONES = [15, 75, 100];
-const CourseSections = ({
-  items,
-  currentUnitId
-}) => {
+const CourseSections = () => {
   const [lastShownMilestone, setLastShownMilestone] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)(0);
   const {
     sections,
     expandedSections,
     toggleSection,
     getSectionStats
-  } = (0,_hooks_useCourseSections__WEBPACK_IMPORTED_MODULE_1__.useCourseSections)(items, currentUnitId);
+  } = (0,_hooks_useCourseSections__WEBPACK_IMPORTED_MODULE_1__.useCourseSections)();
+  const courseId = (0,_store__WEBPACK_IMPORTED_MODULE_6__.useTypedSelect)(select => select.getCourseId(), []);
   const {
     progress,
-    courseId,
     isCompleted,
-    hasReview,
-    reviewLoading,
     completionMessage
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => ({
-    progress: select('custom-course-player').getProgress(),
-    courseId: select('custom-course-player').getCourseId(),
-    isCompleted: select('custom-course-player').isCourseCompleted(),
-    hasReview: select('custom-course-player').getCourseReview()?.comment_ID !== undefined,
-    reviewLoading: select('custom-course-player').getReviewLoading(),
-    completionMessage: select('custom-course-player').getCompletionMessage()
-  }), []);
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_6__.useTypedSelect)(select => ({
+    progress: select.getProgress(),
+    isCompleted: select.isCourseCompleted(),
+    completionMessage: select.getCompletionMessage()
+  }), [courseId]);
+  const {
+    hasReview
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_6__.useTypedSelect)(select => {
+    if (courseId) {
+      return {
+        hasReview: select.hasReview(),
+        reviewLoading: select.isLoadingReview(courseId)
+      };
+    }
+    return {
+      hasReview: false,
+      reviewLoading: true
+    };
+  }, [courseId]);
   const {
     setReviewModalOpen,
     finishCourse
   } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useDispatch)('custom-course-player');
   const onHandleReviewModalOpen = () => {
-    if (hasReview || reviewLoading) {
+    console.log({
+      courseId,
+      hasReview
+    });
+    if (hasReview) {
       return;
     }
     const milestone = REVIEW_MILESTONES.find(milestone => progress >= milestone && lastShownMilestone < milestone);
@@ -601,79 +620,77 @@ const CourseSections = ({
       setLastShownMilestone(milestone);
     }
   };
+  // review modal don't open initial render
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
-    console.log({
-      hasReview,
-      reviewLoading
-    });
-    if (!hasReview && !reviewLoading) {
+    if (!hasReview && courseId) {
       console.log('review modal open');
       onHandleReviewModalOpen();
+    } else {
+      setReviewModalOpen(false);
     }
-  }, [progress, hasReview, reviewLoading]);
+  }, [progress, hasReview, courseId]);
   const handleFinishCourse = async () => {
     if (courseId) {
       await finishCourse(courseId);
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "space-y-2",
-    children: [!isCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    children: [!isCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "p-4 bg-green-50 rounded-lg",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
         className: "text-sm text-green-800 mb-2",
         children: completionMessage
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
         onClick: handleFinishCourse,
         className: "w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors",
         children: "Complete Course"
       })]
-    }), isCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), isCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "p-4 bg-green-100 rounded-lg",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
         className: "text-sm text-green-800",
         children: "\uD83C\uDF89 Congratulations! You've completed this course."
       })
     }), sections.map((section, index) => {
       const stats = getSectionStats(section);
       const isExpanded = expandedSections.includes(index);
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: `border rounded-lg transition-colors border-gray-200`,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
           className: `w-full flex items-center justify-between p-4 text-left
                          transition-colors rounded-t-lg
                          ${isExpanded ? 'bg-gray-50' : 'hover:bg-gray-50'}
-                         ${stats.isComplete ? 'bg-green-50 hover:bg-green-100' : ''}`,
+                         ${stats.isComplete ? 'bg-primary-50 hover:bg-primary-100' : ''}`,
           onClick: () => toggleSection(index),
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "flex-grow",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "flex items-center gap-2",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h3", {
                 className: "font-semibold text-gray-900 text-[1rem] ",
                 children: section.title
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
               className: "text-sm text-gray-500",
-              children: [stats.completedUnits, "/", stats.totalUnits, " lessons \u2022 ", (0,_utilities_utility__WEBPACK_IMPORTED_MODULE_2__.formatDuration)(stats.totalDuration)]
+              children: [stats.completedUnits, "/", stats.totalUnits, " lessons \u2022 ", (0,_utilities_utility__WEBPACK_IMPORTED_MODULE_2__.formatDuration)(stats.totalDuration), " m"]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("svg", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("svg", {
             className: `w-5 h-5 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`,
             fill: "none",
             stroke: "currentColor",
             viewBox: "0 0 24 24",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("path", {
               strokeLinecap: "round",
               strokeLinejoin: "round",
               strokeWidth: 2,
               d: "M19 9l-7 7-7-7"
             })
           })]
-        }), isExpanded && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        }), isExpanded && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "border-t border-gray-200",
-          children: section.units.map(unit => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_UnitItem__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            unit: unit,
-            currentUnitId: currentUnitId
+          children: section.units.map(unit => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_UnitItem__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            unit: unit
           }, unit.id))
         })]
       }, section.key);
@@ -741,29 +758,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../store */ "./src/store/index.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 
 
-const SidebarProgress = ({
-  totalLectures,
-  totalDuration,
-  completedLectures
-}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-  className: "mb-4",
-  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "text-sm text-gray-600",
-    children: [totalLectures, " lectures \u2022 ", totalDuration, " total length"]
-  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: "mt-2 h-1 bg-gray-200 rounded-full",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: "h-full bg-blue-500 rounded-full",
-      style: {
-        width: `${completedLectures / totalLectures * 100}%`
-      }
-    })
-  })]
-});
+
+const SidebarProgress = () => {
+  const {
+    totalLectures,
+    totalDuration,
+    completedLectures
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_1__.useTypedSelect)(select => ({
+    totalLectures: select.getAllUnits()?.length,
+    totalDuration: select.getCourseTotalDuration(),
+    completedLectures: select.getCompletedUnits()?.length
+  }));
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "mb-4",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "text-sm text-gray-600",
+      children: [totalLectures, " lectures \u2022 ", totalDuration ? totalDuration / 60 : 0, "m total duration"]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "mt-2 h-1 bg-gray-200 rounded-full",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "h-full bg-blue-500 rounded-full",
+        style: {
+          width: `${(completedLectures !== null && completedLectures !== void 0 ? completedLectures : 0) / (totalLectures !== null && totalLectures !== void 0 ? totalLectures : 1) * 100}%`
+        }
+      })
+    })]
+  });
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SidebarProgress);
 
 /***/ }),
@@ -780,34 +806,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utilities_utility__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../utilities/utility */ "./src/utilities/utility.ts");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _utilities_utility__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utilities/utility */ "./src/utilities/utility.ts");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../store */ "./src/store/index.ts");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
 
 
 const UnitItem = ({
-  unit,
-  currentUnitId
+  unit
 }) => {
   var _unit$status;
+  console.log('unit', unit);
   const {
     markUnitComplete,
     setCurrentUnit
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)('custom-course-player');
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useDispatch)('custom-course-player');
   const [isUnitComplete, setIsUnitComplete] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((_unit$status = unit?.status) !== null && _unit$status !== void 0 ? _unit$status : 0);
   const {
-    courseId,
-    courseInfo
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => ({
-    courseId: select('custom-course-player').getCourseId(),
-    courseInfo: select('custom-course-player').getCourseInfo()
+    currentUnitId,
+    courseId
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_3__.useTypedSelect)(select => ({
+    currentUnitId: select.getCurrentUnitId(),
+    courseId: select.getCourseId()
   }), []);
   const handleSelectUnit = id => {
     setCurrentUnit(id);
@@ -815,11 +843,11 @@ const UnitItem = ({
   const {
     completedDuration,
     courseTotalDuration
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => ({
-    completedDuration: select('custom-course-player').getCompletedDuration(),
-    courseTotalDuration: select('custom-course-player').getCourseTotalDuration()
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_3__.useTypedSelect)(select => ({
+    completedDuration: select.getCompletedDuration(),
+    courseTotalDuration: select.getCourseTotalDuration()
   }), []);
-  const unitCompletedProgress = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useCallback)(() => {
+  const unitCompletedProgress = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useCallback)(() => {
     if (unit.duration && courseTotalDuration && completedDuration !== null) {
       return Math.round((completedDuration + unit.duration) / courseTotalDuration * 100);
     }
@@ -827,46 +855,50 @@ const UnitItem = ({
   }, [completedDuration, unit.duration, courseTotalDuration]);
   const onHandleCompleteUnit = async unitId => {
     try {
-      await markUnitComplete(courseId, unitId, unitCompletedProgress());
+      await markUnitComplete({
+        courseId,
+        unitId,
+        progress: unitCompletedProgress()
+      });
       setIsUnitComplete(1);
     } catch (error) {
       console.log(error);
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: `flex items-center p-4 cursor-pointer transition-colors
                                ${currentUnitId === unit.id ? 'bg-blue-50' : 'hover:bg-gray-50'}
                                ${unit.status === 1 ? 'opacity-75' : ''}`,
     onClick: () => handleSelectUnit(unit.id),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "flex-shrink-0 mr-3",
-      children: isUnitComplete === 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
+      children: isUnitComplete === 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
         className: "w-5 h-5 text-green-500",
         fill: "currentColor",
         viewBox: "0 0 20 20",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
           fillRule: "evenodd",
           d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z",
           clipRule: "evenodd"
         })
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "w-5 h-5 border-2 border-gray-300 rounded-full cursor-pointer",
         onClick: e => {
           e.stopPropagation();
           onHandleCompleteUnit(unit.id);
         }
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "flex-grow",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h4", {
         className: `text-sm ${currentUnitId === unit.id ? 'font-medium' : ''}`,
         children: unit.title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "flex items-center text-xs text-gray-500 mt-1",
-        children: [unit.icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+        children: [unit.icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
           className: `${unit.icon} mr-1`
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-          children: (0,_utilities_utility__WEBPACK_IMPORTED_MODULE_2__.formatDuration)(unit.duration)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+          children: [(0,_utilities_utility__WEBPACK_IMPORTED_MODULE_1__.formatDuration)(unit.duration), " m"]
         })]
       })]
     })]
@@ -886,18 +918,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _CourseSections__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CourseSections */ "./src/components/course/sidebar/CourseSections.tsx");
-/* harmony import */ var _SidebarHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SidebarHeader */ "./src/components/course/sidebar/SidebarHeader.tsx");
-/* harmony import */ var _SidebarProgress__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SidebarProgress */ "./src/components/course/sidebar/SidebarProgress.tsx");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./src/components/course/sidebar/utils.ts");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
-
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _CourseSections__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CourseSections */ "./src/components/course/sidebar/CourseSections.tsx");
+/* harmony import */ var _SidebarHeader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarHeader */ "./src/components/course/sidebar/SidebarHeader.tsx");
+/* harmony import */ var _SidebarProgress__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SidebarProgress */ "./src/components/course/sidebar/SidebarProgress.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
@@ -907,60 +934,22 @@ const Sidebar = ({
   isOpen,
   onToggle
 }) => {
-  const {
-    courseInfo: course,
-    currentUnitId
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.useSelect)(select => ({
-    courseInfo: select('custom-course-player').getCourseInfo(),
-    currentUnitId: select('custom-course-player')?.getCurrentUnitId()
-  }), []);
-  if (!course) return null;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     className: `fixed top-0 right-0 w-[24rem] bg-white border-l border-gray-200 h-full transform 
         ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-10`,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "h-full overflow-y-auto pt-16",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "p-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SidebarHeader__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SidebarHeader__WEBPACK_IMPORTED_MODULE_2__["default"], {
           title: "Course content",
           onToggle: onToggle
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SidebarProgress__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          totalLectures: (0,_utils__WEBPACK_IMPORTED_MODULE_5__.calculateTotalLectures)(course.courseitems),
-          totalDuration: (0,_utils__WEBPACK_IMPORTED_MODULE_5__.calculateTotalDuration)(course.courseitems),
-          completedLectures: course.courseitems.filter(item => item.status === 1).length
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_CourseSections__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          items: course.courseitems,
-          currentUnitId: currentUnitId
-        })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SidebarProgress__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CourseSections__WEBPACK_IMPORTED_MODULE_1__["default"], {})]
       })
     })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sidebar);
-
-/***/ }),
-
-/***/ "./src/components/course/sidebar/utils.ts":
-/*!************************************************!*\
-  !*** ./src/components/course/sidebar/utils.ts ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   calculateTotalDuration: () => (/* binding */ calculateTotalDuration),
-/* harmony export */   calculateTotalLectures: () => (/* binding */ calculateTotalLectures)
-/* harmony export */ });
-const calculateTotalLectures = items => {
-  return items.filter(item => item.type !== "section").length;
-};
-const calculateTotalDuration = items => {
-  const totalSeconds = items.reduce((acc, item) => acc + (item.duration || 0), 0);
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor(totalSeconds % 3600 / 60);
-  return `${hours}hr ${minutes}min`;
-};
 
 /***/ }),
 
@@ -1104,8 +1093,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _ReviewForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReviewForm */ "./src/components/review/ReviewForm.tsx");
 /* harmony import */ var _SuccessMessage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SuccessMessage */ "./src/components/review/SuccessMessage.tsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../store */ "./src/store/index.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -1128,11 +1119,11 @@ function ReviewModal({
     userInfo,
     currentReview,
     isLoading
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => ({
-    userInfo: select('custom-course-player').getUserInfo(),
-    currentReview: select('custom-course-player').getCourseReview(),
-    isLoading: select('custom-course-player').isLoading()
-  }));
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_4__.useTypedSelect)(select => ({
+    userInfo: select.getUserInfo(),
+    currentReview: select.getCourseReview(courseId || 0),
+    isLoading: select.isLoadingUserInfo()
+  }), [courseId]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (currentReview) {
       setRating(currentReview.rating || 5);
@@ -1161,32 +1152,32 @@ function ReviewModal({
   };
   console.log('isOpen', isOpen);
   if (!isOpen) return null;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
     className: "fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4",
     onClick: onClose,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "bg-white rounded-lg max-w-lg w-full p-6 shadow-xl",
       onClick: e => e.stopPropagation(),
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "flex justify-between items-start mb-6",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
             className: "text-2xl font-bold text-gray-800",
             children: "Share Your Experience"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
             className: "text-gray-600 mt-2",
             children: courseName
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           onClick: onClose,
           className: "text-gray-400 hover:text-gray-600 transition-colors",
           "aria-label": "Close modal",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
             className: "w-6 h-6",
             fill: "none",
             stroke: "currentColor",
             viewBox: "0 0 24 24",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
               strokeLinecap: "round",
               strokeLinejoin: "round",
               strokeWidth: "2",
@@ -1194,17 +1185,17 @@ function ReviewModal({
             })
           })
         })]
-      }), userInfo?.avatar && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      }), userInfo?.avatar && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "flex items-center gap-3 mb-6",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
           src: userInfo.avatar,
           alt: userInfo.name || 'User avatar',
           className: "w-10 h-10 rounded-full"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
           className: "font-medium text-gray-700",
           children: userInfo.name || 'Anonymous'
         })]
-      }), success ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SuccessMessage__WEBPACK_IMPORTED_MODULE_3__.SuccessMessage, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ReviewForm__WEBPACK_IMPORTED_MODULE_2__.ReviewForm, {
+      }), success ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SuccessMessage__WEBPACK_IMPORTED_MODULE_3__.SuccessMessage, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_ReviewForm__WEBPACK_IMPORTED_MODULE_2__.ReviewForm, {
         rating: rating,
         review: review,
         error: error,
@@ -1274,10 +1265,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store */ "./src/store/index.ts");
 // hooks/useCourseSections.ts
 
-const useCourseSections = (items, currentUnitId) => {
+
+const useCourseSections = () => {
+  const courseId = (0,_store__WEBPACK_IMPORTED_MODULE_1__.useTypedSelect)(select => select.getCourseId(), []);
   const [expandedSections, setExpandedSections] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const {
+    items,
+    currentUnitId
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_1__.useTypedSelect)(select => {
+    if (courseId) {
+      return {
+        items: select.getCourseInfo(courseId)?.courseitems || [],
+        currentUnitId: select.getCurrentUnitId()
+      };
+    }
+    return {
+      items: [],
+      currentUnitId: null
+    };
+  }, [courseId]);
 
   // Organize sections and find initial expanded section
   const {
@@ -1287,7 +1296,7 @@ const useCourseSections = (items, currentUnitId) => {
     const organizedSections = [];
     let currentSection = null;
     let sectionWithCurrentUnit = -1;
-    items.forEach(item => {
+    items?.forEach(item => {
       if (item.type === "section") {
         if (currentSection) {
           organizedSections.push(currentSection);
@@ -1383,44 +1392,62 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utilities/apiCall */ "./src/utilities/apiCall.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./src/store/index.ts");
+
 
 
 const userAuthToken = window.wplmsCustomCoursePlayer.token;
-const useUnitContent = (courseId, unitId) => {
+const useUnitContent = () => {
+  const {
+    courseId,
+    currentUnitId,
+    allUnits
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
+    courseId: select.getCourseId(),
+    currentUnitId: select.getCurrentUnitId(),
+    allUnits: select.getAllUnits()
+  }));
   const [unitContent, setUnitContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const fetchContent = async () => {
-      if (!unitId) {
-        setUnitContent(null);
-        setLoading(false);
+  const [isLastUnit, setIsLastUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [isFirstUnit, setIsFirstUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const fetchContent = async () => {
+    setUnitContent(null);
+    setLoading(false);
+    try {
+      if (!courseId || !currentUnitId) {
         return;
       }
-      try {
-        setLoading(true);
-        const data = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.fetchUnitContent)({
-          courseId,
-          unitId,
-          token: userAuthToken
-        });
-        setUnitContent(data !== null && data !== void 0 ? data : null);
-        setError(null);
-      } catch (err) {
-        setError("Failed to fetch unit content");
-        setUnitContent(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (userAuthToken) {
+      setLoading(true);
+      const data = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.fetchUnitContent)({
+        courseId: courseId,
+        unitId: currentUnitId,
+        token: userAuthToken
+      });
+      setUnitContent(data !== null && data !== void 0 ? data : null);
+      setIsLastUnit(allUnits ? currentUnitId === allUnits[allUnits.length - 1].id : false);
+      setIsFirstUnit(allUnits ? currentUnitId === allUnits[0].id : false);
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      setError(err instanceof Error ? err.message : String(err));
+      setUnitContent(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (userAuthToken && courseId && currentUnitId) {
       fetchContent();
     }
-  }, [courseId, unitId, userAuthToken]);
+  }, [courseId, currentUnitId, userAuthToken]);
   return {
     unitContent,
     loading,
-    error
+    error,
+    isLastUnit,
+    isFirstUnit
   };
 };
 
@@ -1436,201 +1463,164 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   actions: () => (/* binding */ actions)
 /* harmony export */ });
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./const */ "./src/store/const.ts");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./const */ "./src/store/const.ts");
+/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utilities/apiCall */ "./src/utilities/apiCall.ts");
+
+
 
 const actions = {
-  setCourseId(courseId) {
-    return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_ID,
-      courseId
-    };
-  },
-  setProgress(progress) {
-    return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_PROGRESS,
-      progress
-    };
-  },
-  setCurrentUnit(unitId) {
-    return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_CURRENT_UNIT,
-      unitId
-    };
-  },
-  setIsLoading(isLoading) {
-    return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_IS_LOADING,
-      isLoading
-    };
-  },
-  setError(error) {
-    return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_ERROR,
-      error
-    };
-  },
+  // Simple synchronous action creators
   setCourseInfo(courseInfo) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_INFO,
-      courseInfo
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_COURSE_INFO,
+      payload: courseInfo
     };
   },
   setUserInfo(userInfo) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_USER_INFO,
-      userInfo
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_USER_INFO,
+      payload: userInfo
     };
   },
-  *fetchCourseData(courseId) {
-    try {
-      yield actions.setIsLoading(true);
-      const response = yield {
-        type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.FETCH_COURSE_DATA,
-        courseId
-      };
-      const currentUnit = response.courseitems.find(unit => unit.key == response.current_unit_key);
-      yield actions.setCourseInfo(response);
-      yield actions.setCourseId(courseId);
-      yield actions.setCurrentUnit(currentUnit.id);
-      yield actions.setIsLoading(false);
-    } catch (error) {
-      yield actions.setError(error instanceof Error ? error.message : String(error));
-      yield actions.setIsLoading(false);
-    }
-  },
-  *fetchUserInfo() {
-    try {
-      const response = yield {
-        type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.FETCH_USER_INFO
-      };
-      yield actions.setUserInfo(response);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
-  },
-  *markUnitComplete(courseId, unitId, progress) {
-    try {
-      const response = yield {
-        type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.MARK_UNIT_COMPLETE,
-        courseId,
-        unitId,
-        progress
-      };
-      yield actions.fetchCourseData(courseId);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
-  },
-  *updateCourseProgress(courseId) {
-    try {
-      const response = yield {
-        type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.GET_COURSE_PROGRESS,
-        courseId
-      };
-      yield actions.setProgress(response);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
-  },
-  *handleError(error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    yield actions.setError(errorMessage);
-    yield actions.setIsLoading(false);
-  },
-  nextUnit() {
+  setCourseInfoLoading(isLoading) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.NEXT_UNIT
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_LOADING,
+      payload: isLoading
     };
   },
-  prevUnit() {
+  setCourseReviewError(error) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.PREV_UNIT
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_ERROR,
+      payload: error
     };
   },
   setCourseReview(review) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_REVIEW,
-      review
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_COURSE_REVIEW,
+      payload: review
     };
   },
-  setReviewLoading(loading) {
+  setLoading(isLoading) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_LOADING,
-      loading
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_IS_LOADING,
+      payload: isLoading
     };
   },
-  setReviewError(error) {
+  setError(error) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_ERROR,
-      error
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_ERROR,
+      payload: error
     };
   },
-  setReviewModalOpen(open) {
+  setNextUnit() {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_MODAL_OPEN,
-      open
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.NEXT_UNIT
     };
   },
-  setCompletionMessage(message) {
+  setPreviousUnit() {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COMPLETION_MESSAGE,
-      message
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.PREV_UNIT
     };
   },
-  *fetchCourseReview(courseId) {
-    try {
-      yield actions.setReviewLoading(true);
-      const response = yield {
-        type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.FETCH_COURSE_REVIEW,
-        courseId
-      };
-      yield actions.setCourseReview(response);
-      yield actions.setReviewLoading(false);
-    } catch (error) {
-      yield actions.handleError(error);
-      yield actions.setReviewLoading(false);
-    }
+  setCurrentUnit(unitId) {
+    return {
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_CURRENT_UNIT,
+      payload: unitId
+    };
   },
-  *submitCourseReview({
+  setProgress(progress) {
+    return {
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_PROGRESS,
+      payload: progress
+    };
+  },
+  setReviewModalOpen(isOpen) {
+    return {
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_MODAL_OPEN,
+      payload: isOpen
+    };
+  },
+  // Thunks for handling user actions
+  submitCourseReview: ({
     rating,
     review,
     courseId
-  }) {
+  }) => async ({
+    dispatch
+  }) => {
     try {
-      yield actions.setIsLoading(true);
-      const response = yield {
-        type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SUBMIT_COURSE_REVIEW,
+      dispatch(actions.setLoading(true));
+      const token = window.wplmsCustomCoursePlayer.token;
+      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__.submitCourseReview)({
+        token,
+        comment_post_ID: courseId,
         rating,
-        review,
-        comment_post_ID: courseId
-      };
-      yield actions.setCourseReview(response);
-      yield actions.setIsLoading(false);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
-  },
-  setCourseCompleted(completed) {
-    return {
-      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_COMPLETED,
-      completed
-    };
-  },
-  *finishCourse(courseId) {
-    try {
-      yield actions.setIsLoading(true);
-      const response = yield {
-        type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.FINISH_COURSE,
-        courseId
-      };
-      if (response.status) {
-        yield actions.setCompletionMessage(response.finished.message);
+        review
+      });
+      if (response?.comment_id) {
+        dispatch(actions.setHasReview(true));
       }
-      yield actions.fetchCourseData(courseId); // Refresh course data
-      yield actions.setIsLoading(false);
+      dispatch(actions.setCourseReview(response));
+      dispatch(actions.setReviewModalOpen(false));
+      dispatch(actions.setLoading(false));
     } catch (error) {
-      yield actions.handleError(error);
+      dispatch(actions.setError(error instanceof Error ? error.message : String(error)));
+      dispatch(actions.setLoading(false));
     }
+  },
+  markUnitComplete: ({
+    courseId,
+    unitId,
+    progress
+  }) => async ({
+    dispatch
+  }) => {
+    try {
+      dispatch(actions.setLoading(true));
+      const token = window.wplmsCustomCoursePlayer.token;
+      await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+        path: `/wplms/v2/user/coursestatus/${courseId}/item/${unitId}/markcomplete`,
+        method: "POST",
+        data: {
+          token,
+          course_id: courseId,
+          item_id: unitId,
+          progress
+        }
+      });
+      dispatch(actions.setProgress(progress));
+      dispatch(actions.setLoading(false));
+    } catch (error) {
+      dispatch(actions.setError(error instanceof Error ? error.message : String(error)));
+      dispatch(actions.setLoading(false));
+    }
+  },
+  // fetch course actions
+  fetchCourse: courseId => async ({
+    dispatch
+  }) => {
+    try {
+      dispatch(actions.setLoading(true));
+      const token = window.wplmsCustomCoursePlayer.token;
+      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__.fetchCourseData)({
+        courseId,
+        token
+      });
+      dispatch(actions.setCourseInfo(response));
+      dispatch(actions.setLoading(false));
+      dispatch(actions.setError(""));
+    } catch (error) {
+      dispatch(actions.setError(error instanceof Error ? error.message : String(error)));
+      dispatch(actions.setLoading(false));
+    }
+  },
+  setHasReview(hasReview) {
+    return {
+      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_HAS_REVIEW,
+      payload: hasReview
+    };
   }
 };
 
@@ -1670,93 +1660,8 @@ const actionTypes = {
   SET_REVIEW_MODAL_OPEN: "SET_REVIEW_MODAL_OPEN",
   FINISH_COURSE: "FINISH_COURSE",
   SET_COURSE_COMPLETED: "SET_COURSE_COMPLETED",
-  SET_COMPLETION_MESSAGE: "SET_COMPLETION_MESSAGE"
-};
-
-/***/ }),
-
-/***/ "./src/store/controls.ts":
-/*!*******************************!*\
-  !*** ./src/store/controls.ts ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   controls: () => (/* binding */ controls)
-/* harmony export */ });
-/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities/apiCall */ "./src/utilities/apiCall.ts");
-// controls.ts
-
-const userAuthToken = window.wplmsCustomCoursePlayer.token;
-const controls = {
-  async FETCH_COURSE_DATA(action) {
-    const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_0__.fetchCourseData)({
-      courseId: action.courseId,
-      token: userAuthToken
-    });
-    return response;
-  },
-  async FETCH_USER_INFO() {
-    try {
-      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_0__.getUserInfo)(userAuthToken);
-      return response;
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
-  },
-  async MARK_UNIT_COMPLETE(action) {
-    try {
-      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_0__.markUnitComplete)({
-        courseId: action.courseId,
-        unitId: action.unitId,
-        token: userAuthToken,
-        progress: action.progress
-      });
-      return response;
-    } catch (error) {
-      console.error("Error marking unit complete:", error);
-    }
-  },
-  async GET_COURSE_PROGRESS(action) {
-    try {
-      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_0__.getCourseProgress)({
-        courseId: action.courseId,
-        token: userAuthToken
-      });
-      return response;
-    } catch (error) {
-      console.error("Error fetching course progress:", error);
-    }
-  },
-  async SUBMIT_COURSE_REVIEW(action) {
-    const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_0__.submitCourseReview)({
-      rating: action.rating,
-      review: action.review,
-      token: userAuthToken,
-      comment_post_ID: action.courseId
-    });
-    return response;
-  },
-  async FETCH_COURSE_REVIEW(action) {
-    const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_0__.fetchCourseReview)({
-      courseId: action.courseId,
-      token: userAuthToken
-    });
-    return response;
-  },
-  async FINISH_COURSE(action) {
-    try {
-      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_0__.finishCourse)({
-        courseId: action.courseId,
-        token: userAuthToken
-      });
-      return response;
-    } catch (error) {
-      console.error("Error finishing course:", error);
-      throw error;
-    }
-  }
+  SET_COMPLETION_MESSAGE: "SET_COMPLETION_MESSAGE",
+  SET_HAS_REVIEW: "SET_HAS_REVIEW"
 };
 
 /***/ }),
@@ -1768,34 +1673,37 @@ const controls = {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   useTypedDispatch: () => (/* binding */ useTypedDispatch),
+/* harmony export */   useTypedSelect: () => (/* binding */ useTypedSelect)
+/* harmony export */ });
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions */ "./src/store/actions.ts");
 /* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reducer */ "./src/store/reducer.ts");
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selectors */ "./src/store/selectors.ts");
-/* harmony import */ var _controls__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./controls */ "./src/store/controls.ts");
+/* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./resolvers */ "./src/store/resolvers.ts");
 // index.ts
 
 
 
 
 
-const resolvers = {
-  *getCourseData(courseId) {
-    yield _actions__WEBPACK_IMPORTED_MODULE_1__.actions.fetchCourseData(courseId);
-  },
-  *getUserInfo() {
-    yield _actions__WEBPACK_IMPORTED_MODULE_1__.actions.fetchUserInfo();
-  }
-};
 const coursePlayerStore = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createReduxStore)("custom-course-player", {
   reducer: _reducer__WEBPACK_IMPORTED_MODULE_2__.reducer,
   actions: _actions__WEBPACK_IMPORTED_MODULE_1__.actions,
   selectors: _selectors__WEBPACK_IMPORTED_MODULE_3__.selectors,
-  controls: _controls__WEBPACK_IMPORTED_MODULE_4__.controls,
-  resolvers
+  resolvers: _resolvers__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
 (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.register)(coursePlayerStore);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (coursePlayerStore);
+function useTypedSelect(selector, deps = []) {
+  return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.useSelect)(select => selector(select(coursePlayerStore.name)), deps);
+}
+function useTypedDispatch(action) {
+  return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.useDispatch)(coursePlayerStore.name)(action);
+}
 
 /***/ }),
 
@@ -1815,17 +1723,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const DEFAULT_STATE = {
+  token: null,
   courseId: null,
   courseInfo: null,
   progress: 0,
   currentUnitId: null,
   allUnits: null,
-  isLoading: false,
+  isLoading: true,
   error: null,
-  token: null,
   userInfo: null,
   review: null,
   reviewLoading: true,
+  hasReview: false,
   reviewError: null,
   reviewModalOpen: false,
   courseTotalDuration: null,
@@ -1833,62 +1742,117 @@ const DEFAULT_STATE = {
   isCompleted: false,
   completionMessage: null
 };
-const reducer = (state = DEFAULT_STATE, action) => {
-  var _action$courseInfo$pr;
-  switch (action.type) {
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_ID:
-      return {
-        ...state,
-        courseId: action.courseId
-      };
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_INFO:
-      const allUnits = action.courseInfo.courseitems.filter(item => item.type !== "section");
-      const courseTotalDuration = allUnits.reduce((sum, unit) => sum + (unit.duration || 0), 0);
-      const completedUnits = allUnits.filter(unit => unit.status === 1);
-      const completedDuration = completedUnits.reduce((sum, unit) => sum + (unit.duration || 0), 0);
 
-      // Calculate progress
-      const progress = Math.round(completedDuration / courseTotalDuration * 100);
-      const isCompleted = parseInt((_action$courseInfo$pr = action.courseInfo.progress) !== null && _action$courseInfo$pr !== void 0 ? _action$courseInfo$pr : "0") >= 100 && progress >= 100;
-      return {
-        ...state,
-        courseInfo: action.courseInfo,
-        allUnits,
-        courseTotalDuration,
-        progress,
-        completedDuration,
-        isCompleted
-      };
+// Helper functions to improve readability and reusability
+const calculateCourseMetrics = units => {
+  const courseTotalDuration = units.reduce((sum, unit) => sum + (unit.duration || 0), 0);
+  const completedUnits = units.filter(unit => unit.status === 1);
+  const completedDuration = completedUnits.reduce((sum, unit) => sum + (unit.duration || 0), 0);
+  const progress = Math.round(completedDuration / courseTotalDuration * 100);
+  return {
+    courseTotalDuration,
+    completedDuration,
+    progress,
+    isCompleted: progress >= 100
+  };
+};
+const reducer = (state = DEFAULT_STATE, action) => {
+  switch (action.type) {
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_INFO:
+      {
+        const allUnits = action.payload.courseitems.filter(item => item.type !== "section");
+        const currentUnitId = allUnits.find(unit => unit.key === action.payload.current_unit_key)?.id;
+        const metrics = calculateCourseMetrics(allUnits);
+        return {
+          ...state,
+          courseInfo: action.payload,
+          courseId: action.payload.course_id,
+          allUnits,
+          currentUnitId,
+          ...metrics
+        };
+      }
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_USER_INFO:
       return {
         ...state,
-        userInfo: action.userInfo
-      };
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_PROGRESS:
-      return {
-        ...state,
-        progress: action.progress
+        userInfo: action.payload
       };
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_CURRENT_UNIT:
       return {
         ...state,
-        currentUnitId: action.unitId
+        currentUnitId: action.payload
+      };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_PROGRESS:
+      return {
+        ...state,
+        progress: action.payload
       };
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_IS_LOADING:
       return {
         ...state,
-        isLoading: action.isLoading
+        isLoading: action.payload
       };
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_ERROR:
       return {
         ...state,
-        error: action.error
+        error: action.payload,
+        isLoading: false
       };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_REVIEW:
+      return {
+        ...state,
+        review: action.payload,
+        reviewLoading: false,
+        reviewError: null,
+        hasReview: action.payload.comment_ID ? true : false
+      };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_LOADING:
+      return {
+        ...state,
+        reviewLoading: action.payload
+      };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_ERROR:
+      return {
+        ...state,
+        reviewError: action.payload,
+        reviewLoading: false
+      };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_MODAL_OPEN:
+      return {
+        ...state,
+        reviewModalOpen: action.payload
+      };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_COMPLETED:
+      return {
+        ...state,
+        isCompleted: action.payload
+      };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COMPLETION_MESSAGE:
+      return {
+        ...state,
+        completionMessage: action.payload
+      };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.MARK_UNIT_COMPLETE:
+      {
+        const updatedUnits = state.allUnits?.map(unit => unit.id === action.payload.unitId ? {
+          ...unit,
+          status: 1
+        } : unit) || null;
+        if (updatedUnits) {
+          const metrics = calculateCourseMetrics(updatedUnits);
+          return {
+            ...state,
+            allUnits: updatedUnits,
+            ...metrics
+          };
+        }
+        return state;
+      }
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.NEXT_UNIT:
       {
         var _state$allUnits$findI;
-        const currentIndex = (_state$allUnits$findI = state?.allUnits?.findIndex(unit => unit.id === state.currentUnitId)) !== null && _state$allUnits$findI !== void 0 ? _state$allUnits$findI : -1;
-        const nextUnit = state?.allUnits?.[currentIndex + 1];
+        const currentIndex = (_state$allUnits$findI = state.allUnits?.findIndex(unit => unit.id === state.currentUnitId)) !== null && _state$allUnits$findI !== void 0 ? _state$allUnits$findI : -1;
+        const nextUnit = state.allUnits?.[currentIndex + 1];
         return {
           ...state,
           currentUnitId: nextUnit ? nextUnit.id : state.currentUnitId
@@ -1897,47 +1861,87 @@ const reducer = (state = DEFAULT_STATE, action) => {
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.PREV_UNIT:
       {
         var _state$allUnits$findI2;
-        const currentIndex = (_state$allUnits$findI2 = state?.allUnits?.findIndex(unit => unit.id === state.currentUnitId)) !== null && _state$allUnits$findI2 !== void 0 ? _state$allUnits$findI2 : -1;
-        const prevUnit = state?.allUnits?.[currentIndex - 1];
+        const currentIndex = (_state$allUnits$findI2 = state.allUnits?.findIndex(unit => unit.id === state.currentUnitId)) !== null && _state$allUnits$findI2 !== void 0 ? _state$allUnits$findI2 : -1;
+        const prevUnit = state.allUnits?.[currentIndex - 1];
         return {
           ...state,
           currentUnitId: prevUnit ? prevUnit.id : state.currentUnitId
         };
       }
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_REVIEW:
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_HAS_REVIEW:
       return {
         ...state,
-        review: action.review
-      };
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_LOADING:
-      return {
-        ...state,
-        reviewLoading: action.loading
-      };
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_ERROR:
-      return {
-        ...state,
-        reviewError: action.error
-      };
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_MODAL_OPEN:
-      return {
-        ...state,
-        reviewModalOpen: action.open
-      };
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_COMPLETED:
-      return {
-        ...state,
-        isCompleted: action.completed
-      };
-    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COMPLETION_MESSAGE:
-      return {
-        ...state,
-        completionMessage: action.message
+        hasReview: action.payload
       };
     default:
       return state;
   }
 };
+
+/***/ }),
+
+/***/ "./src/store/resolvers.ts":
+/*!********************************!*\
+  !*** ./src/store/resolvers.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions */ "./src/store/actions.ts");
+/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utilities/apiCall */ "./src/utilities/apiCall.ts");
+
+
+
+const resolvers = {
+  async getCourseInfo(courseId) {
+    try {
+      _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setLoading(true);
+      const token = window.wplmsCustomCoursePlayer.token;
+      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__.fetchCourseData)({
+        courseId,
+        token
+      });
+      _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setError("");
+      return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setCourseInfo(response);
+    } catch (error) {
+      return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setError(error instanceof Error ? error.message : String(error));
+    }
+  },
+  async getCourseReview(courseId) {
+    try {
+      const token = window.wplmsCustomCoursePlayer.token;
+      const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+        path: `/wplms/v2/user/getreview/${courseId}`,
+        method: "POST",
+        data: {
+          token,
+          course_id: courseId
+        }
+      });
+      console.log({
+        response
+      });
+      return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setCourseReview(response);
+    } catch (error) {
+      return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setCourseReviewError(error instanceof Error ? error.message : String(error));
+    }
+  },
+  async getUserInfo() {
+    try {
+      const token = window.wplmsCustomCoursePlayer.token;
+      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__.getUserInfo)(token);
+      return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setUserInfo(response);
+    } catch (error) {
+      return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setError(error instanceof Error ? error.message : String(error));
+    }
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (resolvers);
 
 /***/ }),
 
@@ -1949,36 +1953,46 @@ const reducer = (state = DEFAULT_STATE, action) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   memoizedSelectors: () => (/* binding */ memoizedSelectors),
 /* harmony export */   selectors: () => (/* binding */ selectors)
 /* harmony export */ });
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
-// selectors.ts
 
 
+// Define base selector types
+
+// Define selectors with proper typing
 const selectors = {
   getCourseId(state) {
     return state.courseId;
   },
-  getCourseInfo(state) {
+  getCourseTitle(state) {
+    var _state$courseInfo$cou;
+    return (_state$courseInfo$cou = state.courseInfo?.course_title) !== null && _state$courseInfo$cou !== void 0 ? _state$courseInfo$cou : null;
+  },
+  getCourseInfo(state, courseId) {
     return state.courseInfo;
+  },
+  isCourseInfoLoading(state) {
+    return state.isLoading;
+  },
+  getCurrentUnitId(state) {
+    return state.currentUnitId;
+  },
+  getUserInfo(state) {
+    return state.userInfo;
   },
   getProgress(state) {
     var _state$progress;
     return (_state$progress = state.progress) !== null && _state$progress !== void 0 ? _state$progress : 0;
   },
-  getCurrentUnitId(state) {
-    return state.currentUnitId;
+  getCompletedDuration(state) {
+    return state.completedDuration;
   },
-  isLoading(state) {
-    var _state$isLoading;
-    return (_state$isLoading = state.isLoading) !== null && _state$isLoading !== void 0 ? _state$isLoading : false;
-  },
-  getError(state) {
-    return state.error;
-  },
-  getUserInfo(state) {
-    return state.userInfo;
+  getCourseTotalDuration(state) {
+    return state.courseTotalDuration;
   },
   getAllUnits(state) {
     return state.allUnits;
@@ -1997,19 +2011,15 @@ const selectors = {
     return state.reviewError;
   },
   getReviewModalOpen(state) {
-    return state.reviewModalOpen;
+    var _state$reviewModalOpe;
+    return (_state$reviewModalOpe = state.reviewModalOpen) !== null && _state$reviewModalOpe !== void 0 ? _state$reviewModalOpe : false;
   },
-  getCourseTotalDuration(state) {
-    return state.courseTotalDuration;
+  isLoading(state) {
+    var _state$isLoading;
+    return (_state$isLoading = state.isLoading) !== null && _state$isLoading !== void 0 ? _state$isLoading : false;
   },
-  getCompletedDuration(state) {
-    return state.completedDuration;
-  },
-  isLoadingCourseData(state, courseId) {
-    return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.select)("core/data").isResolving("custom-course-player", "getCourseData", [courseId]);
-  },
-  isLoadingUserInfo(state) {
-    return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.select)("core/data").isResolving("custom-course-player", "getUserInfo", []);
+  getError(state) {
+    return state.error;
   },
   isCourseCompleted(state) {
     var _state$isCompleted;
@@ -2017,8 +2027,33 @@ const selectors = {
   },
   getCompletionMessage(state) {
     return state.completionMessage;
+  },
+  hasReview(state) {
+    return state.hasReview;
+  },
+  isLoadingCourseInfo(state, courseId) {
+    return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.select)("core/data").isResolving("custom-course-player", "getCourseInfo", [courseId]);
+  },
+  isLoadingUserInfo(state) {
+    return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.select)("core/data").isResolving("custom-course-player", "getUserInfo", []);
+  },
+  isLoadingReview(state, courseId) {
+    return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.select)("core/data").isResolving("custom-course-player", "getCourseReview", [courseId]);
   }
 };
+
+// Type for the selectors object
+
+// Helper type to get return type of a selector
+
+// Export memoized selectors separately
+const memoizedSelectors = {
+  getCompletedUnits: (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.createSelector)(state => state.allUnits, allUnits => {
+    var _allUnits$filter;
+    return (_allUnits$filter = allUnits?.filter(unit => unit.status === 1)) !== null && _allUnits$filter !== void 0 ? _allUnits$filter : [];
+  })
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (selectors);
 
 /***/ }),
 

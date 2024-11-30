@@ -1,19 +1,33 @@
 // hooks/useCourseSections.ts
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { CourseItem } from "../types/course";
+import { IUnit } from "../types/course";
+import { useSelect } from "@wordpress/data";
+import { useTypedSelect } from "../store";
+import { State } from "../store/types";
 
 interface Section {
   id: number;
   key: number;
   title: string;
-  units: CourseItem[];
+  units: IUnit[];
 }
 
-export const useCourseSections = (
-  items: CourseItem[],
-  currentUnitId: number | null
-) => {
+export const useCourseSections = () => {
+  const courseId = useTypedSelect((select) => select.getCourseId(), []);
+
   const [expandedSections, setExpandedSections] = useState<number[]>([]);
+  const { items, currentUnitId } = useTypedSelect(
+    (select) => {
+      if (courseId) {
+        return {
+          items: select.getCourseInfo(courseId)?.courseitems || [],
+          currentUnitId: select.getCurrentUnitId(),
+        };
+      }
+      return { items: [], currentUnitId: null };
+    },
+    [courseId]
+  );
 
   // Organize sections and find initial expanded section
   const { sections, initialExpandedSection } = useMemo(() => {
@@ -21,7 +35,7 @@ export const useCourseSections = (
     let currentSection: Section | null = null as Section | null;
     let sectionWithCurrentUnit = -1;
 
-    items.forEach((item) => {
+    items?.forEach((item: IUnit) => {
       if (item.type === "section") {
         if (currentSection) {
           organizedSections.push(currentSection);

@@ -1,224 +1,192 @@
-import { actionTypes } from "./const";
+import apiFetch from "@wordpress/api-fetch";
 import { ICourse } from "../types/course";
+import { actionTypes } from "./const";
+import resolvers from "./resolvers";
+import { fetchCourseData, submitCourseReview } from "../utilities/apiCall";
+
+interface ReviewResponse {
+  comment_id?: number;
+  [key: string]: any;
+}
 
 export const actions = {
-  setCourseId(courseId: number | null) {
-    return {
-      type: actionTypes.SET_COURSE_ID,
-      courseId,
-    };
-  },
-
-  setProgress(progress: number) {
-    return {
-      type: actionTypes.SET_PROGRESS,
-      progress,
-    };
-  },
-
-  setCurrentUnit(unitId: number | null) {
-    return {
-      type: actionTypes.SET_CURRENT_UNIT,
-      unitId,
-    };
-  },
-
-  setIsLoading(isLoading: boolean) {
-    return {
-      type: actionTypes.SET_IS_LOADING,
-      isLoading,
-    };
-  },
-
-  setError(error: string | null) {
-    return {
-      type: actionTypes.SET_ERROR,
-      error,
-    };
-  },
-
+  // Simple synchronous action creators
   setCourseInfo(courseInfo: ICourse) {
     return {
       type: actionTypes.SET_COURSE_INFO,
-      courseInfo,
+      payload: courseInfo,
     };
   },
+
   setUserInfo(userInfo: any) {
     return {
       type: actionTypes.SET_USER_INFO,
-      userInfo,
-    };
-  },
-  *fetchCourseData(courseId: number): Generator<any, void, any> {
-    try {
-      yield actions.setIsLoading(true);
-      const response = yield {
-        type: actionTypes.FETCH_COURSE_DATA,
-        courseId,
-      };
-      const currentUnit = response.courseitems.find(
-        (unit: any) => unit.key == response.current_unit_key
-      );
-      yield actions.setCourseInfo(response);
-      yield actions.setCourseId(courseId);
-      yield actions.setCurrentUnit(currentUnit.id);
-      yield actions.setIsLoading(false);
-    } catch (error) {
-      yield actions.setError(
-        error instanceof Error ? error.message : String(error)
-      );
-      yield actions.setIsLoading(false);
-    }
-  },
-  *fetchUserInfo(): Generator<any, void, any> {
-    try {
-      const response = yield {
-        type: actionTypes.FETCH_USER_INFO,
-      };
-      yield actions.setUserInfo(response);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
-  },
-
-  *markUnitComplete(
-    courseId: number,
-    unitId: number,
-    progress: number
-  ): Generator<any, void, any> {
-    try {
-      const response = yield {
-        type: actionTypes.MARK_UNIT_COMPLETE,
-        courseId,
-        unitId,
-        progress,
-      };
-      yield actions.fetchCourseData(courseId);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
-  },
-
-  *updateCourseProgress(courseId: number): Generator<any, void, any> {
-    try {
-      const response = yield {
-        type: actionTypes.GET_COURSE_PROGRESS,
-        courseId,
-      };
-      yield actions.setProgress(response);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
-  },
-
-  *handleError(error: unknown): Generator<any, void, any> {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    yield actions.setError(errorMessage);
-    yield actions.setIsLoading(false);
-  },
-
-  nextUnit() {
-    return {
-      type: actionTypes.NEXT_UNIT,
+      payload: userInfo,
     };
   },
 
-  prevUnit() {
+  setCourseInfoLoading(isLoading: boolean) {
     return {
-      type: actionTypes.PREV_UNIT,
+      type: actionTypes.SET_REVIEW_LOADING,
+      payload: isLoading,
+    };
+  },
+
+  setCourseReviewError(error: string) {
+    return {
+      type: actionTypes.SET_REVIEW_ERROR,
+      payload: error,
     };
   },
 
   setCourseReview(review: any) {
     return {
       type: actionTypes.SET_COURSE_REVIEW,
-      review,
+      payload: review,
     };
   },
-  setReviewLoading(loading: boolean) {
+
+  setLoading(isLoading: boolean) {
     return {
-      type: actionTypes.SET_REVIEW_LOADING,
-      loading,
+      type: actionTypes.SET_IS_LOADING,
+      payload: isLoading,
     };
   },
-  setReviewError(error: string | null) {
+
+  setError(error: string) {
     return {
-      type: actionTypes.SET_REVIEW_ERROR,
-      error,
+      type: actionTypes.SET_ERROR,
+      payload: error,
     };
   },
-  setReviewModalOpen(open: boolean) {
+
+  setNextUnit() {
+    return {
+      type: actionTypes.NEXT_UNIT,
+    };
+  },
+
+  setPreviousUnit() {
+    return {
+      type: actionTypes.PREV_UNIT,
+    };
+  },
+
+  setCurrentUnit(unitId: number) {
+    return {
+      type: actionTypes.SET_CURRENT_UNIT,
+      payload: unitId,
+    };
+  },
+
+  setProgress(progress: number) {
+    return {
+      type: actionTypes.SET_PROGRESS,
+      payload: progress,
+    };
+  },
+  setReviewModalOpen(isOpen: boolean) {
     return {
       type: actionTypes.SET_REVIEW_MODAL_OPEN,
-      open,
+      payload: isOpen,
     };
   },
-  setCompletionMessage(message: string | null) {
-    return {
-      type: actionTypes.SET_COMPLETION_MESSAGE,
-      message,
-    };
-  },
-  *fetchCourseReview(courseId: number): Generator<any, void, any> {
-    try {
-      yield actions.setReviewLoading(true);
-      const response = yield {
-        type: actionTypes.FETCH_COURSE_REVIEW,
-        courseId,
-      };
-      yield actions.setCourseReview(response);
-      yield actions.setReviewLoading(false);
-    } catch (error) {
-      yield actions.handleError(error);
-      yield actions.setReviewLoading(false);
-    }
-  },
+  // Thunks for handling user actions
+  submitCourseReview:
+    ({
+      rating,
+      review,
+      courseId,
+    }: {
+      rating: number;
+      review: string;
+      courseId: number;
+    }) =>
+    async ({ dispatch }: { dispatch: any }) => {
+      try {
+        dispatch(actions.setLoading(true));
+        const token = (window as any).wplmsCustomCoursePlayer.token;
 
-  *submitCourseReview({
-    rating,
-    review,
-    courseId,
-  }: {
-    rating: number;
-    review: string;
-    courseId: number;
-  }): Generator<any, void, any> {
-    try {
-      yield actions.setIsLoading(true);
-      const response = yield {
-        type: actionTypes.SUBMIT_COURSE_REVIEW,
-        rating,
-        review,
-        comment_post_ID: courseId,
-      };
-      yield actions.setCourseReview(response);
-      yield actions.setIsLoading(false);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
-  },
-
-  setCourseCompleted(completed: boolean) {
-    return {
-      type: actionTypes.SET_COURSE_COMPLETED,
-      completed,
-    };
-  },
-
-  *finishCourse(courseId: number): Generator<any, void, any> {
-    try {
-      yield actions.setIsLoading(true);
-      const response = yield {
-        type: actionTypes.FINISH_COURSE,
-        courseId,
-      };
-      if (response.status) {
-        yield actions.setCompletionMessage(response.finished.message);
+        const response = (await submitCourseReview({
+          token,
+          comment_post_ID: courseId,
+          rating,
+          review,
+        })) as ReviewResponse;
+        if (response?.comment_id) {
+          dispatch(actions.setHasReview(true));
+        }
+        dispatch(actions.setCourseReview(response));
+        dispatch(actions.setReviewModalOpen(false));
+        dispatch(actions.setLoading(false));
+      } catch (error) {
+        dispatch(
+          actions.setError(
+            error instanceof Error ? error.message : String(error)
+          )
+        );
+        dispatch(actions.setLoading(false));
       }
-      yield actions.fetchCourseData(courseId); // Refresh course data
-      yield actions.setIsLoading(false);
-    } catch (error) {
-      yield actions.handleError(error);
-    }
+    },
+
+  markUnitComplete:
+    ({
+      courseId,
+      unitId,
+      progress,
+    }: {
+      courseId: number;
+      unitId: number;
+      progress: number;
+    }) =>
+    async ({ dispatch }: { dispatch: any }) => {
+      try {
+        dispatch(actions.setLoading(true));
+        const token = (window as any).wplmsCustomCoursePlayer.token;
+
+        await apiFetch({
+          path: `/wplms/v2/user/coursestatus/${courseId}/item/${unitId}/markcomplete`,
+          method: "POST",
+          data: { token, course_id: courseId, item_id: unitId, progress },
+        });
+
+        dispatch(actions.setProgress(progress));
+        dispatch(actions.setLoading(false));
+      } catch (error) {
+        dispatch(
+          actions.setError(
+            error instanceof Error ? error.message : String(error)
+          )
+        );
+        dispatch(actions.setLoading(false));
+      }
+    },
+
+  // fetch course actions
+  fetchCourse:
+    (courseId: string) =>
+    async ({ dispatch }: { dispatch: any }) => {
+      try {
+        dispatch(actions.setLoading(true));
+        const token = (window as any).wplmsCustomCoursePlayer.token;
+        const response = await fetchCourseData({ courseId, token });
+
+        dispatch(actions.setCourseInfo(response));
+        dispatch(actions.setLoading(false));
+        dispatch(actions.setError(""));
+      } catch (error) {
+        dispatch(
+          actions.setError(
+            error instanceof Error ? error.message : String(error)
+          )
+        );
+        dispatch(actions.setLoading(false));
+      }
+    },
+  setHasReview(hasReview: boolean) {
+    return {
+      type: actionTypes.SET_HAS_REVIEW,
+      payload: hasReview,
+    };
   },
 };

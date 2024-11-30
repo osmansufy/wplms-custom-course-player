@@ -1,23 +1,20 @@
 // components/CourseSections.tsx
 import React from 'react';
-import { CourseItem } from '../../../types/course';
 import { useCourseSections } from '../../../hooks/useCourseSections';
 import { formatDuration } from '../../../utilities/utility';
 import UnitItem from './UnitItem';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { useTypedSelect } from '../../../store';
+import { State } from '../../../store/types';
 const REVIEW_MILESTONES = [15, 75, 100];
 
 
 interface CourseSectionsProps {
-    items: CourseItem[];
     currentUnitId: number | null;
 }
 
-const CourseSections: React.FC<CourseSectionsProps> = ({
-    items,
-    currentUnitId,
-}) => {
+const CourseSections = () => {
     const [lastShownMilestone, setLastShownMilestone] = useState<number>(0);
 
     const {
@@ -25,25 +22,38 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
         expandedSections,
         toggleSection,
         getSectionStats
-    } = useCourseSections(items, currentUnitId);
+    } = useCourseSections();
+    const courseId = useTypedSelect((select) => select.getCourseId(), []);
     const {
         progress,
-        courseId,
         isCompleted,
-        hasReview,
-        reviewLoading,
         completionMessage
-    } = useSelect((select) => ({
-        progress: select('custom-course-player').getProgress(),
-        courseId: select('custom-course-player').getCourseId(),
-        isCompleted: select('custom-course-player').isCourseCompleted(),
-        hasReview: select('custom-course-player').getCourseReview()?.comment_ID !== undefined,
-        reviewLoading: select('custom-course-player').getReviewLoading(),
-        completionMessage: select('custom-course-player').getCompletionMessage(),
-    }), []);
+    } = useTypedSelect((select) => ({
+        progress: select.getProgress(),
+        isCompleted: select.isCourseCompleted(),
+
+        completionMessage: select.getCompletionMessage(),
+    }), [courseId]);
+
+    const {
+        hasReview,
+    } = useTypedSelect((select) => {
+        if (courseId) {
+            return {
+                hasReview: select.hasReview(),
+                reviewLoading: select.isLoadingReview(courseId),
+            }
+        }
+        return { hasReview: false, reviewLoading: true };
+    }, [courseId]);
     const { setReviewModalOpen, finishCourse } = useDispatch('custom-course-player');
     const onHandleReviewModalOpen = () => {
-        if (hasReview || reviewLoading) {
+        console.log({
+            courseId,
+            hasReview,
+        })
+        if (hasReview) {
+
             return;
         }
         const milestone = REVIEW_MILESTONES.find(
@@ -55,13 +65,16 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
             setLastShownMilestone(milestone);
         }
     }
+    // review modal don't open initial render
     useEffect(() => {
-        console.log({ hasReview, reviewLoading });
-        if (!hasReview && !reviewLoading) {
+
+        if (!hasReview && courseId) {
             console.log('review modal open');
             onHandleReviewModalOpen();
+        } else {
+            setReviewModalOpen(false);
         }
-    }, [progress, hasReview, reviewLoading]);
+    }, [progress, hasReview, courseId]);
 
     const handleFinishCourse = async () => {
         if (courseId) {
@@ -102,7 +115,7 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
                             className={`w-full flex items-center justify-between p-4 text-left
                          transition-colors rounded-t-lg
                          ${isExpanded ? 'bg-gray-50' : 'hover:bg-gray-50'}
-                         ${stats.isComplete ? 'bg-green-50 hover:bg-green-100' : ''}`}
+                         ${stats.isComplete ? 'bg-primary-50 hover:bg-primary-100' : ''}`}
                             onClick={() => toggleSection(index)}
                         >
                             <div className="flex-grow">
@@ -111,7 +124,7 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
 
                                 </div>
                                 <p className="text-sm text-gray-500">
-                                    {stats.completedUnits}/{stats.totalUnits} lessons • {formatDuration(stats.totalDuration)}
+                                    {stats.completedUnits}/{stats.totalUnits} lessons • {formatDuration(stats.totalDuration)} m
                                 </p>
                             </div>
                             <svg
@@ -131,7 +144,6 @@ const CourseSections: React.FC<CourseSectionsProps> = ({
                                     <UnitItem
                                         key={unit.id}
                                         unit={unit}
-                                        currentUnitId={currentUnitId}
                                     />
                                 ))}
                             </div>

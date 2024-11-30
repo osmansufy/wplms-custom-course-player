@@ -4,6 +4,8 @@ import { ICourse } from '../types/course';
 import ContentArea from './course/ContentArea';
 import Sidebar from './course/sidebar';
 import TopBar from './TopBar';
+import { State } from '../store/types';
+import { useTypedSelect } from '../store';
 
 interface RootContainerProps {
     courseId: string;
@@ -14,9 +16,7 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
 
     // Get dispatch actions
     const {
-        fetchCourseData,
-        nextUnit,
-        prevUnit,
+        fetchCourse,
     } = useDispatch('custom-course-player');
 
     // Get state from Redux store
@@ -25,32 +25,15 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
         loading,
         error,
         currentUnitId,
-    } = useSelect((select) => ({
-        courseInfo: select('custom-course-player')?.getCourseInfo() || null,
-        loading: select('custom-course-player')?.isLoadingUserInfo() || false,
-        error: select('custom-course-player')?.getError() || null,
-        currentUnitId: select('custom-course-player')?.getCurrentUnitId() || null,
+    } = useTypedSelect((select) => ({
+        courseInfo: select.getCourseInfo(parseInt(courseId)) || null,
+        loading: select.isLoadingUserInfo() || false,
+        error: select.getError() || null,
+        currentUnitId: select.getCurrentUnitId() || null,
     }), []);
 
-    // Fetch course data on component mount
-    useEffect(() => {
-        if (courseId) {
-            fetchCourseData(courseId);
-        }
-    }, [courseId]);
-
-    // Set initial unit when course data is loaded
 
 
-
-
-    const handlePrevious = () => {
-        prevUnit();
-    };
-
-    const handleNext = () => {
-        nextUnit();
-    };
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -72,7 +55,7 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
                 <div className="bg-red-50 p-4 rounded-lg">
                     <p className="text-red-600">{error}</p>
                     <button
-                        onClick={() => courseId && fetchCourseData(courseId)}
+                        onClick={() => courseId && fetchCourse(courseId)}
                         className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                     >
                         Retry
@@ -93,9 +76,7 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
                     courseId={courseId}
                     currentUnitId={currentUnitId}
                     isSidebarOpen={isSidebarOpen}
-                    onToggleSidebar={toggleSidebar}
-                    onPrevious={handlePrevious}
-                    onNext={handleNext}
+
                 />
                 {courseInfo && (
                     <Sidebar

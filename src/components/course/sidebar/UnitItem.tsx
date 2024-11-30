@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { UnitItemProps } from './types';
-import { useSelect, useDispatch } from '@wordpress/data';
 import { formatDuration } from '../../../utilities/utility';
-import { useCourseProgress } from '../../../hooks/useCourseProgress';
 import { useCallback } from '@wordpress/element';
-const UnitItem: React.FC<UnitItemProps> = ({ unit, currentUnitId }) => {
+import { useTypedSelect } from '../../../store';
+import { State } from '../../../store/types';
+import { useDispatch } from '@wordpress/data';
+const UnitItem: React.FC<UnitItemProps> = ({ unit }) => {
+    console.log('unit', unit);
     const { markUnitComplete, setCurrentUnit } = useDispatch('custom-course-player');
     const [isUnitComplete, setIsUnitComplete] = useState(unit?.status ?? 0);
-    const { courseId, courseInfo } = useSelect((select) => ({
-        courseId: select('custom-course-player').getCourseId(),
-        courseInfo: select('custom-course-player').getCourseInfo(),
-    }), [])
+    const { currentUnitId, courseId } = useTypedSelect((select) => ({
+        currentUnitId: select.getCurrentUnitId(),
+        courseId: select.getCourseId(),
+    }), []);
     const handleSelectUnit = (id: number) => {
         setCurrentUnit(id);
     };
 
-    const { completedDuration, courseTotalDuration } = useSelect((select) => ({
-        completedDuration: select('custom-course-player').getCompletedDuration(),
-        courseTotalDuration: select('custom-course-player').getCourseTotalDuration(),
+    const { completedDuration, courseTotalDuration } = useTypedSelect((select) => ({
+        completedDuration: select.getCompletedDuration(),
+        courseTotalDuration: select.getCourseTotalDuration(),
     }), []);
 
     const unitCompletedProgress = useCallback(() => {
@@ -29,7 +31,11 @@ const UnitItem: React.FC<UnitItemProps> = ({ unit, currentUnitId }) => {
 
     const onHandleCompleteUnit = async (unitId: number) => {
         try {
-            await markUnitComplete(courseId, unitId, unitCompletedProgress());
+            await markUnitComplete({
+                courseId,
+                unitId,
+                progress: unitCompletedProgress(),
+            });
             setIsUnitComplete(1);
         } catch (error) {
             console.log(error);
@@ -67,7 +73,7 @@ const UnitItem: React.FC<UnitItemProps> = ({ unit, currentUnitId }) => {
                 </h4>
                 <div className="flex items-center text-xs text-gray-500 mt-1">
                     {unit.icon && <span className={`${unit.icon} mr-1`} />}
-                    <span>{formatDuration(unit.duration)}</span>
+                    <span>{formatDuration(unit.duration)} m</span>
                 </div>
             </div>
         </div>

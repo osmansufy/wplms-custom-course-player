@@ -1,5 +1,4 @@
 import { useEffect, useState } from "@wordpress/element";
-import { fetchCourseReview } from "../utilities/apiCall";
 // Progress milestones for review popup
 const REVIEW_MILESTONES = [15, 50, 100];
 // Custom hook to manage review state and auto-popup logic

@@ -1,4 +1,4 @@
-import { ICourse, CourseItem } from "../../../types/course";
+import { IUnit } from "../../../types/course";
 
 export interface SidebarProps {
   isOpen: boolean;
@@ -17,13 +17,12 @@ export interface SidebarProgressProps {
 }
 
 export interface SectionItemProps {
-  item: CourseItem;
+  item: IUnit;
   isExpanded: boolean;
   onToggle: () => void;
   children?: React.ReactNode;
 }
 
 export interface UnitItemProps {
-  unit: CourseItem;
-  currentUnitId: number | null;
+  unit: IUnit;
 }
