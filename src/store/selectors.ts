@@ -28,6 +28,7 @@ export type SelectorReturnTypes = {
   isLoadingUserInfo: () => boolean;
   isLoadingReview: (courseId: number) => boolean;
   hasReview: () => boolean;
+  getReviewList: (courseId: number) => any;
 };
 
 // Course Related Selectors
@@ -111,6 +112,10 @@ export const selectors = {
 
   hasReview(state: State): boolean {
     return state.hasReview;
+  },
+
+  getReviewList(state: State): any {
+    return state.reviewList;
   },
 
   // Loading & Error State Selectors

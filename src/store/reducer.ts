@@ -23,6 +23,7 @@ export const DEFAULT_STATE: State = {
   completedDuration: null,
   isCompleted: false,
   completionMessage: null,
+  reviewList: null,
 };
 
 // Helper functions
@@ -189,6 +190,12 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
       return {
         ...state,
         hasReview: action.payload,
+      };
+
+    case actionTypes.SET_REVIEW_LIST:
+      return {
+        ...state,
+        reviewList: action.payload,
       };
 
     default:

@@ -18,6 +18,7 @@ if (!$course_id) {
 
 // Check if user has access to the course
 if (!bp_course_is_member($course_id, get_current_user_id())) {
+    error_log('User does not have access to the course ' . get_current_user_id() . ' for course ' . $course_id);
     wp_die('You do not have access to this course');
 }
 

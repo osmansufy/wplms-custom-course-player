@@ -8,7 +8,7 @@ import { useDispatch } from '@wordpress/data';
 import UnitItemView from './UnitItemView';
 
 const UnitItem: React.FC<UnitItemProps> = ({ unit }) => {
-    const { markUnitComplete, setCurrentUnit } = useDispatch('custom-course-player');
+    const { completeUnit, setCurrentUnit } = useDispatch('custom-course-player');
     const [isUnitComplete, setIsUnitComplete] = useState(unit?.status ?? 0);
 
     const { currentUnitId, courseId, completedDuration, courseTotalDuration } = useTypedSelect((select) => ({
@@ -27,7 +27,7 @@ const UnitItem: React.FC<UnitItemProps> = ({ unit }) => {
 
     const onHandleCompleteUnit = async (unitId: number) => {
         try {
-            await markUnitComplete({
+            await completeUnit({
                 courseId,
                 unitId,
                 progress: unitCompletedProgress(),

@@ -2,7 +2,11 @@ import apiFetch from "@wordpress/api-fetch";
 import { ICourse } from "../types/course";
 import { actionTypes } from "./const";
 import resolvers from "./resolvers";
-import { fetchCourseData, submitCourseReview } from "../utilities/apiCall";
+import {
+  fetchCourseData,
+  markUnitComplete,
+  submitCourseReview,
+} from "../utilities/apiCall";
 
 interface ReviewResponse {
   comment_id?: number;
@@ -76,6 +80,13 @@ export const actions = {
     };
   },
 
+  setReviewList(reviewList: any) {
+    return {
+      type: actionTypes.SET_REVIEW_LIST,
+      payload: reviewList,
+    };
+  },
+
   // Unit Navigation Actions
   setNextUnit() {
     return {
@@ -125,11 +136,9 @@ export const actions = {
           rating,
           review,
         })) as ReviewResponse;
-        if (response?.comment_id) {
-          dispatch(actions.setHasReview(true));
-        }
         dispatch(actions.setCourseReview(response));
         dispatch(actions.setReviewModalOpen(false));
+        dispatch(actions.setHasReview(true));
         dispatch(actions.setLoading(false));
       } catch (error) {
         dispatch(
@@ -141,7 +150,7 @@ export const actions = {
       }
     },
 
-  markUnitComplete:
+  completeUnit:
     ({
       courseId,
       unitId,
@@ -156,20 +165,16 @@ export const actions = {
         dispatch(actions.setLoading(true));
         const token = (window as any).wplmsCustomCoursePlayer.token;
 
-        await apiFetch({
-          path: `/wplms/v2/user/coursestatus/${courseId}/item/${unitId}/markcomplete`,
-          method: "POST",
-          data: { token, course_id: courseId, item_id: unitId, progress },
-        });
+        await markUnitComplete({ courseId, unitId, progress, token });
 
-        dispatch(actions.setProgress(progress));
-        dispatch(actions.setLoading(false));
+        await dispatch(actions.fetchCourse(String(courseId)));
       } catch (error) {
         dispatch(
           actions.setError(
             error instanceof Error ? error.message : String(error)
           )
         );
+      } finally {
         dispatch(actions.setLoading(false));
       }
     },
@@ -193,5 +198,11 @@ export const actions = {
         );
         dispatch(actions.setLoading(false));
       }
+    },
+
+  finishCourse:
+    (courseId: string) =>
+    async ({ dispatch }: { dispatch: any }) => {
+      const token = (window as any).wplmsCustomCoursePlayer.token;
     },
 };

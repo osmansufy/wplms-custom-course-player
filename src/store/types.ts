@@ -1,3 +1,4 @@
+import { ICourseReview } from "../types/comment";
 import { ICourse, IUnit } from "../types/course";
 import { SelectorReturnType, SelectorsType } from "./selectors";
 
@@ -20,4 +21,5 @@ export interface State {
   isCompleted: boolean;
   completionMessage: string | null;
   hasReview: boolean;
+  reviewList: ICourseReview[] | null;
 }

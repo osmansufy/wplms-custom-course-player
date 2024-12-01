@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCourseSectionsView } from '../../../../hooks/useCourseSectionsView';
+import { useCourseSectionsView } from './useCourseSectionsView';
 import { CourseCompletionStatus } from './CourseCompletionStatus';
 import { SectionHeader } from './SectionHeader';
 import UnitItem from '../Unit/UnitItem';

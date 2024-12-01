@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelect } from '@wordpress/data';
-import { ICourse } from '../types/course';
-import ContentArea from './course/ContentArea';
+import { useDispatch } from '@wordpress/data';
+import React, { useState } from 'react';
+import { useTypedSelect } from '../store';
+import ContentArea from './course/content/ContentArea';
 import Sidebar from './course/sidebar';
 import TopBar from './TopBar';
-import { State } from '../store/types';
-import { useTypedSelect } from '../store';
+import CourseTabs from './course/CourseTabs';
 
 interface RootContainerProps {
     courseId: string;
@@ -66,16 +65,20 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
     }
 
     return (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col min-h-screen">
             <TopBar
                 onToggleSidebar={toggleSidebar}
                 isSidebarOpen={isSidebarOpen}
             />
-            <div className="flex flex-1 overflow-hidden pt-16">
-                <ContentArea
-                    isSidebarOpen={isSidebarOpen}
-
-                />
+            <div className={`flex flex-1 overflow-hidden sm:pt-16`}>
+                <div className="flex flex-1 flex-col">
+                    {/* content area */}
+                    <ContentArea
+                        isSidebarOpen={isSidebarOpen}
+                    />
+                    <CourseTabs />
+                </div>
+                {/* sidebar */}
                 {courseInfo && (
                     <Sidebar
                         isOpen={isSidebarOpen}

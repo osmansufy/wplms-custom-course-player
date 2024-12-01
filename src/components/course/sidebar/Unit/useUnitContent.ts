@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSelect } from "@wordpress/data";
-import { IUnitItem } from "../types/course";
-import { fetchUnitContent } from "../utilities/apiCall";
-import { useTypedSelect } from "../store";
+import { IUnitItem } from "../../../../types/course";
+import { fetchUnitContent } from "../../../../utilities/apiCall";
+import { useTypedSelect } from "../../../../store";
 const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
 export const useUnitContent = () => {
   const { courseId, currentUnitId, allUnits } = useTypedSelect((select) => ({

@@ -1,9 +1,8 @@
 import { useState, useEffect } from "@wordpress/element";
 import { useDispatch } from "@wordpress/data";
-import { useTypedSelect } from "../store";
-import { useCourseSections } from "./useCourseSections";
-
-const REVIEW_MILESTONES = [15, 75, 100];
+import { useTypedSelect } from "../../../../store";
+import { useCourseSections } from "../../../../hooks/useCourseSections";
+import { REVIEW_MILESTONES } from "../../../../utilities/const";
 
 export function useCourseSectionsView() {
   const [lastShownMilestone, setLastShownMilestone] = useState<number>(0);

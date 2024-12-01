@@ -27,6 +27,18 @@ class RestApi
             'callback' => array($this, 'update_course_progress'),
             'permission_callback' => [$this, 'get_user_permissions_check'],
         ));
+        // get course review of user
+        register_rest_route($this->namespace, '/course-review/(?P<course>\d+)', array(
+            'methods' => 'POST',
+            'callback' => array($this, 'get_course_review'),
+            'permission_callback' => [$this, 'get_user_permissions_check'],
+        ));
+
+        register_rest_route($this->namespace, '/course-reviews/(?P<course>\d+)', array(
+            'methods' => 'POST',
+            'callback' => array($this, 'get_reviews'),
+            'permission_callback' => [$this, 'get_user_permissions_check'],
+        ));
     }
 
     public function get_token($request)
@@ -101,6 +113,77 @@ class RestApi
         }
 
         return false;
+    }
+
+    public function get_course_review($request)
+    {
+
+        if (!$this->user_id) {
+            return false;
+        }
+        $course = intval($request['course']);
+        global $wpdb;
+        $comment_id = $wpdb->get_var("SELECT comment_ID FROM {$wpdb->comments} WHERE comment_post_ID = $course AND user_id = $this->user_id");
+
+        $data = array();
+        if (!empty($comment_id)) {
+            $comment = get_comment($comment_id);
+            $data['comment_ID'] = $comment->comment_ID;
+            $data['review'] = $comment->comment_content;
+            $data['title'] = get_comment_meta($comment->comment_ID, 'review_title', true);
+            $data['rating'] = get_comment_meta($comment->comment_ID, 'review_rating', true);
+        }
+
+
+
+        return new \WP_REST_Response($data, 200);;
+    }
+
+    // get course all reviews
+
+    public function get_reviews($request)
+    {
+        $course_id = $request['course'];
+        $reviews = array();
+        $args = apply_filters('bp_course_api_course_reviews', array(
+            'post_id'     => $course_id,
+            'status' => 'approve',
+            'orderby'    => 'comment_date',
+            'order'        => 'DESC',
+            'number'    => 5,
+        ));
+        $comments = get_comments($args);
+        if (!empty($comments)) {
+            foreach ($comments as $comment) {
+                $title =  get_comment_meta($comment->comment_ID, 'review_title', true);
+                $rating = get_comment_meta($comment->comment_ID, 'review_rating', true);
+                $review = array(
+                    'id'         => $comment->comment_ID,
+                    'title'        => $title,
+                    'content'    => $comment->comment_content,
+                    'rating'    => $rating,
+                    'member'    => $this->get_member($comment->user_id),
+                    'date'    => $comment->comment_date,
+                );
+                array_push($reviews, $review);
+            }
+        }
+
+        return new \WP_REST_Response($reviews, 200);
+    }
+
+    function get_member($user_id)
+    {
+        $field = 'Location';
+        if (function_exists('vibe_get_option'))
+            $field = vibe_get_option('student_field');
+
+        return array(
+            'id'     => $user_id,
+            'name'   => bp_core_get_user_displayname($user_id),
+            'avatar' => bp_course_get_instructor_avatar_url($user_id),
+            'sub'    => (bp_is_active('xprofile') ? bp_get_profile_field_data('field=' . $field . '&user_id=' . $user_id) : ''),
+        );
     }
 }
 

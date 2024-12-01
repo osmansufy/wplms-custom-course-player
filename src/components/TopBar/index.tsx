@@ -51,19 +51,32 @@ export default function TopBar({ onToggleSidebar }: TopBarProps) {
     const hasReview = useMemo(() => {
         return review?.comment_ID !== undefined;
     }, [review]);
+
+    // go back
+    const goBack = () => {
+        // go back to student-portal
+        window.location.href = '/student-portal';
+
+    };
     return (
         <>
             <div className="fixed top-0 left-0 right-0 bg-gray-800 text-white z-50">
                 <div className="h-16 px-4 flex items-center justify-between">
                     {/* Left section */}
                     <div className="flex items-center gap-4">
-                        <h1 className="text-xl font-bold truncate max-w-md text-secondary-50">
+                        {/* back button */}
+                        <button onClick={goBack} className="text-secondary-50  p-1 rounded-md hover:bg-secondary-500/20 transition-colors">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <h1 className="sm:text-xl text-sm text-wrap  font-bold  text-secondary-50">
                             {courseTitle || ''}
                         </h1>
                     </div>
 
                     {/* Right section */}
-                    <div className="flex items-center gap-4">
+                    <div className="sm:flex hidden items-center gap-4">
                         <ProgressCircle progress={progress} />
 
                         {!hasReview && (
@@ -103,7 +116,7 @@ export default function TopBar({ onToggleSidebar }: TopBarProps) {
                 </div>
 
                 {/* Progress bar */}
-                <div className="h-1 bg-gray-700">
+                <div className="h-1 sm:block hidden bg-gray-700">
                     <div
                         className="h-full bg-green-500 transition-all duration-500"
                         style={{ width: `${progress}%` }}
@@ -112,7 +125,7 @@ export default function TopBar({ onToggleSidebar }: TopBarProps) {
             </div>
 
             {/* Review Modal */}
-            {reviewModalOpen && <ReviewModal
+            {<ReviewModal
                 isOpen={Boolean(!reviewLoading && reviewModalOpen)}
                 onClose={() => setReviewModalOpen(false)}
                 courseId={courseId}

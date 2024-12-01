@@ -60,7 +60,7 @@ export const ContentDisplay: React.FC<ContentDisplayProps> = ({
     }
 
     return (
-        <div className='custom_course_content max-h-[600px] relative'>
+        <div className='custom_course_content sm:max-h-[400px] max-h-[250px] '>
             <div
                 className={`transition-opacity duration-300 ${loading ? 'opacity-50' : 'opacity-100'}`}
                 dangerouslySetInnerHTML={{ __html: unitContent.content }}

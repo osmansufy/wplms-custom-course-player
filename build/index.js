@@ -12,16 +12,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _course_ContentArea__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./course/ContentArea */ "./src/components/course/ContentArea.tsx");
-/* harmony import */ var _course_sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./course/sidebar */ "./src/components/course/sidebar/index.tsx");
-/* harmony import */ var _TopBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TopBar */ "./src/components/TopBar/index.tsx");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store */ "./src/store/index.ts");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./src/store/index.ts");
+/* harmony import */ var _course_content_ContentArea__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./course/content/ContentArea */ "./src/components/course/content/ContentArea.tsx");
+/* harmony import */ var _course_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./course/sidebar */ "./src/components/course/sidebar/index.tsx");
+/* harmony import */ var _TopBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TopBar */ "./src/components/TopBar/index.tsx");
+/* harmony import */ var _course_CourseTabs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./course/CourseTabs */ "./src/components/course/CourseTabs/index.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -32,12 +34,12 @@ __webpack_require__.r(__webpack_exports__);
 const RootContainer = ({
   courseId
 }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+  const [isSidebarOpen, setIsSidebarOpen] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
 
   // Get dispatch actions
   const {
     fetchCourse
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)('custom-course-player');
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.useDispatch)('custom-course-player');
 
   // Get state from Redux store
   const {
@@ -45,7 +47,7 @@ const RootContainer = ({
     loading,
     error,
     currentUnitId
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_5__.useTypedSelect)(select => ({
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
     courseInfo: select.getCourseInfo(parseInt(courseId)) || null,
     loading: select.isLoadingUserInfo() || false,
     error: select.getError() || null,
@@ -55,22 +57,22 @@ const RootContainer = ({
     setIsSidebarOpen(!isSidebarOpen);
   };
   if (loading) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "h-screen flex items-center justify-center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"
       })
     });
   }
   if (error) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "h-screen flex items-center justify-center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "bg-red-50 p-4 rounded-lg",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
           className: "text-red-600",
           children: error
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
           onClick: () => courseId && fetchCourse(courseId),
           className: "mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700",
           children: "Retry"
@@ -78,16 +80,19 @@ const RootContainer = ({
       })
     });
   }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-    className: "flex flex-col h-screen",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_TopBar__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    className: "flex flex-col min-h-screen",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_TopBar__WEBPACK_IMPORTED_MODULE_5__["default"], {
       onToggleSidebar: toggleSidebar,
       isSidebarOpen: isSidebarOpen
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-      className: "flex flex-1 overflow-hidden pt-16",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_course_ContentArea__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        isSidebarOpen: isSidebarOpen
-      }), courseInfo && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_course_sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      className: `flex flex-1 overflow-hidden sm:pt-16`,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "flex flex-1 flex-col",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_course_content_ContentArea__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          isSidebarOpen: isSidebarOpen
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_course_CourseTabs__WEBPACK_IMPORTED_MODULE_6__["default"], {})]
+      }), courseInfo && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_course_sidebar__WEBPACK_IMPORTED_MODULE_4__["default"], {
         isOpen: isSidebarOpen,
         onToggle: toggleSidebar
       })]
@@ -323,19 +328,40 @@ function TopBar({
   const hasReview = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => {
     return review?.comment_ID !== undefined;
   }, [review]);
+
+  // go back
+  const goBack = () => {
+    // go back to student-portal
+    window.location.href = '/student-portal';
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "fixed top-0 left-0 right-0 bg-gray-800 text-white z-50",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "h-16 px-4 flex items-center justify-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "flex items-center gap-4",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h1", {
-            className: "text-xl font-bold truncate max-w-md text-secondary-50",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            onClick: goBack,
+            className: "text-secondary-50  p-1 rounded-md hover:bg-secondary-500/20 transition-colors",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("svg", {
+              className: "w-6 h-6",
+              fill: "none",
+              stroke: "currentColor",
+              viewBox: "0 0 24 24",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("path", {
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                strokeWidth: 2,
+                d: "M15 19l-7-7 7-7"
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h1", {
+            className: "sm:text-xl text-sm text-wrap  font-bold  text-secondary-50",
             children: courseTitle || ''
-          })
+          })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "flex items-center gap-4",
+          className: "sm:flex hidden items-center gap-4",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ProgressCircle__WEBPACK_IMPORTED_MODULE_5__["default"], {
             progress: progress
           }), !hasReview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
@@ -367,7 +393,7 @@ function TopBar({
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-        className: "h-1 bg-gray-700",
+        className: "h-1 sm:block hidden bg-gray-700",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "h-full bg-green-500 transition-all duration-500",
           style: {
@@ -375,7 +401,7 @@ function TopBar({
           }
         })
       })]
-    }), reviewModalOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_review_ReviewModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_review_ReviewModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
       isOpen: Boolean(!reviewLoading && reviewModalOpen),
       onClose: () => setReviewModalOpen(false),
       courseId: courseId,
@@ -391,10 +417,269 @@ function TopBar({
 
 /***/ }),
 
-/***/ "./src/components/course/ContentArea.tsx":
-/*!***********************************************!*\
-  !*** ./src/components/course/ContentArea.tsx ***!
-  \***********************************************/
+/***/ "./src/components/course/CourseTabs/ReviewsContent.tsx":
+/*!*************************************************************!*\
+  !*** ./src/components/course/CourseTabs/ReviewsContent.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/MagnifyingGlassIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/HandThumbUpIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/HandThumbDownIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/FlagIcon.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../store */ "./src/store/index.ts");
+/* harmony import */ var _StarRating__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./StarRating */ "./src/components/course/CourseTabs/StarRating.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+const ReviewsContent = ({
+  courseId
+}) => {
+  const {
+    reviewList,
+    hasReview
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(state => ({
+    reviewList: state.getReviewList(courseId),
+    hasReview: state.hasReview()
+  }), [courseId]);
+  const {
+    setReviewModalOpen
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)(_store__WEBPACK_IMPORTED_MODULE_2__["default"].name);
+  console.log({
+    reviewList
+  });
+  const mockReviews = [{
+    id: 1,
+    title: 'Great course!',
+    member: {
+      id: 1,
+      name: 'Dhaval V.',
+      avatar: '',
+      sub: ''
+    },
+    rating: 5,
+    date: 'a week ago',
+    content: 'This course is absolutely perfect for anyone looking to start with GitHub Actions and progress from beginner to expert. Thank you so much for creating such an outstanding and insightful course!'
+  }];
+  if (!courseId) {
+    return null;
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    className: "space-y-8",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "flex items-start gap-8",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "text-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "text-6xl font-bold text-orange-500",
+          children: "4.7"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_StarRating__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          rating: 4.7,
+          size: "lg"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "text-gray-600 mt-1",
+          children: "Course Rating"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "flex-1 space-y-2",
+        children: [{
+          stars: 5,
+          percentage: 69
+        }, {
+          stars: 4,
+          percentage: 27
+        }, {
+          stars: 3,
+          percentage: 4
+        }, {
+          stars: 2,
+          percentage: 1
+        }, {
+          stars: 1,
+          percentage: 1
+        }].map(rating => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "flex items-center gap-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_StarRating__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            rating: rating.stars
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "flex-1 h-4 bg-gray-200 rounded",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "h-full bg-orange-400 rounded",
+              style: {
+                width: `${rating.percentage}%`
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "text-sm text-gray-600 min-w-[40px]",
+            children: [rating.percentage, "%"]
+          })]
+        }, rating.stars))
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "space-y-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "flex justify-between items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+          className: "text-xl font-bold",
+          children: "Reviews"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("select", {
+          className: "border p-2 rounded-md",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+            children: "All ratings"
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "relative",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+          type: "text",
+          placeholder: "Search reviews",
+          className: "w-full pl-4 pr-12 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+          className: "absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            className: "w-5 h-5 text-gray-500"
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "space-y-6",
+        children: reviewList?.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "text-center py-8",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h3", {
+            className: "text-xl font-semibold text-gray-700 mb-2",
+            children: "No reviews yet"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+            className: "text-gray-600",
+            children: "Be the first to review this course"
+          }), !hasReview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+            className: "mt-4 bg-orange-500 text-white px-4 py-2 rounded-md",
+            onClick: () => setReviewModalOpen(true),
+            children: "Write a review"
+          })]
+        }) : reviewList?.map(review => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "border-b pb-6",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "flex items-center gap-4 mb-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-600",
+              children: review.member?.avatar && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                src: review.member.avatar,
+                alt: review.member.name,
+                className: "w-full h-full object-cover rounded-full"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "font-medium",
+                children: review.member.name
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "flex items-center gap-2",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_StarRating__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                  rating: review.rating
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                  className: "text-gray-500 text-sm",
+                  children: review.date
+                })]
+              })]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+            className: "text-gray-700 mb-4",
+            children: review.content
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "flex items-center gap-4",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+              className: "flex items-center gap-1 text-gray-600 hover:text-gray-800",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                className: "w-4 h-4"
+              }), "Helpful"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+              className: "flex items-center gap-1 text-gray-600 hover:text-gray-800",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                className: "w-4 h-4"
+              }), "Not helpful"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
+              className: "flex items-center gap-1 text-gray-600 hover:text-gray-800",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                className: "w-4 h-4"
+              }), "Report"]
+            })]
+          })]
+        }, review.id))
+      })]
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ReviewsContent);
+
+/***/ }),
+
+/***/ "./src/components/course/CourseTabs/SearchContent.tsx":
+/*!************************************************************!*\
+  !*** ./src/components/course/CourseTabs/SearchContent.tsx ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/MagnifyingGlassIcon.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const SearchContent = () => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "space-y-6",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "max-w-2xl",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "relative",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+          type: "text",
+          placeholder: "Search course content",
+          className: "w-full pl-4 pr-12 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: "absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            className: "w-5 h-5 text-gray-500"
+          })
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "text-center py-8",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+        className: "text-xl font-semibold text-gray-700 mb-2",
+        children: "Start a new search"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+        className: "text-gray-600",
+        children: "To find captions, lectures or resources"
+      })]
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchContent);
+
+/***/ }),
+
+/***/ "./src/components/course/CourseTabs/StarRating.tsx":
+/*!*********************************************************!*\
+  !*** ./src/components/course/CourseTabs/StarRating.tsx ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -403,8 +688,141 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _hooks_course_useContentArea__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../hooks/course/useContentArea */ "./src/hooks/course/useContentArea.ts");
-/* harmony import */ var _content_ContentDisplay__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./content/ContentDisplay */ "./src/components/course/content/ContentDisplay.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const StarRating = ({
+  rating,
+  showNumber = false,
+  size = 'sm'
+}) => {
+  const textSize = size === 'lg' ? 'text-6xl' : 'text-sm';
+  const starSize = size === 'lg' ? 'text-2xl' : 'text-sm';
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex items-center gap-1",
+    children: [showNumber && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: `font-bold text-orange-500 ${textSize}`,
+      children: rating
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: `flex text-orange-400 ${starSize}`,
+      children: [1, 2, 3, 4, 5].map(star => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        children: star <= rating ? '★' : '☆'
+      }, star))
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StarRating);
+
+/***/ }),
+
+/***/ "./src/components/course/CourseTabs/index.tsx":
+/*!****************************************************!*\
+  !*** ./src/components/course/CourseTabs/index.tsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/MagnifyingGlassIcon.js");
+/* harmony import */ var _ReviewsContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReviewsContent */ "./src/components/course/CourseTabs/ReviewsContent.tsx");
+/* harmony import */ var _SearchContent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SearchContent */ "./src/components/course/CourseTabs/SearchContent.tsx");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../store */ "./src/store/index.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+const TabPanel = ({
+  children,
+  value,
+  index
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    role: "tabpanel",
+    hidden: value !== index,
+    className: "p-6 bg-white rounded-b-lg border-t border-gray-200",
+    children: value === index && children
+  });
+};
+const CourseTabs = () => {
+  const [activeTab, setActiveTab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const {
+    courseId
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_3__.useTypedSelect)(state => ({
+    courseId: state.getCourseId()
+  }));
+  const tabs = [{
+    label: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "flex items-center gap-2",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        className: "w-4 h-4"
+      })
+    }),
+    content: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SearchContent__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+  }, {
+    label: 'Overview',
+    content: 'Overview content'
+  }, {
+    label: 'Q&A',
+    content: 'Q&A content'
+  }, {
+    label: 'Notes',
+    content: 'Notes content'
+  }, {
+    label: 'Announcements',
+    content: 'Announcements content'
+  }, {
+    label: 'Reviews',
+    content: courseId ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ReviewsContent__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      courseId: courseId
+    }) : null
+  }, {
+    label: 'Learning tools',
+    content: 'Learning tools content'
+  }];
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    className: "mt-6",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "flex border-b border-gray-200",
+      children: tabs.map((tab, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+        className: `px-6 py-3 text-sm font-medium transition-colors
+              ${activeTab === index ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'}`,
+        onClick: () => setActiveTab(index),
+        children: typeof tab.label === 'string' ? tab.label : tab.label
+      }, index))
+    }), tabs.map((tab, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
+      value: activeTab,
+      index: index,
+      children: tab.content
+    }, index))]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CourseTabs);
+
+/***/ }),
+
+/***/ "./src/components/course/content/ContentArea.tsx":
+/*!*******************************************************!*\
+  !*** ./src/components/course/content/ContentArea.tsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _useContentArea__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useContentArea */ "./src/components/course/content/useContentArea.ts");
+/* harmony import */ var _ContentDisplay__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContentDisplay */ "./src/components/course/content/ContentDisplay.tsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
 
@@ -426,9 +844,12 @@ const ContentArea = ({
     handleMouseEnter,
     handleMouseLeave,
     handleRetry
-  } = (0,_hooks_course_useContentArea__WEBPACK_IMPORTED_MODULE_1__.useContentArea)(isSidebarOpen);
+  } = (0,_useContentArea__WEBPACK_IMPORTED_MODULE_1__.useContentArea)(isSidebarOpen);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    className: `flex-1 p-6 overflow-y-auto transition-all duration-300 relative ${isSidebarOpen ? 'mr-80' : ''}`,
+    className: `flex-1 p-6 overflow-y-auto bg-black 
+                transition-all duration-300 relative 
+               sm:max-h-[520px] max-h-[300px] 
+                }`,
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -436,10 +857,10 @@ const ContentArea = ({
       children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "h-8 bg-gray-200 rounded animate-pulse w-2/3"
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
-        className: "text-3xl font-bold mb-1",
+        className: "text-lg text-white font-bold mb-1",
         children: unitContent?.title
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_content_ContentDisplay__WEBPACK_IMPORTED_MODULE_2__.ContentDisplay, {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_ContentDisplay__WEBPACK_IMPORTED_MODULE_2__.ContentDisplay, {
       loading: loading,
       error: error,
       unitContent: unitContent,
@@ -524,7 +945,7 @@ const ContentDisplay = ({
     });
   }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "custom_course_content max-h-[600px] relative",
+    className: "custom_course_content sm:max-h-[400px] max-h-[250px] ",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: `transition-opacity duration-300 ${loading ? 'opacity-50' : 'opacity-100'}`,
       dangerouslySetInnerHTML: {
@@ -570,11 +991,14 @@ const NavigationButtons = ({
   loading
 }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-    className: `fixed top-1/2 left-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
+    className: `fixed top-1/2 left-4 bg-secondary-300 hover:bg-secondary-400 text-white p-3 
+            rounded-full transform -translate-y-1/2 transition-all duration-300 
+            shadow-lg shadow-secondary-400/20
+            ${isHovering ? 'opacity-100' : 'opacity-0'}`,
     onClick: onPrevious,
     disabled: loading || isFirstUnit,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
-      className: "w-6 h-6",
+      className: "w-5 h-5",
       fill: "none",
       stroke: "currentColor",
       viewBox: "0 0 24 24",
@@ -586,11 +1010,15 @@ const NavigationButtons = ({
       })
     })
   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-    className: `fixed top-1/2 right-4 bg-gray-800 text-white p-2 rounded-full transform -translate-y-1/2 transition-opacity duration-300 ${isSidebarOpen ? 'mr-[23rem]' : ''} ${isHovering ? 'opacity-50 hover:opacity-100' : 'opacity-0'}`,
+    className: `fixed top-1/2 right-4 bg-secondary-300 hover:bg-secondary-400 text-white p-3 
+            rounded-full transform -translate-y-1/2 transition-all duration-300 
+            shadow-lg shadow-secondary-400/20
+            ${isSidebarOpen ? 'mr-[23rem]' : ''} 
+            ${isHovering ? 'opacity-100' : 'opacity-0'}`,
     onClick: onNext,
     disabled: loading || isLastUnit,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
-      className: "w-6 h-6",
+      className: "w-5 h-5",
       fill: "none",
       stroke: "currentColor",
       viewBox: "0 0 24 24",
@@ -603,6 +1031,66 @@ const NavigationButtons = ({
     })
   })]
 });
+
+/***/ }),
+
+/***/ "./src/components/course/content/useContentArea.ts":
+/*!*********************************************************!*\
+  !*** ./src/components/course/content/useContentArea.ts ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useContentArea: () => (/* binding */ useContentArea)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _sidebar_Unit_useUnitContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sidebar/Unit/useUnitContent */ "./src/components/course/sidebar/Unit/useUnitContent.ts");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const useContentArea = isSidebarOpen => {
+  const {
+    unitContent,
+    loading,
+    error,
+    isLastUnit,
+    isFirstUnit
+  } = (0,_sidebar_Unit_useUnitContent__WEBPACK_IMPORTED_MODULE_1__.useUnitContent)();
+  const [isHovering, setIsHovering] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const {
+    setPreviousUnit,
+    setNextUnit
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useDispatch)("custom-course-player");
+  const handlePrevious = () => {
+    setPreviousUnit();
+  };
+  const handleNext = () => {
+    setNextUnit();
+  };
+  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseLeave = () => setIsHovering(false);
+  const handleRetry = () => window.location.reload();
+  return {
+    // State
+    unitContent,
+    loading,
+    error,
+    isLastUnit,
+    isFirstUnit,
+    isHovering,
+    isSidebarOpen,
+    // Methods
+    handlePrevious,
+    handleNext,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleRetry
+  };
+};
 
 /***/ }),
 
@@ -730,7 +1218,7 @@ const UnitItem = ({
 }) => {
   var _unit$status;
   const {
-    markUnitComplete,
+    completeUnit,
     setCurrentUnit
   } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useDispatch)('custom-course-player');
   const [isUnitComplete, setIsUnitComplete] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((_unit$status = unit?.status) !== null && _unit$status !== void 0 ? _unit$status : 0);
@@ -753,7 +1241,7 @@ const UnitItem = ({
   }, [completedDuration, unit.duration, courseTotalDuration]);
   const onHandleCompleteUnit = async unitId => {
     try {
-      await markUnitComplete({
+      await completeUnit({
         courseId,
         unitId,
         progress: unitCompletedProgress()
@@ -841,6 +1329,80 @@ const UnitItemView = ({
 
 /***/ }),
 
+/***/ "./src/components/course/sidebar/Unit/useUnitContent.ts":
+/*!**************************************************************!*\
+  !*** ./src/components/course/sidebar/Unit/useUnitContent.ts ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useUnitContent: () => (/* binding */ useUnitContent)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../utilities/apiCall */ "./src/utilities/apiCall.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../store */ "./src/store/index.ts");
+
+
+
+const userAuthToken = window.wplmsCustomCoursePlayer.token;
+const useUnitContent = () => {
+  const {
+    courseId,
+    currentUnitId,
+    allUnits
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
+    courseId: select.getCourseId(),
+    currentUnitId: select.getCurrentUnitId(),
+    allUnits: select.getAllUnits()
+  }));
+  const [unitContent, setUnitContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+  const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [isLastUnit, setIsLastUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [isFirstUnit, setIsFirstUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const fetchContent = async () => {
+    setUnitContent(null);
+    setLoading(false);
+    try {
+      if (!courseId || !currentUnitId) {
+        return;
+      }
+      setLoading(true);
+      const data = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.fetchUnitContent)({
+        courseId: courseId,
+        unitId: currentUnitId,
+        token: userAuthToken
+      });
+      setUnitContent(data !== null && data !== void 0 ? data : null);
+      setIsLastUnit(allUnits ? currentUnitId === allUnits[allUnits.length - 1].id : false);
+      setIsFirstUnit(allUnits ? currentUnitId === allUnits[0].id : false);
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      setError(err instanceof Error ? err.message : String(err));
+      setUnitContent(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (userAuthToken && courseId && currentUnitId) {
+      fetchContent();
+    }
+  }, [courseId, currentUnitId, userAuthToken]);
+  return {
+    unitContent,
+    loading,
+    error,
+    isLastUnit,
+    isFirstUnit
+  };
+};
+
+/***/ }),
+
 /***/ "./src/components/course/sidebar/index.tsx":
 /*!*************************************************!*\
   !*** ./src/components/course/sidebar/index.tsx ***!
@@ -868,10 +1430,10 @@ const Sidebar = ({
   onToggle
 }) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-    className: `fixed top-0 right-0 w-[24rem] bg-white border-l border-gray-200 h-full transform 
-        ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-10`,
+    className: `sm:block hidden   bg-white border-l border-gray-200 h-full transform 
+        ${isOpen ? 'translate-x-0 w-[24rem]' : 'translate-x-full w-0'} transition-transform duration-300 ease-in-out z-10`,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "h-full overflow-y-auto pt-16",
+      className: "h-full overflow-y-auto",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "p-4",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SidebarHeader__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -943,7 +1505,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _hooks_useCourseSectionsView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../hooks/useCourseSectionsView */ "./src/hooks/useCourseSectionsView.ts");
+/* harmony import */ var _useCourseSectionsView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useCourseSectionsView */ "./src/components/course/sidebar/sections/useCourseSectionsView.ts");
 /* harmony import */ var _CourseCompletionStatus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CourseCompletionStatus */ "./src/components/course/sidebar/sections/CourseCompletionStatus.tsx");
 /* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/course/sidebar/sections/SectionHeader.tsx");
 /* harmony import */ var _Unit_UnitItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Unit/UnitItem */ "./src/components/course/sidebar/Unit/UnitItem.tsx");
@@ -964,7 +1526,7 @@ const CourseSections = () => {
     isCompleted,
     completionMessage,
     handleFinishCourse
-  } = (0,_hooks_useCourseSectionsView__WEBPACK_IMPORTED_MODULE_1__.useCourseSectionsView)();
+  } = (0,_useCourseSectionsView__WEBPACK_IMPORTED_MODULE_1__.useCourseSectionsView)();
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "space-y-2",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_CourseCompletionStatus__WEBPACK_IMPORTED_MODULE_2__.CourseCompletionStatus, {
@@ -1049,6 +1611,99 @@ const SectionHeader = ({
     })
   })]
 });
+
+/***/ }),
+
+/***/ "./src/components/course/sidebar/sections/useCourseSectionsView.ts":
+/*!*************************************************************************!*\
+  !*** ./src/components/course/sidebar/sections/useCourseSectionsView.ts ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useCourseSectionsView: () => (/* binding */ useCourseSectionsView)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../store */ "./src/store/index.ts");
+/* harmony import */ var _hooks_useCourseSections__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../hooks/useCourseSections */ "./src/hooks/useCourseSections.ts");
+/* harmony import */ var _utilities_const__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../utilities/const */ "./src/utilities/const.ts");
+
+
+
+
+
+function useCourseSectionsView() {
+  const [lastShownMilestone, setLastShownMilestone] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const {
+    setReviewModalOpen,
+    finishCourse
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)("custom-course-player");
+  const {
+    sections,
+    expandedSections,
+    toggleSection,
+    getSectionStats
+  } = (0,_hooks_useCourseSections__WEBPACK_IMPORTED_MODULE_3__.useCourseSections)();
+  const courseId = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => select.getCourseId(), []);
+  const {
+    progress,
+    isCompleted,
+    completionMessage
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
+    progress: select.getProgress(),
+    isCompleted: select.isCourseCompleted(),
+    completionMessage: select.getCompletionMessage()
+  }), [courseId]);
+  const {
+    hasReview
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => {
+    if (courseId) {
+      return {
+        hasReview: select.hasReview(),
+        reviewLoading: select.isLoadingReview(courseId)
+      };
+    }
+    return {
+      hasReview: false,
+      reviewLoading: true
+    };
+  }, [courseId]);
+  const onHandleReviewModalOpen = () => {
+    if (hasReview) {
+      return;
+    }
+    const milestone = _utilities_const__WEBPACK_IMPORTED_MODULE_4__.REVIEW_MILESTONES.find(milestone => progress >= milestone && lastShownMilestone < milestone);
+    if (milestone) {
+      setReviewModalOpen(true);
+      setLastShownMilestone(milestone);
+    }
+  };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!hasReview && courseId) {
+      onHandleReviewModalOpen();
+    } else {
+      setReviewModalOpen(false);
+    }
+  }, [progress, hasReview, courseId]);
+  const handleFinishCourse = async () => {
+    if (courseId) {
+      await finishCourse(courseId);
+    }
+  };
+  return {
+    sections,
+    expandedSections,
+    toggleSection,
+    getSectionStats,
+    isCompleted,
+    completionMessage,
+    handleFinishCourse
+  };
+}
 
 /***/ }),
 
@@ -1352,66 +2007,6 @@ const SuccessMessage = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED
 
 /***/ }),
 
-/***/ "./src/hooks/course/useContentArea.ts":
-/*!********************************************!*\
-  !*** ./src/hooks/course/useContentArea.ts ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   useContentArea: () => (/* binding */ useContentArea)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _useUnitContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../useUnitContent */ "./src/hooks/useUnitContent.ts");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-const useContentArea = isSidebarOpen => {
-  const {
-    unitContent,
-    loading,
-    error,
-    isLastUnit,
-    isFirstUnit
-  } = (0,_useUnitContent__WEBPACK_IMPORTED_MODULE_1__.useUnitContent)();
-  const [isHovering, setIsHovering] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const {
-    setPreviousUnit,
-    setNextUnit
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useDispatch)("custom-course-player");
-  const handlePrevious = () => {
-    setPreviousUnit();
-  };
-  const handleNext = () => {
-    setNextUnit();
-  };
-  const handleMouseEnter = () => setIsHovering(true);
-  const handleMouseLeave = () => setIsHovering(false);
-  const handleRetry = () => window.location.reload();
-  return {
-    // State
-    unitContent,
-    loading,
-    error,
-    isLastUnit,
-    isFirstUnit,
-    isHovering,
-    isSidebarOpen,
-    // Methods
-    handlePrevious,
-    handleNext,
-    handleMouseEnter,
-    handleMouseLeave,
-    handleRetry
-  };
-};
-
-/***/ }),
-
 /***/ "./src/hooks/useCourseSections.ts":
 /*!****************************************!*\
   !*** ./src/hooks/useCourseSections.ts ***!
@@ -1538,172 +2133,6 @@ const useCourseSections = () => {
 
 /***/ }),
 
-/***/ "./src/hooks/useCourseSectionsView.ts":
-/*!********************************************!*\
-  !*** ./src/hooks/useCourseSectionsView.ts ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   useCourseSectionsView: () => (/* binding */ useCourseSectionsView)
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./src/store/index.ts");
-/* harmony import */ var _useCourseSections__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./useCourseSections */ "./src/hooks/useCourseSections.ts");
-
-
-
-
-const REVIEW_MILESTONES = [15, 75, 100];
-function useCourseSectionsView() {
-  const [lastShownMilestone, setLastShownMilestone] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const {
-    setReviewModalOpen,
-    finishCourse
-  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useDispatch)("custom-course-player");
-  const {
-    sections,
-    expandedSections,
-    toggleSection,
-    getSectionStats
-  } = (0,_useCourseSections__WEBPACK_IMPORTED_MODULE_3__.useCourseSections)();
-  const courseId = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => select.getCourseId(), []);
-  const {
-    progress,
-    isCompleted,
-    completionMessage
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
-    progress: select.getProgress(),
-    isCompleted: select.isCourseCompleted(),
-    completionMessage: select.getCompletionMessage()
-  }), [courseId]);
-  const {
-    hasReview
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => {
-    if (courseId) {
-      return {
-        hasReview: select.hasReview(),
-        reviewLoading: select.isLoadingReview(courseId)
-      };
-    }
-    return {
-      hasReview: false,
-      reviewLoading: true
-    };
-  }, [courseId]);
-  const onHandleReviewModalOpen = () => {
-    if (hasReview) {
-      return;
-    }
-    const milestone = REVIEW_MILESTONES.find(milestone => progress >= milestone && lastShownMilestone < milestone);
-    if (milestone) {
-      setReviewModalOpen(true);
-      setLastShownMilestone(milestone);
-    }
-  };
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (!hasReview && courseId) {
-      onHandleReviewModalOpen();
-    } else {
-      setReviewModalOpen(false);
-    }
-  }, [progress, hasReview, courseId]);
-  const handleFinishCourse = async () => {
-    if (courseId) {
-      await finishCourse(courseId);
-    }
-  };
-  return {
-    sections,
-    expandedSections,
-    toggleSection,
-    getSectionStats,
-    isCompleted,
-    completionMessage,
-    handleFinishCourse
-  };
-}
-
-/***/ }),
-
-/***/ "./src/hooks/useUnitContent.ts":
-/*!*************************************!*\
-  !*** ./src/hooks/useUnitContent.ts ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   useUnitContent: () => (/* binding */ useUnitContent)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utilities/apiCall */ "./src/utilities/apiCall.ts");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./src/store/index.ts");
-
-
-
-const userAuthToken = window.wplmsCustomCoursePlayer.token;
-const useUnitContent = () => {
-  const {
-    courseId,
-    currentUnitId,
-    allUnits
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
-    courseId: select.getCourseId(),
-    currentUnitId: select.getCurrentUnitId(),
-    allUnits: select.getAllUnits()
-  }));
-  const [unitContent, setUnitContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
-  const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [isLastUnit, setIsLastUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [isFirstUnit, setIsFirstUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const fetchContent = async () => {
-    setUnitContent(null);
-    setLoading(false);
-    try {
-      if (!courseId || !currentUnitId) {
-        return;
-      }
-      setLoading(true);
-      const data = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.fetchUnitContent)({
-        courseId: courseId,
-        unitId: currentUnitId,
-        token: userAuthToken
-      });
-      setUnitContent(data !== null && data !== void 0 ? data : null);
-      setIsLastUnit(allUnits ? currentUnitId === allUnits[allUnits.length - 1].id : false);
-      setIsFirstUnit(allUnits ? currentUnitId === allUnits[0].id : false);
-      setError(null);
-    } catch (err) {
-      console.log(err);
-      setError(err instanceof Error ? err.message : String(err));
-      setUnitContent(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (userAuthToken && courseId && currentUnitId) {
-      fetchContent();
-    }
-  }, [courseId, currentUnitId, userAuthToken]);
-  return {
-    unitContent,
-    loading,
-    error,
-    isLastUnit,
-    isFirstUnit
-  };
-};
-
-/***/ }),
-
 /***/ "./src/store/actions.ts":
 /*!******************************!*\
   !*** ./src/store/actions.ts ***!
@@ -1714,91 +2143,94 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   actions: () => (/* binding */ actions)
 /* harmony export */ });
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./const */ "./src/store/const.ts");
-/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utilities/apiCall */ "./src/utilities/apiCall.ts");
-
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./const */ "./src/store/const.ts");
+/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utilities/apiCall */ "./src/utilities/apiCall.ts");
 
 
 const actions = {
   // Course Info Actions
   setCourseInfo(courseInfo) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_COURSE_INFO,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_INFO,
       payload: courseInfo
     };
   },
   setUserInfo(userInfo) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_USER_INFO,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_USER_INFO,
       payload: userInfo
     };
   },
   // Loading & Error Actions
   setLoading(isLoading) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_IS_LOADING,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_IS_LOADING,
       payload: isLoading
     };
   },
   setError(error) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_ERROR,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_ERROR,
       payload: error
     };
   },
   // Review Related Actions
   setCourseInfoLoading(isLoading) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_LOADING,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_LOADING,
       payload: isLoading
     };
   },
   setCourseReviewError(error) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_ERROR,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_ERROR,
       payload: error
     };
   },
   setCourseReview(review) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_COURSE_REVIEW,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_REVIEW,
       payload: review
     };
   },
   setReviewModalOpen(isOpen) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_REVIEW_MODAL_OPEN,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_MODAL_OPEN,
       payload: isOpen
     };
   },
   setHasReview(hasReview) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_HAS_REVIEW,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_HAS_REVIEW,
       payload: hasReview
+    };
+  },
+  setReviewList(reviewList) {
+    return {
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_LIST,
+      payload: reviewList
     };
   },
   // Unit Navigation Actions
   setNextUnit() {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.NEXT_UNIT
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.NEXT_UNIT
     };
   },
   setPreviousUnit() {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.PREV_UNIT
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.PREV_UNIT
     };
   },
   setCurrentUnit(unitId) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_CURRENT_UNIT,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_CURRENT_UNIT,
       payload: unitId
     };
   },
   setProgress(progress) {
     return {
-      type: _const__WEBPACK_IMPORTED_MODULE_1__.actionTypes.SET_PROGRESS,
+      type: _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_PROGRESS,
       payload: progress
     };
   },
@@ -1813,24 +2245,22 @@ const actions = {
     try {
       dispatch(actions.setLoading(true));
       const token = window.wplmsCustomCoursePlayer.token;
-      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__.submitCourseReview)({
+      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.submitCourseReview)({
         token,
         comment_post_ID: courseId,
         rating,
         review
       });
-      if (response?.comment_id) {
-        dispatch(actions.setHasReview(true));
-      }
       dispatch(actions.setCourseReview(response));
       dispatch(actions.setReviewModalOpen(false));
+      dispatch(actions.setHasReview(true));
       dispatch(actions.setLoading(false));
     } catch (error) {
       dispatch(actions.setError(error instanceof Error ? error.message : String(error)));
       dispatch(actions.setLoading(false));
     }
   },
-  markUnitComplete: ({
+  completeUnit: ({
     courseId,
     unitId,
     progress
@@ -1840,20 +2270,16 @@ const actions = {
     try {
       dispatch(actions.setLoading(true));
       const token = window.wplmsCustomCoursePlayer.token;
-      await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
-        path: `/wplms/v2/user/coursestatus/${courseId}/item/${unitId}/markcomplete`,
-        method: "POST",
-        data: {
-          token,
-          course_id: courseId,
-          item_id: unitId,
-          progress
-        }
+      await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.markUnitComplete)({
+        courseId,
+        unitId,
+        progress,
+        token
       });
-      dispatch(actions.setProgress(progress));
-      dispatch(actions.setLoading(false));
+      await dispatch(actions.fetchCourse(String(courseId)));
     } catch (error) {
       dispatch(actions.setError(error instanceof Error ? error.message : String(error)));
+    } finally {
       dispatch(actions.setLoading(false));
     }
   },
@@ -1863,7 +2289,7 @@ const actions = {
     try {
       dispatch(actions.setLoading(true));
       const token = window.wplmsCustomCoursePlayer.token;
-      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__.fetchCourseData)({
+      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.fetchCourseData)({
         courseId,
         token
       });
@@ -1874,6 +2300,11 @@ const actions = {
       dispatch(actions.setError(error instanceof Error ? error.message : String(error)));
       dispatch(actions.setLoading(false));
     }
+  },
+  finishCourse: courseId => async ({
+    dispatch
+  }) => {
+    const token = window.wplmsCustomCoursePlayer.token;
   }
 };
 
@@ -1914,7 +2345,8 @@ const actionTypes = {
   FINISH_COURSE: "FINISH_COURSE",
   SET_COURSE_COMPLETED: "SET_COURSE_COMPLETED",
   SET_COMPLETION_MESSAGE: "SET_COMPLETION_MESSAGE",
-  SET_HAS_REVIEW: "SET_HAS_REVIEW"
+  SET_HAS_REVIEW: "SET_HAS_REVIEW",
+  SET_REVIEW_LIST: "SET_REVIEW_LIST"
 };
 
 /***/ }),
@@ -1995,7 +2427,8 @@ const DEFAULT_STATE = {
   courseTotalDuration: null,
   completedDuration: null,
   isCompleted: false,
-  completionMessage: null
+  completionMessage: null,
+  reviewList: null
 };
 
 // Helper functions
@@ -2139,6 +2572,11 @@ const reducer = (state = DEFAULT_STATE, action) => {
         ...state,
         hasReview: action.payload
       };
+    case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_REVIEW_LIST:
+      return {
+        ...state,
+        reviewList: action.payload
+      };
     default:
       return state;
   }
@@ -2182,7 +2620,7 @@ const resolvers = {
     try {
       const token = window.wplmsCustomCoursePlayer.token;
       const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
-        path: `/wplms/v2/user/getreview/${courseId}`,
+        path: `wplms-custom-course-player/v1/course-review/${courseId}`,
         method: "POST",
         data: {
           token,
@@ -2193,6 +2631,18 @@ const resolvers = {
         response
       });
       return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setCourseReview(response);
+    } catch (error) {
+      return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setCourseReviewError(error instanceof Error ? error.message : String(error));
+    }
+  },
+  async getReviewList(courseId) {
+    try {
+      const token = window.wplmsCustomCoursePlayer.token;
+      const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_2__.getCourseReviews)({
+        courseId,
+        token
+      });
+      return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setReviewList(response);
     } catch (error) {
       return _actions__WEBPACK_IMPORTED_MODULE_1__.actions.setCourseReviewError(error instanceof Error ? error.message : String(error));
     }
@@ -2300,6 +2750,9 @@ const selectors = {
   hasReview(state) {
     return state.hasReview;
   },
+  getReviewList(state) {
+    return state.reviewList;
+  },
   // Loading & Error State Selectors
   // ------------------------------
   isLoading(state) {
@@ -2346,12 +2799,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   fetchUnitContent: () => (/* binding */ fetchUnitContent),
 /* harmony export */   finishCourse: () => (/* binding */ finishCourse),
 /* harmony export */   getCourseProgress: () => (/* binding */ getCourseProgress),
+/* harmony export */   getCourseReviews: () => (/* binding */ getCourseReviews),
 /* harmony export */   getUserInfo: () => (/* binding */ getUserInfo),
 /* harmony export */   markUnitComplete: () => (/* binding */ markUnitComplete),
 /* harmony export */   submitCourseReview: () => (/* binding */ submitCourseReview)
 /* harmony export */ });
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./const */ "./src/utilities/const.ts");
+
 
 const fetchCourseData = async ({
   courseId,
@@ -2359,7 +2815,7 @@ const fetchCourseData = async ({
 }) => {
   try {
     const data = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
-      path: `/wplms/v2/user/coursestatus/${courseId}`,
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.wplms_root}/user/coursestatus/${courseId}`,
       method: "POST",
       data: {
         token: token
@@ -2382,7 +2838,7 @@ const fetchUnitContent = async ({
 }) => {
   try {
     const data = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
-      path: `/wplms/v2/user/coursestatus/${courseId}/item/${unitId}`,
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.wplms_root}/user/coursestatus/${courseId}/item/${unitId}`,
       method: "POST",
       data: {
         token: token
@@ -2403,7 +2859,7 @@ const fetchCourseReview = async ({
 }) => {
   try {
     const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
-      path: `/wplms/v2/user/getreview/${courseId}`,
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.wplms_root}/user/getreview/${courseId}`,
       method: "POST",
       data: {
         token,
@@ -2424,7 +2880,7 @@ const submitCourseReview = async ({
 }) => {
   try {
     const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
-      path: `/wplms/v2/updatecourse/addreview`,
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.wplms_root}/updatecourse/addreview`,
       method: "POST",
       data: {
         token,
@@ -2443,7 +2899,7 @@ const submitCourseReview = async ({
 const getUserInfo = async token => {
   try {
     const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
-      path: "/wplms/v2/user/",
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.wplms_root}/user/`,
       method: "POST",
       data: {
         token
@@ -2463,7 +2919,7 @@ const markUnitComplete = async ({
   try {
     const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
       method: "POST",
-      path: `/wplms/v2/user/coursestatus/${courseId}/item/${unitId}/markcomplete`,
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.wplms_root}/user/coursestatus/${courseId}/item/${unitId}/markcomplete`,
       data: {
         token: token,
         course_id: courseId,
@@ -2483,7 +2939,7 @@ const getCourseProgress = async ({
   try {
     const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
       method: "POST",
-      path: "wplms-custom-course-player/v1/course-progress",
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.course_player_root}${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.course_progress}`,
       data: {
         course_id: courseId,
         token: token
@@ -2503,7 +2959,7 @@ const finishCourse = async ({
   try {
     const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
       method: "POST",
-      path: `/wplms/v2/user/finishcourse`,
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.wplms_root}/user/finishcourse`,
       data: {
         course_id: courseId,
         token
@@ -2513,6 +2969,50 @@ const finishCourse = async ({
   } catch (err) {
     console.error("Failed to finish course");
   }
+};
+
+// get course reviews
+const getCourseReviews = async ({
+  courseId,
+  token
+}) => {
+  try {
+    const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+      method: "POST",
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.course_player_root}${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.get_reviews}/${courseId}`,
+      data: {
+        token
+      }
+    });
+    return response;
+  } catch (err) {
+    console.error("Failed to get course reviews");
+  }
+};
+
+/***/ }),
+
+/***/ "./src/utilities/const.ts":
+/*!********************************!*\
+  !*** ./src/utilities/const.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   API_PATH: () => (/* binding */ API_PATH),
+/* harmony export */   REVIEW_MILESTONES: () => (/* binding */ REVIEW_MILESTONES),
+/* harmony export */   SIDEBAR_WIDTH: () => (/* binding */ SIDEBAR_WIDTH)
+/* harmony export */ });
+const REVIEW_MILESTONES = [15, 50, 100];
+const SIDEBAR_WIDTH = "24rem";
+const API_PATH = {
+  wplms_root: "/wplms/v2",
+  course_player_root: "/wplms-custom-course-player/v1",
+  course_progress: "/course-progress",
+  finish_course: "/finish-course",
+  add_review: "/add-review",
+  get_reviews: "/course-reviews"
 };
 
 /***/ }),
@@ -2636,6 +3136,166 @@ module.exports = window["wp"]["data"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["element"];
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/24/outline/esm/FlagIcon.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@heroicons/react/24/outline/esm/FlagIcon.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function FlagIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(FlagIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/24/outline/esm/HandThumbDownIcon.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/24/outline/esm/HandThumbDownIcon.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function HandThumbDownIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(HandThumbDownIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/24/outline/esm/HandThumbUpIcon.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/24/outline/esm/HandThumbUpIcon.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function HandThumbUpIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(HandThumbUpIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/24/outline/esm/MagnifyingGlassIcon.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/24/outline/esm/MagnifyingGlassIcon.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function MagnifyingGlassIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(MagnifyingGlassIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
 
 /***/ })
 

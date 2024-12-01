@@ -1,6 +1,7 @@
 import React from 'react';
-import { useContentArea } from '../../hooks/course/useContentArea';
-import { ContentDisplay } from './content/ContentDisplay';
+import { useContentArea } from './useContentArea';
+import { ContentDisplay } from './ContentDisplay';
+import { SIDEBAR_WIDTH } from '../../../utilities/const';
 
 interface ContentAreaProps {
     isSidebarOpen: boolean;
@@ -23,7 +24,9 @@ const ContentArea: React.FC<ContentAreaProps> = ({ isSidebarOpen }) => {
 
     return (
         <div
-            className={`flex-1 p-6 overflow-y-auto transition-all duration-300 relative ${isSidebarOpen ? 'mr-80' : ''
+            className={`flex-1 p-6 overflow-y-auto bg-black 
+                transition-all duration-300 relative 
+               sm:max-h-[520px] max-h-[300px] 
                 }`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -32,7 +35,7 @@ const ContentArea: React.FC<ContentAreaProps> = ({ isSidebarOpen }) => {
                 {loading ? (
                     <div className="h-8 bg-gray-200 rounded animate-pulse w-2/3"></div>
                 ) : (
-                    <h1 className="text-3xl font-bold mb-1">{unitContent?.title}</h1>
+                    <h1 className="text-lg text-white font-bold mb-1">{unitContent?.title}</h1>
                 )}
             </div>
             <ContentDisplay

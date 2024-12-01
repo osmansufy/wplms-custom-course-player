@@ -1,6 +1,7 @@
 import apiFetch from "@wordpress/api-fetch";
-import { IComment } from "../types/comment";
+import { IComment, ICourseReview } from "../types/comment";
 import { ICourse, IUnitItem } from "../types/course";
+import { API_PATH } from "./const";
 export const fetchCourseData = async ({
   courseId,
   token,
@@ -10,7 +11,7 @@ export const fetchCourseData = async ({
 }) => {
   try {
     const data = await apiFetch<ICourse | null>({
-      path: `/wplms/v2/user/coursestatus/${courseId}`,
+      path: `${API_PATH.wplms_root}/user/coursestatus/${courseId}`,
       method: "POST",
       data: { token: token },
     });
@@ -36,7 +37,7 @@ export const fetchUnitContent = async ({
 }) => {
   try {
     const data = await apiFetch<IUnitItem | null>({
-      path: `/wplms/v2/user/coursestatus/${courseId}/item/${unitId}`,
+      path: `${API_PATH.wplms_root}/user/coursestatus/${courseId}/item/${unitId}`,
 
       method: "POST",
       data: {
@@ -63,7 +64,7 @@ export const fetchCourseReview = async ({
 }): Promise<IComment> => {
   try {
     const response = (await apiFetch({
-      path: `/wplms/v2/user/getreview/${courseId}`,
+      path: `${API_PATH.wplms_root}/user/getreview/${courseId}`,
       method: "POST",
       data: { token, course_id: courseId },
     })) as IComment;
@@ -86,7 +87,7 @@ export const submitCourseReview = async ({
 }) => {
   try {
     const response = await apiFetch({
-      path: `/wplms/v2/updatecourse/addreview`,
+      path: `${API_PATH.wplms_root}/updatecourse/addreview`,
       method: "POST",
       data: {
         token,
@@ -106,7 +107,7 @@ export const submitCourseReview = async ({
 export const getUserInfo = async (token: string) => {
   try {
     const response = await apiFetch({
-      path: "/wplms/v2/user/",
+      path: `${API_PATH.wplms_root}/user/`,
       method: "POST",
       data: { token },
     });
@@ -130,7 +131,7 @@ export const markUnitComplete = async ({
   try {
     const response = await apiFetch({
       method: "POST",
-      path: `/wplms/v2/user/coursestatus/${courseId}/item/${unitId}/markcomplete`,
+      path: `${API_PATH.wplms_root}/user/coursestatus/${courseId}/item/${unitId}/markcomplete`,
       data: {
         token: token,
         course_id: courseId,
@@ -154,7 +155,7 @@ export const getCourseProgress = async ({
   try {
     const response = await apiFetch({
       method: "POST",
-      path: "wplms-custom-course-player/v1/course-progress",
+      path: `${API_PATH.course_player_root}${API_PATH.course_progress}`,
       data: {
         course_id: courseId,
         token: token,
@@ -177,11 +178,31 @@ export const finishCourse = async ({
   try {
     const response = await apiFetch({
       method: "POST",
-      path: `/wplms/v2/user/finishcourse`,
+      path: `${API_PATH.wplms_root}/user/finishcourse`,
       data: { course_id: courseId, token },
     });
     return response;
   } catch (err) {
     console.error("Failed to finish course");
+  }
+};
+
+// get course reviews
+export const getCourseReviews = async <P = ICourseReview[]>({
+  courseId,
+  token,
+}: {
+  courseId: number;
+  token: string;
+}) => {
+  try {
+    const response = await apiFetch({
+      method: "POST",
+      path: `${API_PATH.course_player_root}${API_PATH.get_reviews}/${courseId}`,
+      data: { token },
+    });
+    return response;
+  } catch (err) {
+    console.error("Failed to get course reviews");
   }
 };

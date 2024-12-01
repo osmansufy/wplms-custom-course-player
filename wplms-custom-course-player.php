@@ -22,7 +22,7 @@ define('WPLMS_CUSTOM_COURSE_PLAYER_VERSION', '1.0.0');
 define('WPLMS_CUSTOM_COURSE_PLAYER_PATH', plugin_dir_path(__FILE__));
 define('WPLMS_CUSTOM_COURSE_PLAYER_URL', plugin_dir_url(__FILE__));
 add_filter('bp_course_api_get_user_course_status', 'wplms_custom_course_player_course_data', 10, 2);
-
+// DEBUG MODE OFF
 include_once WPLMS_CUSTOM_COURSE_PLAYER_PATH . 'includes/RestApi/RestApi.php';
 
 // Enqueue scripts and styles

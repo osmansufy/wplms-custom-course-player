@@ -14,7 +14,13 @@
 
 .custom_course_content iframe {
   width: 100% !important;
-  max-height: 600px !important;
+  max-height: 400px !important;
   /* max-height: 600px;
   height: 600px; */
+}
+
+@media (max-width: 640px) {
+  .custom_course_content iframe {
+    max-height: 250px !important;
+  }
 }
