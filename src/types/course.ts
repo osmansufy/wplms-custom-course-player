@@ -17,6 +17,7 @@ export interface ICourse {
 export enum Type {
   Section = "section",
   Unit = "unit",
+  Quiz = "quiz",
 }
 
 export interface IUnitItem {
@@ -76,23 +77,3 @@ export interface IUnit {
 //   allUnits: [],
 //   completeUnits: [],
 // };
-
-export interface IState {
-  courseId: string | null;
-  courseInfo: ICourse | null;
-  progress: number | null;
-  currentUnitId: number | null;
-  allUnits: IUnit[] | null;
-  token: string | null;
-  isLoading: boolean | null;
-  error: string | null;
-  userInfo: any;
-  review: IComment | null;
-  reviewLoading: boolean | null;
-  reviewError: string | null;
-  reviewModalOpen: boolean | null;
-  courseTotalDuration: number | null;
-  completedDuration: number | null;
-  isCompleted: boolean | null;
-  completionMessage: string | null;
-}

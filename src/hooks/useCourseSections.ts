@@ -16,15 +16,15 @@ export const useCourseSections = () => {
   const courseId = useTypedSelect((select) => select.getCourseId(), []);
 
   const [expandedSections, setExpandedSections] = useState<number[]>([]);
-  const { items, currentUnitId } = useTypedSelect(
+  const { items, currentUnit } = useTypedSelect(
     (select) => {
       if (courseId) {
         return {
           items: select.getCourseInfo(courseId)?.courseitems || [],
-          currentUnitId: select.getCurrentUnitId(),
+          currentUnit: select.getCurrentUnit(),
         };
       }
-      return { items: [], currentUnitId: null };
+      return { items: [], currentUnit: null };
     },
     [courseId]
   );
@@ -46,10 +46,10 @@ export const useCourseSections = () => {
           title: item.title,
           units: [],
         };
-      } else if (item.type === "unit" && currentSection) {
+      } else if (currentSection) {
         currentSection.units.push(item);
         // Check if this unit is the current one
-        if (item.id === currentUnitId) {
+        if (item.id === currentUnit?.id) {
           sectionWithCurrentUnit = organizedSections.length;
         }
       }
@@ -61,7 +61,7 @@ export const useCourseSections = () => {
       // Check last section for current unit if not found yet
       if (
         sectionWithCurrentUnit === -1 &&
-        currentSection.units.some((unit) => unit.id === currentUnitId)
+        currentSection.units.some((unit) => unit.id === currentUnit?.id)
       ) {
         sectionWithCurrentUnit = organizedSections.length - 1;
       }
@@ -71,7 +71,7 @@ export const useCourseSections = () => {
       sections: organizedSections,
       initialExpandedSection: sectionWithCurrentUnit,
     };
-  }, [items, currentUnitId]);
+  }, [items, currentUnit]);
 
   // Set initial expanded section when sections are first loaded
   useEffect(() => {
@@ -87,16 +87,16 @@ export const useCourseSections = () => {
 
   // Update expanded sections when current unit changes
   useEffect(() => {
-    if (currentUnitId) {
+    if (currentUnit) {
       const sectionIndex = sections.findIndex((section) =>
-        section.units.some((unit) => unit.id === currentUnitId)
+        section.units.some((unit) => unit.id === currentUnit.id)
       );
 
       if (sectionIndex !== -1 && !expandedSections.includes(sectionIndex)) {
         setExpandedSections((prev) => [...prev, sectionIndex]);
       }
     }
-  }, [currentUnitId, sections]);
+  }, [currentUnit, sections]);
 
   const toggleSection = useCallback((sectionIndex: number) => {
     setExpandedSections((prev) =>

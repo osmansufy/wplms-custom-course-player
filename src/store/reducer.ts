@@ -9,7 +9,7 @@ export const DEFAULT_STATE: State = {
   courseId: null,
   courseInfo: null,
   progress: 0,
-  currentUnitId: null,
+  currentUnit: null,
   allUnits: null,
   isLoading: true,
   error: null,
@@ -54,9 +54,9 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
       const allUnits = action.payload.courseitems.filter(
         (item: IUnit) => item.type !== "section"
       );
-      const currentUnitId = allUnits.find(
+      const currentUnit = allUnits.find(
         (unit: IUnit) => unit.key === action.payload.current_unit_key
-      )?.id;
+      );
       const metrics = calculateCourseMetrics(allUnits);
 
       return {
@@ -64,7 +64,7 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
         courseInfo: action.payload,
         courseId: action.payload.course_id,
         allUnits,
-        currentUnitId,
+        currentUnit,
         ...metrics,
       };
     }
@@ -79,7 +79,7 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
     case actionTypes.SET_CURRENT_UNIT:
       return {
         ...state,
-        currentUnitId: action.payload,
+        currentUnit: action.payload,
       };
 
     case actionTypes.SET_PROGRESS:
@@ -164,25 +164,27 @@ export const reducer = (state = DEFAULT_STATE, action: any): State => {
     // Unit Navigation Actions
     case actionTypes.NEXT_UNIT: {
       const currentIndex =
-        state.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
-        -1;
+        state.allUnits?.findIndex(
+          (unit) => unit.id === state.currentUnit?.id
+        ) ?? -1;
       const nextUnit = state.allUnits?.[currentIndex + 1];
 
       return {
         ...state,
-        currentUnitId: nextUnit ? nextUnit.id : state.currentUnitId,
+        currentUnit: nextUnit ? nextUnit : state.currentUnit,
       };
     }
 
     case actionTypes.PREV_UNIT: {
       const currentIndex =
-        state.allUnits?.findIndex((unit) => unit.id === state.currentUnitId) ??
-        -1;
+        state.allUnits?.findIndex(
+          (unit) => unit.id === state.currentUnit?.id
+        ) ?? -1;
       const prevUnit = state.allUnits?.[currentIndex - 1];
 
       return {
         ...state,
-        currentUnitId: prevUnit ? prevUnit.id : state.currentUnitId,
+        currentUnit: prevUnit ? prevUnit : state.currentUnit,
       };
     }
 

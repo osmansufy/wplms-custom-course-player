@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUnitContent } from "../sidebar/Unit/useUnitContent";
+import { useUnitContent } from "./useUnitContent";
 import { useDispatch } from "@wordpress/data";
 
 export const useContentArea = (isSidebarOpen: boolean) => {

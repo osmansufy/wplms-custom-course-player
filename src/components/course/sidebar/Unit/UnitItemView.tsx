@@ -1,9 +1,10 @@
 import React from 'react';
 import { formatDuration } from '../../../../utilities/utility';
+import { IUnit } from '../../../../types/course';
 
 interface UnitItemViewProps {
-    unit: any; // Replace with proper type
-    currentUnitId: number;
+    unit: IUnit;
+    currentUnit: IUnit | null;
     isUnitComplete: number;
     onSelectUnit: (id: number) => void;
     onCompleteUnit: (id: number) => void;
@@ -11,14 +12,14 @@ interface UnitItemViewProps {
 
 const UnitItemView: React.FC<UnitItemViewProps> = ({
     unit,
-    currentUnitId,
+    currentUnit,
     isUnitComplete,
     onSelectUnit,
     onCompleteUnit,
 }) => (
     <div
         className={`flex items-center p-4 cursor-pointer transition-colors
-                   ${currentUnitId === unit.id ? 'bg-blue-50' : 'hover:bg-gray-50'}
+                   ${currentUnit?.id === unit.id ? 'bg-blue-50' : 'hover:bg-gray-50'}
                    ${unit.status === 1 ? 'opacity-75' : ''}`}
         onClick={() => onSelectUnit(unit.id)}
     >
@@ -42,7 +43,7 @@ const UnitItemView: React.FC<UnitItemViewProps> = ({
         </div>
 
         <div className="flex-grow">
-            <h4 className={`text-sm ${currentUnitId === unit.id ? 'font-medium' : ''}`}>
+            <h4 className={`text-sm ${currentUnit?.id === unit.id ? 'font-medium' : ''}`}>
                 {unit.title}
             </h4>
             <div className="flex items-center text-xs text-gray-500 mt-1">

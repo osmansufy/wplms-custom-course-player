@@ -1046,7 +1046,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _sidebar_Unit_useUnitContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sidebar/Unit/useUnitContent */ "./src/components/course/sidebar/Unit/useUnitContent.ts");
+/* harmony import */ var _useUnitContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useUnitContent */ "./src/components/course/content/useUnitContent.ts");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
 
@@ -1059,7 +1059,7 @@ const useContentArea = isSidebarOpen => {
     error,
     isLastUnit,
     isFirstUnit
-  } = (0,_sidebar_Unit_useUnitContent__WEBPACK_IMPORTED_MODULE_1__.useUnitContent)();
+  } = (0,_useUnitContent__WEBPACK_IMPORTED_MODULE_1__.useUnitContent)();
   const [isHovering, setIsHovering] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const {
     setPreviousUnit,
@@ -1089,6 +1089,80 @@ const useContentArea = isSidebarOpen => {
     handleMouseEnter,
     handleMouseLeave,
     handleRetry
+  };
+};
+
+/***/ }),
+
+/***/ "./src/components/course/content/useUnitContent.ts":
+/*!*********************************************************!*\
+  !*** ./src/components/course/content/useUnitContent.ts ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useUnitContent: () => (/* binding */ useUnitContent)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utilities/apiCall */ "./src/utilities/apiCall.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../store */ "./src/store/index.ts");
+
+
+
+const userAuthToken = window.wplmsCustomCoursePlayer.token;
+const useUnitContent = () => {
+  const {
+    courseId,
+    currentUnit,
+    allUnits
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
+    courseId: select.getCourseId(),
+    currentUnit: select.getCurrentUnit(),
+    allUnits: select.getAllUnits()
+  }));
+  const [unitContent, setUnitContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+  const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [isLastUnit, setIsLastUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [isFirstUnit, setIsFirstUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const fetchContent = async () => {
+    setUnitContent(null);
+    setLoading(false);
+    try {
+      if (!courseId || !currentUnit) {
+        return;
+      }
+      setLoading(true);
+      const data = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.fetchUnitContent)({
+        courseId: courseId,
+        unitId: currentUnit?.id,
+        token: userAuthToken
+      });
+      setUnitContent(data !== null && data !== void 0 ? data : null);
+      setIsLastUnit(allUnits ? currentUnit?.id === allUnits[allUnits.length - 1].id : false);
+      setIsFirstUnit(allUnits ? currentUnit?.id === allUnits[0].id : false);
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      setError(err instanceof Error ? err.message : String(err));
+      setUnitContent(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (userAuthToken && courseId && currentUnit) {
+      fetchContent();
+    }
+  }, [courseId, currentUnit, userAuthToken]);
+  return {
+    unitContent,
+    loading,
+    error,
+    isLastUnit,
+    isFirstUnit
   };
 };
 
@@ -1283,13 +1357,13 @@ __webpack_require__.r(__webpack_exports__);
 
 const UnitItemView = ({
   unit,
-  currentUnitId,
+  currentUnit,
   isUnitComplete,
   onSelectUnit,
   onCompleteUnit
 }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
   className: `flex items-center p-4 cursor-pointer transition-colors
-                   ${currentUnitId === unit.id ? 'bg-blue-50' : 'hover:bg-gray-50'}
+                   ${currentUnit?.id === unit.id ? 'bg-blue-50' : 'hover:bg-gray-50'}
                    ${unit.status === 1 ? 'opacity-75' : ''}`,
   onClick: () => onSelectUnit(unit.id),
   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -1313,7 +1387,7 @@ const UnitItemView = ({
   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "flex-grow",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h4", {
-      className: `text-sm ${currentUnitId === unit.id ? 'font-medium' : ''}`,
+      className: `text-sm ${currentUnit?.id === unit.id ? 'font-medium' : ''}`,
       children: unit.title
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "flex items-center text-xs text-gray-500 mt-1",
@@ -1326,80 +1400,6 @@ const UnitItemView = ({
   })]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UnitItemView);
-
-/***/ }),
-
-/***/ "./src/components/course/sidebar/Unit/useUnitContent.ts":
-/*!**************************************************************!*\
-  !*** ./src/components/course/sidebar/Unit/useUnitContent.ts ***!
-  \**************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   useUnitContent: () => (/* binding */ useUnitContent)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../utilities/apiCall */ "./src/utilities/apiCall.ts");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../store */ "./src/store/index.ts");
-
-
-
-const userAuthToken = window.wplmsCustomCoursePlayer.token;
-const useUnitContent = () => {
-  const {
-    courseId,
-    currentUnitId,
-    allUnits
-  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
-    courseId: select.getCourseId(),
-    currentUnitId: select.getCurrentUnitId(),
-    allUnits: select.getAllUnits()
-  }));
-  const [unitContent, setUnitContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
-  const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [isLastUnit, setIsLastUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [isFirstUnit, setIsFirstUnit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const fetchContent = async () => {
-    setUnitContent(null);
-    setLoading(false);
-    try {
-      if (!courseId || !currentUnitId) {
-        return;
-      }
-      setLoading(true);
-      const data = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.fetchUnitContent)({
-        courseId: courseId,
-        unitId: currentUnitId,
-        token: userAuthToken
-      });
-      setUnitContent(data !== null && data !== void 0 ? data : null);
-      setIsLastUnit(allUnits ? currentUnitId === allUnits[allUnits.length - 1].id : false);
-      setIsFirstUnit(allUnits ? currentUnitId === allUnits[0].id : false);
-      setError(null);
-    } catch (err) {
-      console.log(err);
-      setError(err instanceof Error ? err.message : String(err));
-      setUnitContent(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (userAuthToken && courseId && currentUnitId) {
-      fetchContent();
-    }
-  }, [courseId, currentUnitId, userAuthToken]);
-  return {
-    unitContent,
-    loading,
-    error,
-    isLastUnit,
-    isFirstUnit
-  };
-};
 
 /***/ }),
 
@@ -1445,6 +1445,219 @@ const Sidebar = ({
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sidebar);
+
+/***/ }),
+
+/***/ "./src/components/course/sidebar/quiz/QuizItem.tsx":
+/*!*********************************************************!*\
+  !*** ./src/components/course/sidebar/quiz/QuizItem.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../utilities/apiCall */ "./src/utilities/apiCall.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../store */ "./src/store/index.ts");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+const Quiz = ({
+  quizId,
+  token
+}) => {
+  const [quizData, setQuizData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [currentQuestion, setCurrentQuestion] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const [selectedAnswers, setSelectedAnswers] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [timeRemaining, setTimeRemaining] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const [isSubmitted, setIsSubmitted] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [score, setScore] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const {
+    courseId
+  } = (0,_store__WEBPACK_IMPORTED_MODULE_2__.useTypedSelect)(select => ({
+    courseId: select.getCourseId()
+  }), []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const fetchQuizData = async () => {
+      if (!courseId) return;
+      try {
+        const response = await (0,_utilities_apiCall__WEBPACK_IMPORTED_MODULE_1__.getQuizData)({
+          course: courseId,
+          // Provide default value if courseId is null
+          token,
+          quizId
+        });
+        if (response) {
+          setQuizData(response);
+          setTimeRemaining(response?.meta?.duration);
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load quiz');
+      }
+    };
+    fetchQuizData();
+  }, [courseId, quizId, token]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (timeRemaining > 0 && !isSubmitted && quizData) {
+      const timer = setInterval(() => {
+        setTimeRemaining(prev => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else if (timeRemaining === 0 && quizData) {
+      handleSubmit();
+    }
+  }, [timeRemaining, isSubmitted, quizData]);
+  const handleAnswerSelect = (questionKey, optionIndex) => {
+    setSelectedAnswers(prev => ({
+      ...prev,
+      [questionKey]: optionIndex
+    }));
+  };
+  const handleSubmit = async () => {
+    if (!quizData) return;
+    let totalScore = 0;
+    quizData.meta.questions.forEach(question => {
+      const correctAnswer = JSON.parse(atob(question.correct.split('.')[0]));
+      if (question.key && selectedAnswers[question.key] === correctAnswer) {
+        totalScore += parseInt(question.marks);
+      }
+    });
+    setScore(totalScore);
+    setIsSubmitted(true);
+  };
+  if (error) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "bg-white rounded-lg shadow p-6 text-center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "text-red-500 mb-4",
+        children: error
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        onClick: () => window.location.reload(),
+        className: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600",
+        children: "Try Again"
+      })]
+    });
+  }
+  if (!quizData) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "bg-white rounded-lg shadow p-6",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "flex justify-center",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"
+        })
+      })
+    });
+  }
+  const formatTime = seconds => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+  const currentQuestionData = quizData.meta.questions[currentQuestion];
+  const progressPercentage = (currentQuestion + 1) / quizData.meta.questions.length * 100;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "max-w-3xl mx-auto p-4",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "bg-white rounded-lg shadow",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "p-6",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "flex justify-between items-center mb-6",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+            className: "text-xl font-bold",
+            children: quizData.title
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "flex items-center gap-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("svg", {
+              className: "w-5 h-5",
+              viewBox: "0 0 24 24",
+              fill: "none",
+              stroke: "currentColor",
+              strokeWidth: "2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("circle", {
+                cx: "12",
+                cy: "12",
+                r: "10"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("path", {
+                d: "M12 6v6l4 2"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              className: "font-mono",
+              children: formatTime(timeRemaining)
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "w-full bg-gray-200 rounded-full h-2 mb-6",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "bg-blue-500 h-2 rounded-full transition-all duration-300",
+            style: {
+              width: `${progressPercentage}%`
+            }
+          })
+        }), !isSubmitted ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "mb-6",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+              className: "font-medium mb-4",
+              dangerouslySetInnerHTML: {
+                __html: `${currentQuestion + 1}. ${currentQuestionData.content}`
+              }
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "space-y-3",
+              children: currentQuestionData.options.map((option, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                onClick: () => handleAnswerSelect(currentQuestionData.key, index),
+                className: `w-full text-left p-3 rounded border ${selectedAnswers[currentQuestionData.key] === index ? 'bg-blue-50 border-blue-500' : 'hover:bg-gray-50 border-gray-200'}`,
+                children: option
+              }, index))
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "flex justify-between",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              onClick: () => setCurrentQuestion(prev => prev - 1),
+              disabled: currentQuestion === 0,
+              className: "px-4 py-2 border rounded hover:bg-gray-50 disabled:opacity-50",
+              children: "Previous"
+            }), currentQuestion === quizData.meta.questions.length - 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              onClick: handleSubmit,
+              className: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600",
+              children: "Submit Quiz"
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              onClick: () => setCurrentQuestion(prev => prev + 1),
+              disabled: currentQuestion === quizData.meta.questions.length - 1,
+              className: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50",
+              children: "Next"
+            })]
+          })]
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "text-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
+            className: "text-2xl font-bold mb-4",
+            children: "Quiz Complete!"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+            className: "text-lg mb-2",
+            children: ["Your score: ", score, "/", quizData.meta.max]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+            className: "text-lg mb-6",
+            children: ["Percentage: ", Math.round(score / quizData.meta.max * 100), "%"]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+            onClick: () => window.location.reload(),
+            className: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600",
+            children: "Retake Quiz"
+          })]
+        })]
+      })
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Quiz);
 
 /***/ }),
 
@@ -1509,12 +1722,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CourseCompletionStatus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CourseCompletionStatus */ "./src/components/course/sidebar/sections/CourseCompletionStatus.tsx");
 /* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/course/sidebar/sections/SectionHeader.tsx");
 /* harmony import */ var _Unit_UnitItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Unit/UnitItem */ "./src/components/course/sidebar/Unit/UnitItem.tsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _quiz_QuizItem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../quiz/QuizItem */ "./src/components/course/sidebar/quiz/QuizItem.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
 
+
+const userAuthToken = window.wplmsCustomCoursePlayer.token;
 
 
 const CourseSections = () => {
@@ -1527,27 +1743,39 @@ const CourseSections = () => {
     completionMessage,
     handleFinishCourse
   } = (0,_useCourseSectionsView__WEBPACK_IMPORTED_MODULE_1__.useCourseSectionsView)();
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
     className: "space-y-2",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_CourseCompletionStatus__WEBPACK_IMPORTED_MODULE_2__.CourseCompletionStatus, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_CourseCompletionStatus__WEBPACK_IMPORTED_MODULE_2__.CourseCompletionStatus, {
       isCompleted: isCompleted,
       completionMessage: completionMessage || '',
       onFinishCourse: handleFinishCourse
     }), sections.map((section, index) => {
       const stats = getSectionStats(section);
       const isExpanded = expandedSections.includes(index);
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "border rounded-lg transition-colors border-gray-200",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SectionHeader__WEBPACK_IMPORTED_MODULE_3__.SectionHeader, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SectionHeader__WEBPACK_IMPORTED_MODULE_3__.SectionHeader, {
           title: section.title,
           stats: stats,
           isExpanded: isExpanded,
           onClick: () => toggleSection(index)
-        }), isExpanded && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        }), isExpanded && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "border-t border-gray-200",
-          children: section.units.map(unit => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Unit_UnitItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            unit: unit
-          }, unit.id))
+          children: section.units.map(unit => {
+            switch (unit.type) {
+              case 'unit':
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Unit_UnitItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  unit: unit
+                }, unit.id);
+              case 'quiz':
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_quiz_QuizItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                  quizId: unit.id,
+                  token: userAuthToken
+                }, unit.id);
+              default:
+                return null;
+            }
+          })
         })]
       }, section.key);
     })]
@@ -2028,17 +2256,17 @@ const useCourseSections = () => {
   const [expandedSections, setExpandedSections] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const {
     items,
-    currentUnitId
+    currentUnit
   } = (0,_store__WEBPACK_IMPORTED_MODULE_1__.useTypedSelect)(select => {
     if (courseId) {
       return {
         items: select.getCourseInfo(courseId)?.courseitems || [],
-        currentUnitId: select.getCurrentUnitId()
+        currentUnit: select.getCurrentUnit()
       };
     }
     return {
       items: [],
-      currentUnitId: null
+      currentUnit: null
     };
   }, [courseId]);
 
@@ -2061,10 +2289,10 @@ const useCourseSections = () => {
           title: item.title,
           units: []
         };
-      } else if (item.type === "unit" && currentSection) {
+      } else if (currentSection) {
         currentSection.units.push(item);
         // Check if this unit is the current one
-        if (item.id === currentUnitId) {
+        if (item.id === currentUnit?.id) {
           sectionWithCurrentUnit = organizedSections.length;
         }
       }
@@ -2074,7 +2302,7 @@ const useCourseSections = () => {
     if (currentSection) {
       organizedSections.push(currentSection);
       // Check last section for current unit if not found yet
-      if (sectionWithCurrentUnit === -1 && currentSection.units.some(unit => unit.id === currentUnitId)) {
+      if (sectionWithCurrentUnit === -1 && currentSection.units.some(unit => unit.id === currentUnit?.id)) {
         sectionWithCurrentUnit = organizedSections.length - 1;
       }
     }
@@ -2082,7 +2310,7 @@ const useCourseSections = () => {
       sections: organizedSections,
       initialExpandedSection: sectionWithCurrentUnit
     };
-  }, [items, currentUnitId]);
+  }, [items, currentUnit]);
 
   // Set initial expanded section when sections are first loaded
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -2098,13 +2326,13 @@ const useCourseSections = () => {
 
   // Update expanded sections when current unit changes
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (currentUnitId) {
-      const sectionIndex = sections.findIndex(section => section.units.some(unit => unit.id === currentUnitId));
+    if (currentUnit) {
+      const sectionIndex = sections.findIndex(section => section.units.some(unit => unit.id === currentUnit.id));
       if (sectionIndex !== -1 && !expandedSections.includes(sectionIndex)) {
         setExpandedSections(prev => [...prev, sectionIndex]);
       }
     }
-  }, [currentUnitId, sections]);
+  }, [currentUnit, sections]);
   const toggleSection = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(sectionIndex => {
     setExpandedSections(prev => prev.includes(sectionIndex) ? prev.filter(index => index !== sectionIndex) : [...prev, sectionIndex]);
   }, []);
@@ -2414,7 +2642,7 @@ const DEFAULT_STATE = {
   courseId: null,
   courseInfo: null,
   progress: 0,
-  currentUnitId: null,
+  currentUnit: null,
   allUnits: null,
   isLoading: true,
   error: null,
@@ -2450,14 +2678,14 @@ const reducer = (state = DEFAULT_STATE, action) => {
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_COURSE_INFO:
       {
         const allUnits = action.payload.courseitems.filter(item => item.type !== "section");
-        const currentUnitId = allUnits.find(unit => unit.key === action.payload.current_unit_key)?.id;
+        const currentUnit = allUnits.find(unit => unit.key === action.payload.current_unit_key);
         const metrics = calculateCourseMetrics(allUnits);
         return {
           ...state,
           courseInfo: action.payload,
           courseId: action.payload.course_id,
           allUnits,
-          currentUnitId,
+          currentUnit,
           ...metrics
         };
       }
@@ -2471,7 +2699,7 @@ const reducer = (state = DEFAULT_STATE, action) => {
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_CURRENT_UNIT:
       return {
         ...state,
-        currentUnitId: action.payload
+        currentUnit: action.payload
       };
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_PROGRESS:
       return {
@@ -2550,21 +2778,21 @@ const reducer = (state = DEFAULT_STATE, action) => {
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.NEXT_UNIT:
       {
         var _state$allUnits$findI;
-        const currentIndex = (_state$allUnits$findI = state.allUnits?.findIndex(unit => unit.id === state.currentUnitId)) !== null && _state$allUnits$findI !== void 0 ? _state$allUnits$findI : -1;
+        const currentIndex = (_state$allUnits$findI = state.allUnits?.findIndex(unit => unit.id === state.currentUnit?.id)) !== null && _state$allUnits$findI !== void 0 ? _state$allUnits$findI : -1;
         const nextUnit = state.allUnits?.[currentIndex + 1];
         return {
           ...state,
-          currentUnitId: nextUnit ? nextUnit.id : state.currentUnitId
+          currentUnit: nextUnit ? nextUnit : state.currentUnit
         };
       }
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.PREV_UNIT:
       {
         var _state$allUnits$findI2;
-        const currentIndex = (_state$allUnits$findI2 = state.allUnits?.findIndex(unit => unit.id === state.currentUnitId)) !== null && _state$allUnits$findI2 !== void 0 ? _state$allUnits$findI2 : -1;
+        const currentIndex = (_state$allUnits$findI2 = state.allUnits?.findIndex(unit => unit.id === state.currentUnit?.id)) !== null && _state$allUnits$findI2 !== void 0 ? _state$allUnits$findI2 : -1;
         const prevUnit = state.allUnits?.[currentIndex - 1];
         return {
           ...state,
-          currentUnitId: prevUnit ? prevUnit.id : state.currentUnitId
+          currentUnit: prevUnit ? prevUnit : state.currentUnit
         };
       }
     case _const__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_HAS_REVIEW:
@@ -2705,8 +2933,8 @@ const selectors = {
   },
   // Unit Related Selectors
   // ---------------------
-  getCurrentUnitId(state) {
-    return state.currentUnitId;
+  getCurrentUnit(state) {
+    return state.currentUnit;
   },
   getAllUnits(state) {
     return state.allUnits;
@@ -2800,6 +3028,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   finishCourse: () => (/* binding */ finishCourse),
 /* harmony export */   getCourseProgress: () => (/* binding */ getCourseProgress),
 /* harmony export */   getCourseReviews: () => (/* binding */ getCourseReviews),
+/* harmony export */   getQuizData: () => (/* binding */ getQuizData),
 /* harmony export */   getUserInfo: () => (/* binding */ getUserInfo),
 /* harmony export */   markUnitComplete: () => (/* binding */ markUnitComplete),
 /* harmony export */   submitCourseReview: () => (/* binding */ submitCourseReview)
@@ -2987,6 +3216,27 @@ const getCourseReviews = async ({
     return response;
   } catch (err) {
     console.error("Failed to get course reviews");
+  }
+};
+
+// get quiz data
+const getQuizData = async ({
+  course,
+  token,
+  quizId
+}) => {
+  try {
+    const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+      method: "POST",
+      path: `${_const__WEBPACK_IMPORTED_MODULE_1__.API_PATH.wplms_root}/user/quiz/${quizId}`,
+      data: {
+        course,
+        token
+      }
+    });
+    return response;
+  } catch (error) {
+    console.error("Failed to get quiz data");
   }
 };
 

@@ -206,3 +206,25 @@ export const getCourseReviews = async <P = ICourseReview[]>({
     console.error("Failed to get course reviews");
   }
 };
+
+// get quiz data
+export const getQuizData = async ({
+  course,
+  token,
+  quizId,
+}: {
+  course: number;
+  token: string;
+  quizId: number;
+}) => {
+  try {
+    const response = await apiFetch({
+      method: "POST",
+      path: `${API_PATH.wplms_root}/user/quiz/${quizId}`,
+      data: { course, token },
+    });
+    return response;
+  } catch (error) {
+    console.error("Failed to get quiz data");
+  }
+};

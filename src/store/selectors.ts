@@ -1,5 +1,5 @@
 import { createSelector, select } from "@wordpress/data";
-import { IUnit, ICourse, IState } from "../types/course";
+import { IUnit, ICourse } from "../types/course";
 import { State } from "./types";
 
 // Type Definitions
@@ -9,7 +9,7 @@ export type SelectorReturnTypes = {
   getCourseTitle: () => string | null;
   getCourseInfo: (courseId: number) => ICourse | null;
   isCourseInfoLoading: () => boolean;
-  getCurrentUnitId: () => number | null;
+  getCurrentUnit: () => IUnit | null;
   getUserInfo: () => any;
   getProgress: () => number;
   getCompletedDuration: () => number | null;
@@ -60,8 +60,8 @@ export const selectors = {
 
   // Unit Related Selectors
   // ---------------------
-  getCurrentUnitId(state: State): number | null {
-    return state.currentUnitId;
+  getCurrentUnit(state: State): IUnit | null {
+    return state.currentUnit;
   },
 
   getAllUnits(state: State): IUnit[] | null {

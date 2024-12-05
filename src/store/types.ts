@@ -1,5 +1,5 @@
 import { ICourseReview } from "../types/comment";
-import { ICourse, IUnit } from "../types/course";
+import { ICourse, IUnit, IUnitItem } from "../types/course";
 import { SelectorReturnType, SelectorsType } from "./selectors";
 
 export interface State {
@@ -7,7 +7,7 @@ export interface State {
   courseId: number | null;
   courseInfo: ICourse | null;
   progress: number;
-  currentUnitId: number | null;
+  currentUnit: IUnit | null;
   allUnits: IUnit[] | null;
   isLoading: boolean;
   error: string | null;

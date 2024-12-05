@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSelect } from "@wordpress/data";
-import { IUnitItem } from "../../../../types/course";
-import { fetchUnitContent } from "../../../../utilities/apiCall";
-import { useTypedSelect } from "../../../../store";
+import { IUnitItem } from "../../../types/course";
+import { fetchUnitContent } from "../../../utilities/apiCall";
+import { useTypedSelect } from "../../../store";
 const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
 export const useUnitContent = () => {
-  const { courseId, currentUnitId, allUnits } = useTypedSelect((select) => ({
+  const { courseId, currentUnit, allUnits } = useTypedSelect((select: any) => ({
     courseId: select.getCourseId(),
-    currentUnitId: select.getCurrentUnitId(),
+    currentUnit: select.getCurrentUnit(),
     allUnits: select.getAllUnits(),
   }));
   const [unitContent, setUnitContent] = useState<IUnitItem | null>(null);
@@ -19,20 +19,20 @@ export const useUnitContent = () => {
     setUnitContent(null);
     setLoading(false);
     try {
-      if (!courseId || !currentUnitId) {
+      if (!courseId || !currentUnit) {
         return;
       }
       setLoading(true);
       const data = await fetchUnitContent({
         courseId: courseId,
-        unitId: currentUnitId,
+        unitId: currentUnit?.id,
         token: userAuthToken,
       });
       setUnitContent(data ?? null);
       setIsLastUnit(
-        allUnits ? currentUnitId === allUnits[allUnits.length - 1].id : false
+        allUnits ? currentUnit?.id === allUnits[allUnits.length - 1].id : false
       );
-      setIsFirstUnit(allUnits ? currentUnitId === allUnits[0].id : false);
+      setIsFirstUnit(allUnits ? currentUnit?.id === allUnits[0].id : false);
       setError(null);
     } catch (err) {
       console.log(err);
@@ -43,10 +43,10 @@ export const useUnitContent = () => {
     }
   };
   useEffect(() => {
-    if (userAuthToken && courseId && currentUnitId) {
+    if (userAuthToken && courseId && currentUnit) {
       fetchContent();
     }
-  }, [courseId, currentUnitId, userAuthToken]);
+  }, [courseId, currentUnit, userAuthToken]);
 
   return {
     unitContent,

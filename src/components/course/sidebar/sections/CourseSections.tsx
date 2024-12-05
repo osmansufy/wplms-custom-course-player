@@ -3,6 +3,8 @@ import { useCourseSectionsView } from './useCourseSectionsView';
 import { CourseCompletionStatus } from './CourseCompletionStatus';
 import { SectionHeader } from './SectionHeader';
 import UnitItem from '../Unit/UnitItem';
+const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
+import Quiz from '../quiz/QuizItem';
 
 const CourseSections = () => {
     const {
@@ -38,9 +40,16 @@ const CourseSections = () => {
 
                         {isExpanded && (
                             <div className="border-t border-gray-200">
-                                {section.units.map((unit) => (
-                                    <UnitItem key={unit.id} unit={unit} />
-                                ))}
+                                {section.units.map((unit) => {
+                                    switch (unit.type) {
+                                        case 'unit':
+                                            return <UnitItem key={unit.id} unit={unit} />;
+                                        case 'quiz':
+                                            return <Quiz key={unit.id} quizId={unit.id} token={userAuthToken} />;
+                                        default:
+                                            return null;
+                                    }
+                                })}
                             </div>
                         )}
                     </div>
