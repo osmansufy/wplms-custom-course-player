@@ -554,19 +554,19 @@ video {
   bottom: 0px;
 }
 #wplms-custom-course-player .left-0 {
-  right: 0px;
-}
-#wplms-custom-course-player .left-4 {
-  right: 1rem;
-}
-#wplms-custom-course-player .right-0 {
   left: 0px;
 }
+#wplms-custom-course-player .left-4 {
+  left: 1rem;
+}
+#wplms-custom-course-player .right-0 {
+  right: 0px;
+}
 #wplms-custom-course-player .right-3 {
-  left: 0.75rem;
+  right: 0.75rem;
 }
 #wplms-custom-course-player .right-4 {
-  left: 1rem;
+  right: 1rem;
 }
 #wplms-custom-course-player .top-0 {
   top: 0px;
@@ -584,11 +584,11 @@ video {
   z-index: 50;
 }
 #wplms-custom-course-player .mx-auto {
-  margin-right: auto;
   margin-left: auto;
+  margin-right: auto;
 }
 #wplms-custom-course-player .-mr-1 {
-  margin-left: -0.25rem;
+  margin-right: -0.25rem;
 }
 #wplms-custom-course-player .mb-1 {
   margin-bottom: 0.25rem;
@@ -606,16 +606,16 @@ video {
   margin-bottom: 1.5rem;
 }
 #wplms-custom-course-player .ml-2 {
-  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
 #wplms-custom-course-player .mr-1 {
-  margin-left: 0.25rem;
+  margin-right: 0.25rem;
 }
 #wplms-custom-course-player .mr-3 {
-  margin-left: 0.75rem;
+  margin-right: 0.75rem;
 }
 #wplms-custom-course-player .mr-\[23rem\] {
-  margin-left: 23rem;
+  margin-right: 23rem;
 }
 #wplms-custom-course-player .mt-1 {
   margin-top: 0.25rem;
@@ -768,7 +768,7 @@ video {
   flex-grow: 1;
 }
 #wplms-custom-course-player .origin-top-right {
-  transform-origin: top left;
+  transform-origin: top right;
 }
 #wplms-custom-course-player .-translate-y-1\/2 {
   --tw-translate-y: -50%;
@@ -805,7 +805,7 @@ video {
 @keyframes spin {
 
   to {
-    transform: rotate(-360deg);
+    transform: rotate(360deg);
   }
 }
 #wplms-custom-course-player .animate-spin {
@@ -900,12 +900,12 @@ video {
   border-radius: 0.375rem;
 }
 #wplms-custom-course-player .rounded-b-lg {
-  border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
 }
 #wplms-custom-course-player .rounded-t-lg {
-  border-top-right-radius: 0.5rem;
   border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 #wplms-custom-course-player .border {
   border-width: 1px;
@@ -920,7 +920,7 @@ video {
   border-bottom-width: 2px;
 }
 #wplms-custom-course-player .border-l {
-  border-right-width: 1px;
+  border-left-width: 1px;
 }
 #wplms-custom-course-player .border-t {
   border-top-width: 1px;
@@ -1047,12 +1047,12 @@ video {
   padding: 1.5rem;
 }
 #wplms-custom-course-player .px-4 {
-  padding-right: 1rem;
   padding-left: 1rem;
+  padding-right: 1rem;
 }
 #wplms-custom-course-player .px-6 {
-  padding-right: 1.5rem;
   padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 #wplms-custom-course-player .py-1 {
   padding-top: 0.25rem;
@@ -1071,8 +1071,8 @@ video {
   padding-bottom: 2rem;
 }
 #wplms-custom-course-player .px-2 {
-  padding-right: 0.5rem;
   padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 #wplms-custom-course-player .pb-24 {
   padding-bottom: 6rem;
@@ -1081,22 +1081,22 @@ video {
   padding-bottom: 1.5rem;
 }
 #wplms-custom-course-player .pl-4 {
-  padding-right: 1rem;
+  padding-left: 1rem;
 }
 #wplms-custom-course-player .pr-12 {
-  padding-left: 3rem;
+  padding-right: 3rem;
 }
 #wplms-custom-course-player .pb-8 {
   padding-bottom: 2rem;
 }
 #wplms-custom-course-player .text-left {
-  text-align: right;
+  text-align: left;
 }
 #wplms-custom-course-player .text-center {
   text-align: center;
 }
 #wplms-custom-course-player .text-right {
-  text-align: left;
+  text-align: right;
 }
 #wplms-custom-course-player .font-mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -1475,3 +1475,5 @@ video {
   }
 }
 
+
+/*# sourceMappingURL=index.css.map*/

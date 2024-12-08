@@ -11,8 +11,8 @@ const UnitItem: React.FC<UnitItemProps> = ({ unit }) => {
     const { completeUnit, setCurrentUnit } = useDispatch('custom-course-player');
     const [isUnitComplete, setIsUnitComplete] = useState(unit?.status ?? 0);
 
-    const { currentUnitId, courseId, completedDuration, courseTotalDuration } = useTypedSelect((select) => ({
-        currentUnitId: select.getCurrentUnitId(),
+    const { currentUnit, courseId, completedDuration, courseTotalDuration } = useTypedSelect((select) => ({
+        currentUnit: select.getCurrentUnit(),
         courseId: select.getCourseId(),
         completedDuration: select.getCompletedDuration(),
         courseTotalDuration: select.getCourseTotalDuration(),
@@ -41,7 +41,7 @@ const UnitItem: React.FC<UnitItemProps> = ({ unit }) => {
     return (
         <UnitItemView
             unit={unit}
-            currentUnitId={currentUnitId ?? 0}
+            currentUnit={currentUnit ?? null}
             isUnitComplete={isUnitComplete}
             onSelectUnit={setCurrentUnit}
             onCompleteUnit={onHandleCompleteUnit}

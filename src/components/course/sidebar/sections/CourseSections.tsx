@@ -4,7 +4,7 @@ import { CourseCompletionStatus } from './CourseCompletionStatus';
 import { SectionHeader } from './SectionHeader';
 import UnitItem from '../Unit/UnitItem';
 const userAuthToken = (window as any).wplmsCustomCoursePlayer.token;
-import Quiz from '../quiz/QuizItem';
+import Quiz from '../../content/quiz';
 
 const CourseSections = () => {
     const {
@@ -44,10 +44,8 @@ const CourseSections = () => {
                                     switch (unit.type) {
                                         case 'unit':
                                             return <UnitItem key={unit.id} unit={unit} />;
-                                        case 'quiz':
-                                            return <Quiz key={unit.id} quizId={unit.id} token={userAuthToken} />;
                                         default:
-                                            return null;
+                                            return <UnitItem key={unit.id} unit={unit} />;;
                                     }
                                 })}
                             </div>

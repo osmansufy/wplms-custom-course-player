@@ -2,6 +2,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { IComment, ICourseReview } from "../types/comment";
 import { ICourse, IUnitItem } from "../types/course";
 import { API_PATH } from "./const";
+import { IQuiz, QuizQuestion, QuizSubmissionPayload } from "../types/quiz";
 export const fetchCourseData = async ({
   courseId,
   token,
@@ -216,9 +217,9 @@ export const getQuizData = async ({
   course: number;
   token: string;
   quizId: number;
-}) => {
+}): Promise<IQuiz> => {
   try {
-    const response = await apiFetch({
+    const response = await apiFetch<IQuiz>({
       method: "POST",
       path: `${API_PATH.wplms_root}/user/quiz/${quizId}`,
       data: { course, token },
@@ -226,5 +227,104 @@ export const getQuizData = async ({
     return response;
   } catch (error) {
     console.error("Failed to get quiz data");
+    throw error;
+  }
+};
+
+// Start quiz
+export const startQuiz = async ({
+  courseId,
+  quizId,
+  token,
+}: {
+  courseId: number;
+  quizId: number;
+  token: string;
+}) => {
+  try {
+    const response = await apiFetch({
+      path: `${API_PATH.wplms_root}/user/quiz/start`,
+      method: "POST",
+      data: {
+        quiz_id: quizId,
+        course: courseId,
+        token,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error("Failed to start quiz");
+    throw error;
+  }
+};
+
+export const submitQuiz = async ({
+  courseId,
+  quizData,
+  answers,
+  token,
+}: {
+  courseId: number;
+  quizData: any;
+  answers: Record<string, number>;
+  token: string;
+}) => {
+  try {
+    // Format questions with answers
+    const questionsWithAnswers = quizData.meta.questions.map(
+      (question: QuizQuestion) => ({
+        ...question,
+        attempted: answers[question.key] !== undefined,
+        marked_answer: answers[question.key]?.toString(),
+        marked: question.options[answers[question.key]] || "",
+      })
+    );
+
+    const payload: QuizSubmissionPayload = {
+      quiz_id: quizData.id,
+      course_id: courseId,
+      quiz: {
+        ...quizData,
+        meta: {
+          ...quizData.meta,
+          questions: questionsWithAnswers,
+        },
+      },
+      results: questionsWithAnswers,
+      token,
+    };
+
+    const response = await apiFetch({
+      path: `${API_PATH.course_player_root}/quiz-submit`,
+      method: "POST",
+      data: payload,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Failed to submit quiz", error);
+    throw error;
+  }
+};
+// get quiz retake
+export const quizRetake = async ({
+  courseId,
+  quizId,
+  token,
+}: {
+  courseId: number;
+  quizId: number;
+  token: string;
+}) => {
+  try {
+    const response = await apiFetch({
+      path: `${API_PATH.wplms_root}/user/coursestatus/retake_single_quiz/${quizId}`,
+      method: "POST",
+      data: { course: courseId, token },
+    });
+    return response;
+  } catch (error) {
+    console.error("Failed to get quiz retake");
+    throw error;
   }
 };

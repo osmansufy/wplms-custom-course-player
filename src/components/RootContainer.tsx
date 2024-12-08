@@ -1,10 +1,10 @@
 import { useDispatch } from '@wordpress/data';
 import React, { useState } from 'react';
 import { useTypedSelect } from '../store';
-import ContentArea from './course/content/ContentArea';
-import Sidebar from './course/sidebar';
 import TopBar from './TopBar';
 import CourseTabs from './course/CourseTabs';
+import Content from './course/content';
+import Sidebar from './course/sidebar';
 
 interface RootContainerProps {
     courseId: string;
@@ -12,7 +12,8 @@ interface RootContainerProps {
 
 const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+    const token = localStorage.getItem('wplms_token');
+    console.log({ token });
     // Get dispatch actions
     const {
         fetchCourse,
@@ -23,12 +24,10 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
         courseInfo,
         loading,
         error,
-        currentUnitId,
     } = useTypedSelect((select) => ({
         courseInfo: select.getCourseInfo(parseInt(courseId)) || null,
         loading: select.isLoadingUserInfo() || false,
         error: select.getError() || null,
-        currentUnitId: select.getCurrentUnitId() || null,
     }), []);
 
 
@@ -73,7 +72,7 @@ const RootContainer: React.FC<RootContainerProps> = ({ courseId }) => {
             <div className={`flex flex-1 overflow-hidden sm:pt-16`}>
                 <div className="flex flex-1 flex-col">
                     {/* content area */}
-                    <ContentArea
+                    <Content
                         isSidebarOpen={isSidebarOpen}
                     />
                     <CourseTabs />
